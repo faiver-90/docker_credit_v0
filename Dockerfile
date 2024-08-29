@@ -1,7 +1,7 @@
-# Используем базовый образ Ubuntu
-FROM ubuntu:22.04
+# Используем официальный образ Python
+FROM python:3.10
 
-# Установка основных инструментов и необходимых пакетов для mysqlclient
+# Установка зависимостей системы
 RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-dev \
@@ -9,40 +9,33 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     nginx \
     redis-server \
-    mysql-client \
+    default-mysql-client \
     default-libmysqlclient-dev \
     pkg-config \
-    curl \
-    wget \
-    git \
-    vim \
-    nano \
-    sudo \
-    unzip \
-    htop \
+#    curl \
+#    wget \
+#    git \
+#    vim \
+#    nano \
+#    sudo \
+#    unzip \
+#    htop \
     && apt-get clean
 
-# Установка pip
-RUN pip3 install --upgrade pip
-
-# Создание рабочего каталога
+# Установка рабочей директории
 WORKDIR /var/www/motor_finance
 
-# Копирование файла requirements.txt
-COPY requirements.txt .
-COPY nginx/nginx.conf /etc/nginx/proxy_params
-# Установка зависимостей Python
-RUN pip3 install -r requirements.txt
+# Копируем файлы проекта в контейнер
+COPY . /var/www/motor_finance
 
-# Копирование файлов проекта
-COPY . .
+# Установка Python зависимостей
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-# Создание рабочей директории для сокета Gunicorn
-RUN mkdir -p /var/www/motor_finance/run && \
-    chown -R www-data:www-data /var/www/motor_finance/run
+# Копируем скрипт запуска Gunicorn и делаем его исполняемым
+COPY ./gunicorn_start.sh /var/www/motor_finance/gunicorn_start.sh
+RUN chmod +x /var/www/motor_finance/gunicorn_start.sh
 
-# Установка gunicorn
-RUN pip3 install gunicorn
-
-# Запуск сервера
-CMD ["gunicorn", "app_v0.wsgi:application", "--bind", "unix:/var/www/motor_finance/run/gunicorn.sock"]
+# Запуск Django через Gunicorn
+CMD ["gunicorn", "--workers=3", "--bind=0.0.0.0:8000", "app_v0.wsgi:application"]
+#CMD ["./gunicorn_start.sh"]
