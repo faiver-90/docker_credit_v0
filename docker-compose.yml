@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
-#    command: ./gunicorn_start.sh
+    #    command: ./gunicorn_start.sh
     command: gunicorn app_v0.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/var/www/motor_finance
@@ -13,6 +13,7 @@ services:
     depends_on:
       - db
       - redis
+    restart: always
     networks:
       - my_network
 
@@ -28,6 +29,7 @@ services:
       - web
     networks:
       - my_network
+    restart: always
 
   db:
     image: mysql:8.0
@@ -51,9 +53,23 @@ services:
       - redis_data:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf
+    restart: always
     networks:
       - my_network
 
+  celery:
+    build: .
+    command: celery -A app_v0 worker --loglevel=info
+    volumes:
+      - .:/var/www/motor_finance
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+    restart: always
+    networks:
+      - my_network
 networks:
   my_network:
     driver: bridge

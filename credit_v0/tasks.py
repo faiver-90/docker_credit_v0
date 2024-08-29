@@ -16,7 +16,3 @@ logger = logging.getLogger('credit_v0')
 @shared_task
 def i():
     print("Starting infinite logging task")
-    while True:
-        logger.info("This is an infinite logging task running via Celery.")
-        time.sleep(1)
-        print("Logged message to logger")

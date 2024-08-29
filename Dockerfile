@@ -12,14 +12,14 @@ RUN apt-get update && apt-get install -y \
     default-mysql-client \
     default-libmysqlclient-dev \
     pkg-config \
-#    curl \
-#    wget \
-#    git \
-#    vim \
-#    nano \
-#    sudo \
-#    unzip \
-#    htop \
+    curl \
+    wget \
+    git \
+    vim \
+    nano \
+    sudo \
+    unzip \
+    htop \
     && apt-get clean
 
 # Установка рабочей директории
