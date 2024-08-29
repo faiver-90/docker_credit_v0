@@ -1,0 +1,45 @@
+<!-- upload_document_client.html -->
+<h1>Загрузка документов</h1>
+<form id="uploadForm" class="w-100 rounded bg-light p-3" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="client_id" value="{{ client_id }}">
+    <div class="form-group">
+        {{ form.document_type.label_tag }}
+        {{ form.document_type }}
+    </div>
+    <div class="form-group">
+        {{ form.document_files.label_tag }}
+        {{ form.document_files }}
+    </div>
+    <br>
+    <button data-testid="upload_docs" type="submit" class="btn btn-primary">Загрузить</button>
+</form>
+
+<h3>Загруженные документы:</h3>
+<div class="accordion " id="accordionUploadedDocuments">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingUploadedDocuments">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseUploadedDocuments" aria-expanded="false"
+                    aria-controls="collapseUploadedDocuments">
+                Показать загруженные документы
+            </button>
+        </h2>
+        <div id="collapseUploadedDocuments" class="accordion-collapse collapse show"
+             aria-labelledby="headingUploadedDocuments"
+             data-bs-parent="#accordionUploadedDocuments">
+            <div class="accordion-body">
+                <div id="upload_file_client" class="w-100 rounded bg-light p-3">
+                    {% for document in documents %}
+                        <div>
+                            <a data-label="{{ document.document_type }}" href="{{ document.signed_url }}" target="_blank">{{ document }}</a>
+
+                            <button class="btn btn-danger btn-delete" data-testid="delete_docs" data-document-id="{{ document.id }}">Удалить
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

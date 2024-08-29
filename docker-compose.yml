@@ -1,0 +1,54 @@
+services:
+  web:
+    build: .
+    container_name: django_app
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www/motor_finance
+    working_dir: /var/www/motor_finance
+    command: bash -c "gunicorn app_v0.wsgi:application --workers 2 --bind unix:/var/www/motor_finance/run/gunicorn.sock"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - mysql
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_username
+      MYSQL_PASSWORD: your_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3307:3306"
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ./static:/static
+      - ./media:/media
+    depends_on:
+      - web
+
+volumes:
+  redis_data:
+  mysql_data:

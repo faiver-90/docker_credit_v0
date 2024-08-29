@@ -1,0 +1,53 @@
+<div class="card mb-3">
+    <div class="card-body">
+        <ul>
+            <li class="card-text"> Инфо от банка
+                <div class="tooltip-custom">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="tooltiptext">{{ offer.info_from_bank }}</span>
+                </div>
+            </li>
+
+            {% if offer.status_select_offer %}
+                <li class="card-text"><strong>Статус:</strong> {{ offer.status_select_offer }} </li>
+                <br>
+            {% endif %}
+
+            <li class="card-text">
+                <a href="{{ offer.link_to_detail_from_bank }}" target="_blank">
+                    <strong>Детали:</strong> Ссылка на pdf с деталями
+                </a>
+            </li>
+            <li class="card-text"><strong>Название банка:</strong> {{ offer.name_bank_select }} </li>
+            <li class="card-text"><strong>Предложение:</strong> {{ offer.title_select }} </li>
+            <li class="card-text"><strong>Цена автомобиля:</strong> {{ offer.car_price_display_select }} ₽</li>
+            <li class="card-text"><strong>Первоначальный взнос:</strong> {{ offer.initial_payment_select }} ₽</li>
+            <li class="card-text"><strong>Сумма кредита:</strong> {{ offer.total_loan_amount_select }} ₽</li>
+            <li class="card-text"><strong>Срок кредита:</strong> {{ offer.term_select }} мес.</li>
+            <li class="card-text"><strong>Ежемесячный платеж:</strong> {{ offer.monthly_payment_select }} ₽/мес</li>
+            <li class="card-text"><strong>Ставка:</strong> {{ offer.stavka_select }} %</li>
+
+            {% if hide_controls %}
+                <li class="card-text"><strong>ID заявки:</strong> {{ offer.id_app_in_system }} </li>
+                <li class="card-text"><strong>Id заявки банка:</strong> {{ offer.id_app_bank }} </li>
+            {% endif %}
+
+{#            <p>Client ID: {{ client_id }}</p>#}
+{#            <p>id_app_in_system: {{ offer.id_app_in_system }}</p>#}
+        </ul>
+        {% if not hide_all_button %}
+            {% if not hide_controls %}
+                <input type="checkbox" class="form-check-input" data-offer-id="{{ offer.offer_id }}"> Выбрать
+                <button type="button" class="btn btn-danger mt-2 remove-card" data-offer-id="{{ offer.offer_id }}">
+                    Удалить
+                </button>
+            {% endif %}
+
+            {% if hide_controls and not id_app_in_system %}
+                <a href="{% if offer.status_select_offer != 'Одобрение' %}{% url 'car_form' pk=client_id %}?id_app_in_system={{ offer.id_app_in_system }}&id_app_bank=
+                            {{ offer.id_app_bank }}{% else %}{% url 'continue_docs' %}?client_id={{ client_id }}&id_app_in_system={{ offer.id_app_in_system }}{% endif %}"
+                   class="btn btn-primary mt-2">Продолжить оформление</a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>

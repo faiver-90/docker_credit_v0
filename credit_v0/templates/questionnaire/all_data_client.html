@@ -1,0 +1,235 @@
+<style>
+/* Дополнительные стили для предотвращения появления полос */
+.form-group {
+    position: relative;
+    margin-bottom: 1rem; /* Промежуток между полями формы */
+    background-color: white; /* Убедитесь, что фон белый */
+}
+ul.dropdown-menu {
+    z-index: 1050;
+}
+</style>
+<form method="post" class="w-100 rounded bg-light p-3" id="additional_information">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Клиент</legend>
+        <div class="row">
+            {% for field in client_person_data_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.id_for_label == 'id_registration_address_client' %}
+                            <ul id="{{ field.id_for_label }}Results" class="dropdown-menu"></ul>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Контактные данные</legend>
+        <div class="row">
+            {% for field in contact_data_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.id_for_label == 'id_living_address_contact' %}
+                            <ul id="{{ field.id_for_label }}Results" class="dropdown-menu"></ul>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Паспортные данные</legend>
+        <div class="row">
+            {% for field in passport_data_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Водительское удостоверение</legend>
+        <div class="row">
+            {% for field in driver_license_data_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Дополнительные документы</legend>
+        <br>
+        <div class="row">
+            <h5>
+                <label>ИНН</label>
+            </h5>
+            {% for field in tax_document_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+            <br>
+            <h5>
+                <label>Пенсионное свидетельство</label>
+            </h5>
+            {% for field in pension_certificate_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+            <br>
+            <h5>
+                <label>Заграничный паспорт</label>
+            </h5>
+            {% for field in international_passport_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Образование</legend>
+        <div class="row">
+            {% for field in education_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Трудоустройство</legend>
+        <div class="row">
+            {% for field in employment_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.id_for_label == 'id_registration_address_employment' %}
+                            <ul id="{{ field.id_for_label }}Results" class="dropdown-menu"></ul>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Гражданство</legend>
+        <div class="row">
+            {% for field in citizenship_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Семейное положение</legend>
+        <div class="row">
+            {% for field in family_info_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Финансовая информация</legend>
+        <div class="row">
+            {% for field in financial_info_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Расходы</legend>
+        <div class="row">
+            {% for field in expenses_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Транспортное средство</legend>
+        <div class="row">
+            {% for field in vehicle_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Недвижимость</legend>
+        <div class="row">
+            {% for field in real_estate_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.id_for_label == 'id_address_real_estate' %}
+                            <ul id="{{ field.id_for_label }}Results" class="dropdown-menu"></ul>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+</form>
