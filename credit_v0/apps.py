@@ -9,3 +9,6 @@ class CreditV0Config(AppConfig):
     def ready(self):
         from .signals import reset_active_dealership
         reset_active_dealership
+
+        from credit_v0.tasks import run_kafka_consumer
+        run_kafka_consumer.delay()
