@@ -32,3 +32,4 @@ class BankOfferService:
                                                       status_select_offer='Одобрение').exists():
                 return False
         return True
+
