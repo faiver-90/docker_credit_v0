@@ -28,7 +28,7 @@ from .forms.users_form import UserRegistrationForm, ProfileRegistrationForm, Use
 from .models import ClientPreData, SelectedClientOffer, AllApplications, ClientExtraInsurance, \
     ClientFinancingCondition, \
     ClientCarInfo, AutoSaleDocument, Offers, ClientOffer, UserProfile, UserDocument, ClientDocument, Dealership
-from .services.common_servive import convert_str_list, handle_error
+from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.questionnaire.questionnaire_service import ClientExtraDataService
 from .services.questionnaire.bank_offer_service import BankOfferService
@@ -118,21 +118,22 @@ class SendToBankView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         client_id = request.POST.get('client_id')
         selected_offers = request.POST.getlist('selected_offers')
-
+        handle_logger(f'selected_offers 1, {selected_offers}', logger_info)
         if selected_offers:
             data = self.bank_offer_service.prepare_offer_data(client_id, selected_offers)
             self.kafka_service.send_to_kafka(data, self.topic, client_id)
 
         selected_offers = convert_str_list(selected_offers)
+        handle_logger(f'selected_offers 2, {selected_offers}', logger_info)
 
         for _ in range(60):
             if self.bank_offer_service.check_if_saved(client_id, selected_offers):
                 return redirect(f'/credit/requests/{client_id}/')
             time.sleep(1)
 
-        return handle_error('Офферы не были сохранены за отведенное время.',
-                            logger_error,
-                            additional_info=f'Не сохраненные id - {selected_offers}')
+        return handle_logger('Офферы не были сохранены за отведенное время.',
+                             logger_error,
+                             additional_info=f'Не сохраненные id - {selected_offers}')
 
 
 class LoadAllDataClientView(LoginRequiredMixin, View):
