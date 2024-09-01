@@ -80,27 +80,11 @@ class RequestOffersView(LoginRequiredMixin, ListView):
 
     template_name = 'requests.html'
     context_object_name = 'status_offers'
+    bank_offer_service = BankOfferService()
 
     def get_queryset(self):
         client_id = self.kwargs['client_id']
-        offers = SelectedClientOffer.objects.filter(client_id=client_id)
-        offers_data = {
-            'Ошибка': [],
-            'Ожидание решения': [],
-            'Отказ': [],
-            'Запрос доп информации': [],
-            'Одобрение': []
-        }
-        for offer in offers:
-            status = offer.status_select_offer
-            if status:
-                offer_data = render_to_string('questionnaire/card_offer.html', {
-                    'offer': offer,
-                    'client_id': client_id,
-                    'hide_controls': True
-                })
-                offers_data[status].append(offer_data)
-        return offers_data
+        return self.bank_offer_service.get_offers_by_status(client_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -118,22 +102,21 @@ class SendToBankView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         client_id = request.POST.get('client_id')
         selected_offers = request.POST.getlist('selected_offers')
-        handle_logger(f'selected_offers 1, {selected_offers}', logger_info)
+
         if selected_offers:
             data = self.bank_offer_service.prepare_offer_data(client_id, selected_offers)
             self.kafka_service.send_to_kafka(data, self.topic, client_id)
 
-        selected_offers = convert_str_list(selected_offers)
-        handle_logger(f'selected_offers 2, {selected_offers}', logger_info)
+        converted_elected_offers = convert_str_list(selected_offers)
 
         for _ in range(60):
-            if self.bank_offer_service.check_if_saved(client_id, selected_offers):
+            if self.bank_offer_service.check_if_saved(client_id, converted_elected_offers):
                 return redirect(f'/credit/requests/{client_id}/')
             time.sleep(1)
 
         return handle_logger('Офферы не были сохранены за отведенное время.',
                              logger_error,
-                             additional_info=f'Не сохраненные id - {selected_offers}')
+                             additional_info=f'Не сохраненные id - {converted_elected_offers}')
 
 
 class LoadAllDataClientView(LoginRequiredMixin, View):

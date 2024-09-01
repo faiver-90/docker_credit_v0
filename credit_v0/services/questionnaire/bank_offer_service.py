@@ -1,3 +1,5 @@
+from django.template.loader import render_to_string
+
 from credit_v0.models import SelectedClientOffer
 
 
@@ -32,3 +34,24 @@ class BankOfferService:
                                                       status_select_offer='Одобрение').exists():
                 return False
         return True
+
+    @staticmethod
+    def get_offers_by_status(client_id):
+        offers = SelectedClientOffer.objects.filter(client_id=client_id)
+        offers_data = {
+            'Ошибка': [],
+            'Ожидание решения': [],
+            'Отказ': [],
+            'Запрос доп информации': [],
+            'Одобрение': []
+        }
+        for offer in offers:
+            status = offer.status_select_offer
+            if status:
+                offer_data = render_to_string('questionnaire/card_offer.html', {
+                    'offer': offer,
+                    'client_id': client_id,
+                    'hide_controls': True
+                })
+                offers_data[status].append(offer_data)
+        return offers_data
