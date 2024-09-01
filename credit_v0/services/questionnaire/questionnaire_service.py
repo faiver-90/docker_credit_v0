@@ -73,7 +73,7 @@ class BankOfferService:
     @staticmethod
     def process_offers(client_id, offer_ids):
         """Обновляет статус предложений клиента на 'Одобрение'."""
-
+        print('process_offers is start')
         for offer_id in offer_ids:
             offers = SelectedClientOffer.objects.filter(offer_id=offer_id, client_id=client_id)
             if offers.exists():

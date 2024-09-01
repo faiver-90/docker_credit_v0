@@ -24,6 +24,8 @@ class KafkaConsumerAddSelectedOfferIdService(BaseKafkaConsumerService):
             offer_ids = data.get('selected_offers')
             print('offer_ids consume', offer_ids)
             offer_ids = convert_str_list(offer_ids)
+            print('offer_ids converted')
             BankOfferService.process_offers(client_id, offer_ids)
+            print('BankOfferService worked')
         except json.JSONDecodeError as e:
             print(f'Failed to decode JSON: {str(e)}')

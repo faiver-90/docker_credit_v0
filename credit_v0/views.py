@@ -28,15 +28,15 @@ from .forms.users_form import UserRegistrationForm, ProfileRegistrationForm, Use
 from .models import ClientPreData, SelectedClientOffer, AllApplications, ClientExtraInsurance, \
     ClientFinancingCondition, \
     ClientCarInfo, AutoSaleDocument, Offers, ClientOffer, UserProfile, UserDocument, ClientDocument, Dealership
-from .services.common_servive import convert_str_list
+from .services.common_servive import convert_str_list, handle_error
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.questionnaire.questionnaire_service import BankOfferService, ClientExtraDataService
 
 from .services.upload_document_service import DocumentService
 
-logger_debug = logging.getLogger('debug')
-logger_info = logging.getLogger('info')
-logger_error = logging.getLogger('error')
+logger_debug = logging.getLogger('debug').debug
+logger_info = logging.getLogger('info').info
+logger_error = logging.getLogger('error').error
 
 
 @login_required
@@ -49,7 +49,7 @@ def change_active_dealership(request):
                 dealership = user_profile.dealership_manager.get(id=dealership_id)
                 user_profile.set_active_dealership(dealership)
             except Dealership.DoesNotExist as e:
-                logger_error.error(e)
+                logger_error(e)
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
 
@@ -125,10 +125,14 @@ class SendToBankView(LoginRequiredMixin, View):
 
         selected_offers = convert_str_list(selected_offers)
 
-        while not self.bank_offer_service.check_if_saved(client_id, selected_offers):
-            time.sleep(0.1)
+        for _ in range(60):
+            if self.bank_offer_service.check_if_saved(client_id, selected_offers):
+                return redirect(f'/credit/requests/{client_id}/')
+            time.sleep(1)
 
-        return redirect(f'/credit/requests/{client_id}/')
+        return handle_error('Офферы не были сохранены за отведенное время.',
+                            logger_error,
+                            additional_info=f'Не сохраненные id - {selected_offers}')
 
 
 class LoadAllDataClientView(LoginRequiredMixin, View):
@@ -462,11 +466,6 @@ class IndexView(LoginRequiredMixin, View):
     per_page = 10
 
     def get(self, request):
-        logging.debug('Reset index page')
-        logger_debug.debug('Это отладочное сообщение')
-        logger_info.info('Это информационное сообщение')
-        logger_error.error('Это сообщение об ошибке')
-
         ordering = request.GET.get('ordering', '-date_create_all_app')
         user_profile = UserProfile.objects.get(user=request.user)
         user_organization = user_profile.organization_manager

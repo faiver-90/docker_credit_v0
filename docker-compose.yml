@@ -71,6 +71,7 @@ services:
     restart: always
     networks:
       - my_network
+
 networks:
   my_network:
     driver: bridge

@@ -11,7 +11,7 @@ from credit_v0.services.questionnaire.questionnaire_service import BankOfferServ
 
 class Command(BaseCommand):
     help = 'Consumes messages from Kafka and updates the database'
-    kafka_service = KafkaProducerService('database')
+    kafka_service = KafkaProducerService()
     config = kafka_service.read_config()
     config['group.id'] = 'bank-offers-group'
     config['auto.offset.reset'] = 'earliest'
@@ -37,18 +37,12 @@ class Command(BaseCommand):
                     continue
 
                 # Обработка сообщения
-                try:
-                    data = json.loads(msg.value().decode('utf-8'))
-                    client_id = data.get('client_id')
-                    offer_ids = data.get('selected_offers')
-                    print('offer_ids consume', offer_ids)
-                    offer_ids = convert_str_list(offer_ids)
-                    BankOfferService.process_offers(client_id, offer_ids)
 
-                except json.JSONDecodeError as e:
-                    self.stdout.write(self.style.ERROR(f'Failed to decode JSON: {str(e)}'))
-
-        except KeyboardInterrupt:
-            pass
+                data = json.loads(msg.value().decode('utf-8'))
+                client_id = data.get('client_id')
+                offer_ids = data.get('selected_offers')
+                print('offer_ids consume', offer_ids)
+                offer_ids = convert_str_list(offer_ids)
+                BankOfferService.process_offers(client_id, offer_ids)
         finally:
             consumer.close()
