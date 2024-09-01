@@ -1,4 +1,5 @@
 import json
+import logging
 import time
 
 from django.conf import settings
@@ -33,6 +34,10 @@ from .services.questionnaire.questionnaire_service import BankOfferService, Clie
 
 from .services.upload_document_service import DocumentService
 
+logger_debug = logging.getLogger('debug')
+logger_info = logging.getLogger('info')
+logger_error = logging.getLogger('error')
+
 
 @login_required
 def change_active_dealership(request):
@@ -43,8 +48,8 @@ def change_active_dealership(request):
             try:
                 dealership = user_profile.dealership_manager.get(id=dealership_id)
                 user_profile.set_active_dealership(dealership)
-            except Dealership.DoesNotExist:
-                pass  # Игнорируем, если дилерский центр не найден среди доступных пользователю
+            except Dealership.DoesNotExist as e:
+                logger_error.error(e)
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
 
@@ -152,7 +157,7 @@ class LoadAllDataClientView(LoginRequiredMixin, View):
             return JsonResponse({'success': True})
         else:
             errors = {form.__class__.__name__: form.errors for form in forms.values()}
-            return JsonResponse({'success': False, 'errors': errors}, status=400)
+            return JsonResponse({'success': False, 'error': errors}, status=400)
 
 
 class QuestionnaireView(LoginRequiredMixin, View):
@@ -457,6 +462,11 @@ class IndexView(LoginRequiredMixin, View):
     per_page = 10
 
     def get(self, request):
+        logging.debug('Reset index page')
+        logger_debug.debug('Это отладочное сообщение')
+        logger_info.info('Это информационное сообщение')
+        logger_error.error('Это сообщение об ошибке')
+
         ordering = request.GET.get('ordering', '-date_create_all_app')
         user_profile = UserProfile.objects.get(user=request.user)
         user_organization = user_profile.organization_manager
@@ -514,7 +524,8 @@ class IndexView(LoginRequiredMixin, View):
             'field_labels': field_labels
         })
 
-    def get_button_class(self, status):
+    @staticmethod
+    def get_button_class(status):
         classes = {
             'Ошибка': 'btn btn-error',  # Оранжевый
             'Ожидание решения': 'btn btn-pending',  # Желтый
@@ -626,12 +637,12 @@ class UserEditView(LoginRequiredMixin, UpdateView):
             return HttpResponseRedirect(next_url)
         else:
             if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({'success': False, 'errors': profile_form.errors}, status=400)
+                return JsonResponse({'success': False, 'error': profile_form.errors}, status=400)
             return self.render_to_response(self.get_context_data(form=form))
 
     def form_invalid(self, form):
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+            return JsonResponse({'success': False, 'error': form.errors}, status=400)
         return super().form_invalid(form)
 
     def delete(self, request, *args, **kwargs):
