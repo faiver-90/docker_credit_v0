@@ -30,8 +30,8 @@ from .models import ClientPreData, SelectedClientOffer, AllApplications, ClientE
     ClientCarInfo, AutoSaleDocument, Offers, ClientOffer, UserProfile, UserDocument, ClientDocument, Dealership
 from .services.common_servive import convert_str_list, handle_error
 from .services.kafka.kafka_service import KafkaProducerService
-from .services.questionnaire.questionnaire_service import BankOfferService, ClientExtraDataService
-
+from .services.questionnaire.questionnaire_service import ClientExtraDataService
+from .services.questionnaire.bank_offer_service import BankOfferService
 from .services.upload_document_service import DocumentService
 
 logger_debug = logging.getLogger('debug').debug
