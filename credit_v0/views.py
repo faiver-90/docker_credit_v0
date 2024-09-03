@@ -101,7 +101,7 @@ class SendToBankView(LoginRequiredMixin, View):
         selected_offers = request.POST.getlist('selected_offers')
 
         if selected_offers:
-            data = self.bank_offer_service.prepare_offer_data(client_id, selected_offers)
+            data = self.bank_offer_service.prepare_selected_offer_data(client_id, selected_offers)
             self.kafka_service.send_to_kafka(data, self.topic, client_id)
 
         converted_elected_offers = convert_str_list(selected_offers)

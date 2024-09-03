@@ -5,7 +5,7 @@ from credit_v0.models import SelectedClientOffer
 
 class BankOfferService:
     @staticmethod
-    def prepare_offer_data(client_id, offer_ids):
+    def prepare_selected_offer_data(client_id, offer_ids):
         """Готовит данные для отправки в Kafka"""
 
         return {
