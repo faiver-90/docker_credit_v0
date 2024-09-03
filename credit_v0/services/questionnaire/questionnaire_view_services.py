@@ -1,6 +1,5 @@
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.urls import reverse
-from django.shortcuts import render
 from typing import Dict, Any, Optional, Tuple
 from django.shortcuts import get_object_or_404
 

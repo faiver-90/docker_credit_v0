@@ -154,14 +154,15 @@ class QuestionnaireView(LoginRequiredMixin, View):
         client_id = kwargs.get('pk')
         id_app_in_system = request.GET.get('id_app_in_system')
         id_app_bank = request.GET.get('id_app_bank')
+        get_handler = QuestionnaireGetHandler()
         user = request.user
         active_dealership = user.userprofile.get_active_dealership()
         dealership_name = active_dealership.name if active_dealership else None
 
-        redirect, context = QuestionnaireGetHandler().handle(client_id,
-                                                             id_app_in_system,
-                                                             id_app_bank, user,
-                                                             dealership_name)
+        redirect, context = get_handler.handle(client_id,
+                                               id_app_in_system,
+                                               id_app_bank, user,
+                                               dealership_name)
         if redirect:
             return redirect
         return render(request, self.template_name, context)
@@ -170,13 +171,12 @@ class QuestionnaireView(LoginRequiredMixin, View):
         client_id = request.POST.get('client_id')
         ignore_required = request.POST.get('ignore_required', 'false') == 'true'
         form_data = request.POST.dict()
-
-        result = QuestionnairePostHandler().handle(client_id, form_data, ignore_required)
+        post_handler = QuestionnairePostHandler()
+        result = post_handler.handle(client_id, form_data, ignore_required)
 
         if result.get('success'):
             return JsonResponse({'success': True})
         else:
-            # Если форма невалидна, рендерим шаблон с контекстом формы
             return render(request, self.template_name, result)
 
 
