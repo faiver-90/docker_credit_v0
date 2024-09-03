@@ -3,7 +3,7 @@ from django.template.loader import render_to_string
 from credit_v0.models import SelectedClientOffer
 
 
-class BankOfferService:
+class SendToBankService:
     @staticmethod
     def prepare_selected_offer_data(client_id, offer_ids):
         """Готовит данные для отправки в Kafka"""
@@ -14,11 +14,10 @@ class BankOfferService:
         }
 
     @staticmethod
-    def process_offers(client_id, offer_ids):
+    def process_offers(client_id, offer_ids, **kwargs):
         """Обновляет статус предложений клиента на 'Одобрение'."""
-        print('process_offers is start')
         for offer_id in offer_ids:
-            offers = SelectedClientOffer.objects.filter(offer_id=offer_id, client_id=client_id)
+            offers = SelectedClientOffer.objects.filter(offer_id=offer_id, client_id=client_id, **kwargs)
             if offers.exists():
                 for offer in offers:
                     offer.status_select_offer = 'Одобрение'

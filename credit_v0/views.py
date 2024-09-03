@@ -32,7 +32,8 @@ from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.offer_services.get_offers_by_status import GetByStatusOfferService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
-from .services.questionnaire.bank_offer_service import BankOfferService
+from .services.questionnaire.questionnaire_view_service import QuestionnairePostHandler, QuestionnaireGetHandler
+from .services.questionnaire.send_to_bank_service import SendToBankService
 from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import DocumentService
 
@@ -55,6 +56,7 @@ class ChangeActiveDealershipView(LoginRequiredMixin, View):
 
 class ContinueDocsView(LoginRequiredMixin, View):
     """Перенаправление на страницу оформления заявки после одобрения"""
+
     @staticmethod
     def get(request, *args, **kwargs):
         client_id = request.GET.get('client_id')
@@ -88,7 +90,7 @@ class SendToBankView(LoginRequiredMixin, View):
     """Отправка заявки в банк"""
     topic = 'database'
     kafka_service = KafkaProducerService()
-    bank_offer_service = BankOfferService()
+    bank_offer_service = SendToBankService()
 
     def post(self, request, *args, **kwargs):
         client_id = request.POST.get('client_id')
@@ -115,7 +117,8 @@ class LoadAllDataClientView(LoginRequiredMixin, View):
     Загрузка форм доп. информации о клиенте
     """
 
-    def get(self, request, pk):
+    @staticmethod
+    def get(request, pk):
         client = get_object_or_404(ClientPreData, pk=pk)
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             service = ClientExtraDataService(client)
@@ -124,7 +127,8 @@ class LoadAllDataClientView(LoginRequiredMixin, View):
             return JsonResponse({'html': html})
         return HttpResponse(status=400)
 
-    def post(self, request, pk):
+    @staticmethod
+    def post(request, pk):
         client = get_object_or_404(ClientPreData, id=pk)
         service = ClientExtraDataService(client)
         forms = service.prepare_forms(request.POST)
@@ -142,149 +146,38 @@ class LoadAllDataClientView(LoginRequiredMixin, View):
 
 
 class QuestionnaireView(LoginRequiredMixin, View):
-    """Создание новой заявки"""
+    """Представление для обработки создания и редактирования заявки клиента."""
 
     template_name = 'questionnaire/car_form.html'
 
     def get(self, request, *args, **kwargs):
-        if 'pk' in kwargs:
-            client = get_object_or_404(ClientPreData, pk=kwargs['pk'])
-            application = get_object_or_404(AllApplications, client=client)
-            id_app_in_system = request.GET.get('id_app_in_system')
-            id_app_bank = request.GET.get('id_app_bank')
+        client_id = kwargs.get('pk')
+        id_app_in_system = request.GET.get('id_app_in_system')
+        id_app_bank = request.GET.get('id_app_bank')
+        user = request.user
+        active_dealership = user.userprofile.get_active_dealership()
+        dealership_name = active_dealership.name if active_dealership else None
 
-            context = {
-                'client_id': client.id,
-                'application': application,
-                'extra': ExtraForm(instance=client.extra_insurance.first()),
-                'document': DocumentAutoForm(instance=client.documents.first()),
-                'pre_data_client': PreDataClientForm(instance=client),
-                'fin_cond': FinancingConditionsForm(instance=client.financing_conditions.first()),
-                'car_form': CarInfoForm(instance=client.car_info.first()),
-                'id_app_in_system': id_app_in_system,
-                'id_app_bank': id_app_bank,
-                'hide_controls': True,
-            }
-
-            # Проверяем, указан ли параметр id_app_in_system
-            if id_app_in_system:
-                select_offer = get_object_or_404(SelectedClientOffer, id_app_in_system=id_app_in_system)
-
-                # Добавляем данные из SelectOffersClient в контекст
-                offer_data = {
-                    'offer': select_offer
-                }
-                context.update(offer_data)
-
-        else:
-            client, context = self.create_new_client(request)
-            return HttpResponseRedirect(reverse('car_form', kwargs={'pk': client.pk}))
-
+        redirect, context = QuestionnaireGetHandler().handle(client_id,
+                                                             id_app_in_system,
+                                                             id_app_bank, user,
+                                                             dealership_name)
+        if redirect:
+            return redirect
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         client_id = request.POST.get('client_id')
-        client = get_object_or_404(ClientPreData, id=client_id)
         ignore_required = request.POST.get('ignore_required', 'false') == 'true'
+        form_data = request.POST.dict()
 
-        extra = ExtraForm(request.POST, instance=client.extra_insurance.first())
-        document_form = DocumentAutoForm(request.POST, instance=client.documents.first())
-        pre_data_client = PreDataClientForm(request.POST, instance=client)
-        fin_cond = FinancingConditionsForm(request.POST, instance=client.financing_conditions.first())
-        car_form = CarInfoForm(request.POST, instance=client.car_info.first())
+        result = QuestionnairePostHandler().handle(client_id, form_data, ignore_required)
 
-        forms = [extra, document_form, pre_data_client, fin_cond, car_form]
-
-        if ignore_required:
-            for form in forms:
-                for field in form.fields.values():
-                    field.required = False
-
-        if all([form.is_valid() for form in forms]):
-            application = pre_data_client.save(commit=False)
-            application.car_price_display = request.POST.get('car_price_display')
-            application.additional_equipment_price_display = request.POST.get('additional_equipment_price_display')
-            application.total_loan_amount = request.POST.get('total_loan_amount')
-            application.save()
-            fin_cond.save_or_update(client=client)
-            car_form.save_or_update(client=client)
-            document_form.save_or_update(client=client)
-            extra.save_or_update(client=client)
-
+        if result.get('success'):
             return JsonResponse({'success': True})
         else:
-            context = {
-                'client_id': client.id,
-                'extra': extra,
-                'document': document_form,
-                'pre_data_client': pre_data_client,
-                'fin_cond': fin_cond,
-                'car_form': car_form
-            }
-            return render(request, self.template_name, context)
-
-    @staticmethod
-    def create_new_client(request):
-        forms = {
-            'client_temp_form': PreDataClientForm(),
-            'car_form': CarInfoForm(),
-            'document_form': DocumentAutoForm(),
-            'financing_conditions_form': FinancingConditionsForm(),
-            'extra_form': ExtraForm()
-        }
-
-        client = ClientPreData.objects.create(
-            **{field_name: forms['client_temp_form'].fields[field_name].initial for field_name in
-               forms['client_temp_form'].fields}
-        )
-
-        extra_insurance = ClientExtraInsurance.objects.create(
-            client=client,
-            **{field_name: forms['extra_form'].fields[field_name].initial for field_name in forms['extra_form'].fields}
-        )
-
-        financing_conditions = ClientFinancingCondition.objects.create(
-            client=client,
-            **{field_name: forms['financing_conditions_form'].fields[field_name].initial for field_name in
-               forms['financing_conditions_form'].fields}
-        )
-        car_info = ClientCarInfo.objects.create(
-            client=client,
-            **{field_name: forms['car_form'].fields[field_name].initial for field_name in forms['car_form'].fields}
-        )
-
-        document = AutoSaleDocument.objects.create(
-            client=client,
-            **{field_name: forms['document_form'].fields[field_name].initial for field_name in
-               forms['document_form'].fields}
-        )
-        active_dealership = request.user.userprofile.get_active_dealership()
-        dealership_name = active_dealership.name if active_dealership else None
-
-        AllApplications.objects.create(
-            client=client,
-            financing_conditions=financing_conditions,
-            car_info=car_info,
-            documents=document,
-            extra_insurance=extra_insurance,
-            status=' ',
-            type_all_app=client.type_pre_client,
-            financing=client.product_pre_client,
-            manager=request.user.email,
-            dealership_all_app=dealership_name,
-            organization=request.user.userprofile.organization_manager,
-        )
-
-        context = {
-            'extra': forms['extra_form'],
-            'document': forms['document_form'],
-            'client_temp': forms['client_temp_form'],
-            'fin_cond': forms['financing_conditions_form'],
-            'car_form': forms['car_form'],
-            'client_id': client.id,
-        }
-
-        return client, context
+            # Если форма невалидна, рендерим шаблон с контекстом формы
+            return render(request, self.template_name, result)
 
 
 class ManageSelectOffersView(LoginRequiredMixin, View):

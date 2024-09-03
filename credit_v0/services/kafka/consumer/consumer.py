@@ -1,10 +1,10 @@
-# services_kafka/consumer.py
 import json
 
-from credit_v0.services.common_servive import convert_str_list
+from credit_v0.services.common_servive import convert_str_list, handle_logger
 from credit_v0.services.kafka.consumer.base_consumer import BaseKafkaConsumerService
 from credit_v0.services.kafka.kafka_service import KafkaProducerService
-from credit_v0.services.questionnaire.bank_offer_service import BankOfferService
+from credit_v0.services.questionnaire.send_to_bank_service import SendToBankService
+from log_storage.logging_config import logger_info
 
 
 class KafkaConsumerAddSelectedOfferIdService(BaseKafkaConsumerService):
@@ -21,8 +21,6 @@ class KafkaConsumerAddSelectedOfferIdService(BaseKafkaConsumerService):
         data = json.loads(msg.value().decode('utf-8'))
         client_id = data.get('client_id')
         offer_ids = data.get('selected_offers')
-        print('offer_ids consume', offer_ids)
         offer_ids = convert_str_list(offer_ids)
-        print('offer_ids converted')
-        BankOfferService.process_offers(client_id, offer_ids)
-        print('BankOfferService worked')
+        SendToBankService.process_offers(client_id, offer_ids)
+        handle_logger('BankOfferService worked', logger_info)
