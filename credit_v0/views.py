@@ -755,7 +755,7 @@ def dadata_search(query):
 
     try:
         response = requests.post(url, json=data, headers=headers)
-        response.raise_for_status()  # Это выбросит исключение для кода ответа != 200
+        response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
         return {'error': str(e)}
