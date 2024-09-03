@@ -3,7 +3,6 @@ import time
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import PasswordResetView, LoginView
@@ -33,6 +32,7 @@ from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
 from .services.questionnaire.bank_offer_service import BankOfferService
+from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import DocumentService
 
 
@@ -47,29 +47,20 @@ class ChangeActiveDealershipView(LoginRequiredMixin, View):
             except Dealership.DoesNotExist as e:
                 handle_logger(e, logger_error)
                 return JsonResponse("Dealership does not exist.")
-        # Redirect back to the previous page or home if no referer is available
+
         return redirect(request.META.get('HTTP_REFERER', 'home'))
 
 
 class ContinueDocsView(LoginRequiredMixin, View):
     """Перенаправление на страницу оформления заявки после одобрения"""
-
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    def get(request, *args, **kwargs):
         client_id = request.GET.get('client_id')
         id_app_in_system = request.GET.get('id_app_in_system')
-        client = get_object_or_404(ClientPreData, id=client_id)
-        offer = SelectedClientOffer.objects.filter(client=client, id_app_in_system=id_app_in_system).first()
-        car_form = CarInfoForm(instance=client.car_info.first(), request=request)
-        document_form = DocumentAutoForm(instance=client.documents.first(), request=request)
 
-        context = {
-            'client_id': client_id,
-            'offer': offer,
-            'id_app_in_system': id_app_in_system,
-            'car_form': car_form,
-            'document': document_form,
-            'hide_all_button': True
-        }
+        service = ContinueDocsService()
+        context = service.get_context_for_continue_fill(client_id=client_id, id_app_in_system=id_app_in_system)
+
         return render(request, 'continue_docs.html', context)
 
 
