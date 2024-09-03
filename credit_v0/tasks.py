@@ -2,6 +2,8 @@ import logging
 
 
 from celery import shared_task
+from django.contrib.sessions.models import Session
+
 from credit_v0.services.kafka.consumer.runner import KafkaConsumerRunner
 
 logger_info = logging.getLogger('info').info
@@ -26,3 +28,9 @@ def run_kafka_consumer():
         logger_info("Все Kafka Consumers успешно выполнены")
     except Exception as e:
         logger_info(f"Ошибка при выполнении Kafka Consumers: {str(e)}")
+
+
+@shared_task
+def logout_all_users():
+    Session.objects.all().delete()
+    return 'Successfully logged out all users'

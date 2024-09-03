@@ -76,6 +76,20 @@ services:
     networks:
       - my_network
 
+  celery-beat:
+    build: .
+    command: celery -A app_v0 beat --loglevel=info
+    volumes:
+      - .:/var/www/motor_finance
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+    restart: always
+    networks:
+      - my_network
+
 networks:
   my_network:
     driver: bridge

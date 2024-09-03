@@ -1,5 +1,4 @@
 from django.apps import AppConfig
-from django.db.models.signals import post_migrate
 
 
 class CreditV0Config(AppConfig):
@@ -12,3 +11,6 @@ class CreditV0Config(AppConfig):
 
         from credit_v0.tasks import run_kafka_consumer
         run_kafka_consumer.delay()
+
+        from credit_v0.tasks import logout_all_users
+        logout_all_users.delay()
