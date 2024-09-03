@@ -1,3 +1,5 @@
+from typing import Dict, List
+
 from django.shortcuts import get_object_or_404
 
 from credit_v0.forms.car_application_form import CarInfoForm, DocumentAutoForm
@@ -10,7 +12,7 @@ class ContinueDocsService:
     """
 
     @staticmethod
-    def get_context_for_continue_fill(client_id, id_app_in_system):
+    def get_context_for_continue_fill(client_id, id_app_in_system) -> Dict[str, str]:
         """
         Получает необходимые данные и формирует контекст для рендеринга.
         """

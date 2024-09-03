@@ -30,6 +30,7 @@ from .models import ClientPreData, SelectedClientOffer, AllApplications, ClientE
     ClientCarInfo, AutoSaleDocument, Offers, ClientOffer, UserProfile, UserDocument, ClientDocument, Dealership
 from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
+from .services.offer_services.get_offers_by_status import GetByStatusOfferService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
 from .services.questionnaire.bank_offer_service import BankOfferService
 from .services.questionnaire.continue_docs_service import ContinueDocsService
@@ -37,7 +38,8 @@ from .services.upload_document_service import DocumentService
 
 
 class ChangeActiveDealershipView(LoginRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
+    @staticmethod
+    def post(request, *args, **kwargs):
         dealership_id = request.POST.get('active_dealership')
         if dealership_id:
             user_profile = request.user.userprofile
@@ -69,11 +71,11 @@ class RequestOffersView(LoginRequiredMixin, ListView):
 
     template_name = 'requests.html'
     context_object_name = 'status_offers'
-    bank_offer_service = BankOfferService()
 
     def get_queryset(self):
+        bank_offer_service = GetByStatusOfferService()
         client_id = self.kwargs['client_id']
-        return self.bank_offer_service.get_offers_by_status(client_id)
+        return bank_offer_service.get_offers_by_status(client_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
