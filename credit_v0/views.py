@@ -32,7 +32,7 @@ from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.offer_services.get_offers_by_status import GetByStatusOfferService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
-from .services.questionnaire.questionnaire_view_service import QuestionnairePostHandler, QuestionnaireGetHandler
+from .services.questionnaire.questionnaire_view_services import QuestionnairePostHandler, QuestionnaireGetHandler
 from .services.questionnaire.send_to_bank_service import SendToBankService
 from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import DocumentService
