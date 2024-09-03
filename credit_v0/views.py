@@ -20,7 +20,7 @@ from django.views.generic import FormView, UpdateView, ListView
 from django.contrib.auth.models import User
 import requests
 
-from log_storage.logging_config import logger_debug, logger_info, logger_error, logger_develop
+from log_storage.logging_config import logger_error
 from .forms.car_application_form import CarInfoForm, DocumentAutoForm, ExtraForm, PreDataClientForm, \
     FinancingConditionsForm
 from .forms.upload_file_form import UserUploadDocumentForm, ClientUploadDocumentForm
@@ -31,7 +31,7 @@ from .models import ClientPreData, SelectedClientOffer, AllApplications, ClientE
     ClientCarInfo, AutoSaleDocument, Offers, ClientOffer, UserProfile, UserDocument, ClientDocument, Dealership
 from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
-from .services.questionnaire.questionnaire_service import ClientExtraDataService
+from .services.questionnaire.client_extra_data_service import ClientExtraDataService
 from .services.questionnaire.bank_offer_service import BankOfferService
 from .services.upload_document_service import DocumentService
 
@@ -117,7 +117,9 @@ class SendToBankView(LoginRequiredMixin, View):
 
 
 class LoadAllDataClientView(LoginRequiredMixin, View):
-    """Загрузка форм доп. информации о клиенте"""
+    """
+    Загрузка форм доп. информации о клиенте
+    """
 
     def get(self, request, pk):
         client = get_object_or_404(ClientPreData, pk=pk)
@@ -130,8 +132,8 @@ class LoadAllDataClientView(LoginRequiredMixin, View):
 
     def post(self, request, pk):
         client = get_object_or_404(ClientPreData, id=pk)
-        service = ClientExtraDataService(client, data=request.POST)
-        forms = service.prepare_forms()
+        service = ClientExtraDataService(client)
+        forms = service.prepare_forms(request.POST)
 
         ignore_required = request.POST.get('ignore_required', 'false') == 'true'
         if ignore_required:
