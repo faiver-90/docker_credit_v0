@@ -7,14 +7,14 @@ def convert_str_list(li):
     return [int(x) for x in li[0].split(',')]
 
 
-def handle_logger(error_message, logger_and_lvl, additional_info=None, status=400):
+def handle_logger(message, logger_and_lvl, additional_info=None, status=200):
     if additional_info:
-        logger_and_lvl(f"{error_message}: {additional_info[:500]}... (total length: {len(str(additional_info))})")
+        logger_and_lvl(f"{message}: {additional_info[:500]}... (total length: {len(str(additional_info))})")
     else:
-        logger_and_lvl(error_message)
+        logger_and_lvl(message)
 
     return JsonResponse(
-        {'success': False, 'error': error_message},
+        {'success': False, 'error': message},
         status=status,
         json_dumps_params={'ensure_ascii': False}
     )

@@ -1,5 +1,4 @@
 import json
-import logging
 import time
 
 from django.conf import settings
@@ -20,6 +19,8 @@ from django.views import View
 from django.views.generic import FormView, UpdateView, ListView
 from django.contrib.auth.models import User
 import requests
+
+from log_storage.logging_config import logger_debug, logger_info, logger_error, logger_develop
 from .forms.car_application_form import CarInfoForm, DocumentAutoForm, ExtraForm, PreDataClientForm, \
     FinancingConditionsForm
 from .forms.upload_file_form import UserUploadDocumentForm, ClientUploadDocumentForm
@@ -34,10 +35,6 @@ from .services.questionnaire.questionnaire_service import ClientExtraDataService
 from .services.questionnaire.bank_offer_service import BankOfferService
 from .services.upload_document_service import DocumentService
 
-logger_debug = logging.getLogger('debug').debug
-logger_info = logging.getLogger('info').info
-logger_error = logging.getLogger('error').error
-
 
 @login_required
 def change_active_dealership(request):
@@ -49,7 +46,7 @@ def change_active_dealership(request):
                 dealership = user_profile.dealership_manager.get(id=dealership_id)
                 user_profile.set_active_dealership(dealership)
             except Dealership.DoesNotExist as e:
-                logger_error(e)
+                handle_logger(e, logger_error)
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
 
