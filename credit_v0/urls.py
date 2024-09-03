@@ -5,7 +5,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('change-active-dealership/', change_active_dealership, name='change_active_dealership'),
+    path('change_active_dealership/', ChangeActiveDealershipView.as_view(), name='change_active_dealership'),
 
     path('continue_docs/', ContinueDocsView.as_view(), name='continue_docs'),
 
