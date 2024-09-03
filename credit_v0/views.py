@@ -36,19 +36,6 @@ from .services.questionnaire.bank_offer_service import BankOfferService
 from .services.upload_document_service import DocumentService
 
 
-# @login_required
-# def change_active_dealership(request):
-#     if request.method == 'POST':
-#         dealership_id = request.POST.get('active_dealership')
-#         if dealership_id:
-#             user_profile = request.user.userprofile
-#             try:
-#                 dealership = user_profile.dealership_manager.get(id=dealership_id)
-#                 user_profile.set_active_dealership(dealership)
-#             except Dealership.DoesNotExist as e:
-#                 handle_logger(e, logger_error)
-#     return redirect(request.META.get('HTTP_REFERER', 'home'))
-
 class ChangeActiveDealershipView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         dealership_id = request.POST.get('active_dealership')
