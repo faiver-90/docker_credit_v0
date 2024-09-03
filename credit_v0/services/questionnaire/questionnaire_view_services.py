@@ -10,6 +10,33 @@ from credit_v0.models import ClientPreData, AllApplications, SelectedClientOffer
     ClientFinancingCondition, ClientCarInfo, AutoSaleDocument
 
 
+class QuestionnaireGetHandler:
+    """Обработчик GET-запросов для получения данных клиента и отображения их в шаблоне."""
+
+    @staticmethod
+    def handle(client_id: Optional[int], id_app_in_system: Optional[str], id_app_bank: Optional[str], user,
+               dealership_name: Optional[str] = None) -> Tuple[Optional[HttpResponseRedirect], Dict[str, Any]]:
+        if client_id:
+            context = ClientDataService.get_client_data(client_id, id_app_in_system, id_app_bank)
+            return None, context
+        else:
+            client, context = ClientCreationService.create_new_client(user, dealership_name)
+            return HttpResponseRedirect(reverse('car_form', kwargs={'pk': client.pk})), {}
+
+
+class QuestionnairePostHandler:
+    """Обработчик POST-запросов для обработки данных форм клиента."""
+
+    @staticmethod
+    def handle(client_id: int, form_data: Dict[str, Any], ignore_required: bool) -> Dict[str, Any]:
+        result = FormProcessingService.process_forms(client_id, form_data, ignore_required)
+
+        if result.get('success'):
+            return {'success': True}
+        else:
+            return result
+
+
 class ClientDataService:
     """Сервис для получения и подготовки данных клиента и связанных объектов."""
 
@@ -146,29 +173,3 @@ class ClientCreationService:
         }
 
         return client, context
-
-
-class QuestionnaireGetHandler:
-    """Обработчик GET-запросов для получения данных клиента и отображения их в шаблоне."""
-
-    def handle(self, client_id: Optional[int], id_app_in_system: Optional[str], id_app_bank: Optional[str], user,
-               dealership_name: Optional[str] = None) -> Tuple[Optional[HttpResponseRedirect], Dict[str, Any]]:
-        if client_id:
-            context = ClientDataService.get_client_data(client_id, id_app_in_system, id_app_bank)
-            return None, context
-        else:
-            client, context = ClientCreationService.create_new_client(user, dealership_name)
-            return HttpResponseRedirect(reverse('car_form', kwargs={'pk': client.pk})), {}
-
-
-
-class QuestionnairePostHandler:
-    """Обработчик POST-запросов для обработки данных форм клиента."""
-
-    def handle(self, client_id: int, form_data: Dict[str, Any], ignore_required: bool) -> Dict[str, Any]:
-        result = FormProcessingService.process_forms(client_id, form_data, ignore_required)
-
-        if result.get('success'):
-            return {'success': True}
-        else:
-            return result
