@@ -30,6 +30,7 @@ from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.offer_services.get_offers_by_status import GetByStatusOfferService
 from .services.offer_services.manage_select_offers_service import SelectedOfferService
+from .services.offer_services.show_selected_offers_to_card import ShowOfferService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
 from .services.questionnaire.questionnaire_view_services import QuestionnairePostHandler, QuestionnaireGetHandler
 from .services.questionnaire.send_to_bank_service import SendToBankService
@@ -235,31 +236,14 @@ class ShowSelectCardOfferView(LoginRequiredMixin, View):
 
     @staticmethod
     def get(request, offer_id):
-        offer = get_object_or_404(Offers, id=offer_id)
-        select_offer = SelectedClientOffer.objects.filter(offer_id=offer_id).first()
-
-        if not select_offer:
-            raise Http404("SelectOffersClient does not exist")
-
-        # Передаем значения через GET параметры или используем значения из select_offer
-        offer.car_price_display_select = request.GET.get('car_price', select_offer.car_price_display_select)
-        offer.initial_payment_select = request.GET.get('initial_payment', select_offer.initial_payment_select)
-        offer.total_loan_amount_select = request.GET.get('total_loan_amount', select_offer.total_loan_amount_select)
-        offer.offer_id = offer_id
-
-        offer.title_select = offer.title
-        offer.name_bank_select = offer.name_bank
-        offer.term_select = offer.term
-        offer.stavka_select = offer.stavka
-        offer.monthly_payment_select = offer.pay
-
-        context = {
-            'offer': offer,
-            'client_id': select_offer.client.id,
-            'hide_controls': False  # Пример, как можно управлять этим параметром
-        }
-
-        return render(request, 'questionnaire/card_offer.html', context)
+        try:
+            # Используем сервис для получения данных
+            context = ShowOfferService.get_offer_data(offer_id, request)
+            return render(request, 'questionnaire/card_offer.html', context)
+        except Http404 as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=404)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 
 class OffersView(LoginRequiredMixin, View):
