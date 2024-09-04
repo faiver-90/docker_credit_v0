@@ -9,7 +9,7 @@ services:
       sh -c "python manage.py makemigrations &&
              python manage.py migrate &&
              python manage.py collectstatic --noinput &&
-             python manage.py runserver 0.0.0.0:8000"
+             python manage.py runserver 0.0.0.0:8000 2>> /var/www/motor_finance/log_storage/debug/django_output.log"
     volumes:
       - .:/var/www/motor_finance
       - static_volume:/var/www/motor_finance/static

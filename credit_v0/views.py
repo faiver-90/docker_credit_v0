@@ -185,7 +185,8 @@ class QuestionnaireView(LoginRequiredMixin, View):
 class ManageSelectOffersView(LoginRequiredMixin, View):
     """CRUD карточек выбранных оферов"""
 
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    def get(request, *args, **kwargs):
         client_id = request.GET.get('client_id')
         if not client_id:
             return JsonResponse({'status': 'error', 'message': 'client_id is required'}, status=400)
@@ -193,7 +194,8 @@ class ManageSelectOffersView(LoginRequiredMixin, View):
         offers_data = SelectedOfferService.get_offers(client_id=client_id)
         return JsonResponse({'offers': offers_data})
 
-    def post(self, request, *args, **kwargs):
+    @staticmethod
+    def post(request, *args, **kwargs):
         try:
             data = json.loads(request.body)
             client_id = data.get('client_id')
@@ -230,7 +232,6 @@ class ManageSelectOffersView(LoginRequiredMixin, View):
             return JsonResponse({'status': 'error', 'message': e}, status=400)
 
 
-#  Показыавть оферы при нажатии выбрать при превом запросе
 class ShowSelectCardOfferView(LoginRequiredMixin, View):
     """Отрисовка выбираемых оферов в предварительных расчетах после нажатия Выбрать"""
 
