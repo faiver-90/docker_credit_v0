@@ -4,15 +4,14 @@ from credit_v0.forms.car_application_form import ClientInfoPersonalForm, Financi
     ExpensesForm, VehicleForm, RealEstateForm, InternationalPassportForm
 from credit_v0.forms.upload_file_form import ClientUploadDocumentForm
 from credit_v0.models import ClientDocument
-from typing import Dict
-from django.http import QueryDict
+from typing import Dict, Any
 from django.forms import BaseForm
 from django.db.models import Model
 
 
 class ClientExtraDataService:
     """
-        Сервис для работы с дополнительной информацией о клиенте.
+    Сервис для работы с дополнительной информацией о клиенте.
     """
 
     forms_map = {
@@ -49,11 +48,13 @@ class ClientExtraDataService:
         context['client_documents'] = ClientDocument.objects.filter(client=self.client)
         return context
 
-    def prepare_forms(self, data: QueryDict) -> Dict[str, BaseForm]:
+    def prepare_forms(self, data: Dict[str, Dict[str, Any]]) -> Dict[str, BaseForm]:
+        """Принимает словарь, где ключи соответствуют формам, а значения — данные для каждой формы."""
         forms = {}
         for attr, form_class in self.forms_map.items():
             instance = getattr(self.client, attr).first()
-            forms[attr] = form_class(data, instance=instance)
+            # Передаем данные для каждой формы
+            forms[attr] = form_class(data=data.get(attr, {}), instance=instance)
         return forms
 
     @staticmethod
@@ -62,7 +63,6 @@ class ClientExtraDataService:
             for field in form.fields.values():
                 field.required = False
 
-    def save_forms(self, forms):
+    def save_forms(self, forms) -> None:
         for form in forms.values():
-            # Предположим, что идентификатор клиента используется для поиска и обновления
-            form.save_or_update(client_id=self.client.id)
+            form.save()

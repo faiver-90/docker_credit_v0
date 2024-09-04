@@ -129,7 +129,9 @@ class LoadAllDataClientView(LoginRequiredMixin, View):
     def post(request, pk):
         client = get_object_or_404(ClientPreData, id=pk)
         service = ClientExtraDataService(client)
-        forms = service.prepare_forms(request.POST)
+
+        form_data = {key: request.POST.dict() for key in service.forms_map.keys()}
+        forms = service.prepare_forms(form_data)
 
         ignore_required = request.POST.get('ignore_required', 'false') == 'true'
         if ignore_required:
