@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views import View
@@ -20,14 +20,12 @@ from django.contrib.auth.models import User
 import requests
 
 from log_storage.logging_config import logger_error
-from .forms.car_application_form import CarInfoForm, DocumentAutoForm, ExtraForm, PreDataClientForm, \
-    FinancingConditionsForm
+
 from .forms.upload_file_form import UserUploadDocumentForm, ClientUploadDocumentForm
 from .forms.users_form import UserRegistrationForm, ProfileRegistrationForm, UserEditForm, ProfileEditForm, \
     CustomAuthenticationForm
-from .models import ClientPreData, SelectedClientOffer, AllApplications, ClientExtraInsurance, \
-    ClientFinancingCondition, \
-    ClientCarInfo, AutoSaleDocument, Offers, ClientOffer, UserProfile, UserDocument, ClientDocument, Dealership
+from .models import ClientPreData, SelectedClientOffer, AllApplications, ClientFinancingCondition, \
+    ClientCarInfo, Offers, ClientOffer, UserProfile, UserDocument, ClientDocument, Dealership
 from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.offer_services.get_offers_by_status import GetByStatusOfferService
@@ -742,7 +740,8 @@ class CustomLoginView(LoginView):
 
 def dadata_search(query):
     url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address"
-    api_key = "43d1f880e47e4e9b7f45d470beb41cc070a14d04"
+    api_key = settings.DADATA_SEARCH_API_KEY
+
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
