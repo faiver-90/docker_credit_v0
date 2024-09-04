@@ -29,6 +29,7 @@ from .models import ClientPreData, SelectedClientOffer, AllApplications, ClientF
 from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.offer_services.get_offers_by_status import GetByStatusOfferService
+from .services.offer_services.manage_select_offers_service import SelectedOfferService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
 from .services.questionnaire.questionnaire_view_services import QuestionnairePostHandler, QuestionnaireGetHandler
 from .services.questionnaire.send_to_bank_service import SendToBankService
@@ -185,18 +186,11 @@ class ManageSelectOffersView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         client_id = request.GET.get('client_id')
-        client = get_object_or_404(ClientPreData, id=client_id)
-        selected_offers = SelectedClientOffer.objects.filter(client=client)
-        offers_data = [self.render_offer(offer, client_id) for offer in selected_offers]
-        return JsonResponse({'offers': offers_data})
+        if not client_id:
+            return JsonResponse({'status': 'error', 'message': 'client_id is required'}, status=400)
 
-    def render_offer(self, offer, client_id):
-        context = {
-            'offer': offer,
-            'client_id': client_id,
-            'hide_controls': False  # Удаление или показ кнопок выбрать, удалить на странице запросов
-        }
-        return render_to_string('questionnaire/card_offer.html', context)
+        offers_data = SelectedOfferService.get_offers(client_id=client_id)
+        return JsonResponse({'offers': offers_data})
 
     def post(self, request, *args, **kwargs):
         try:
@@ -208,44 +202,31 @@ class ManageSelectOffersView(LoginRequiredMixin, View):
             if not client_id or not offer_id:
                 return JsonResponse({'status': 'error', 'message': 'client_id and offer_id are required'}, status=400)
 
-            client = get_object_or_404(ClientPreData, id=client_id)
-            offer_details = get_object_or_404(Offers, id=offer_id)
-            car_info = get_object_or_404(ClientCarInfo, client=client)
-            financing_conditions = get_object_or_404(ClientFinancingCondition, client=client)
-            select_offer, created = SelectedClientOffer.objects.update_or_create(
-                client=client,
+            result = SelectedOfferService.create_or_update_offer(
+                client_id=client_id,
                 offer_id=offer_id,
-                defaults={
-                    'car_price_display_select': car_info.car_price_car_info,
-                    'initial_payment_select': financing_conditions.initial_payment,
-                    'total_loan_amount_select': total_loan_amount,
-                    'title_select': offer_details.title,
-                    'term_select': offer_details.term,
-                    'monthly_payment_select': offer_details.pay,
-                    'stavka_select': offer_details.stavka,
-                    'name_bank_select': offer_details.name_bank
-                }
+                total_loan_amount=total_loan_amount
             )
-
-            if created:
-                select_offer.id_app_in_system = select_offer.id
-                select_offer.save()
-
-            return JsonResponse({'status': 'success'})
+            return JsonResponse(result)
 
         except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+            return JsonResponse({'status': 'error', 'message': e}, status=400)
 
     @staticmethod
     def delete(request, *args, **kwargs):
-        data = json.loads(request.body)
-        offer_id = data.get('offer_id')
-        client_id = data.get('client_id')
-        if offer_id and client_id:
-            client = get_object_or_404(ClientPreData, id=client_id)
-            SelectedClientOffer.objects.filter(client=client, offer_id=offer_id).delete()
-            return JsonResponse({'status': 'success'})
-        return JsonResponse({'status': 'error'}, status=400)
+        try:
+            data = json.loads(request.body)
+            client_id = data.get('client_id')
+            offer_id = data.get('offer_id')
+
+            if not client_id or not offer_id:
+                return JsonResponse({'status': 'error', 'message': 'client_id and offer_id are required'}, status=400)
+
+            result = SelectedOfferService.delete_offer(client_id=client_id, offer_id=offer_id)
+            return JsonResponse(result)
+
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': e}, status=400)
 
 
 #  Показыавть оферы при нажатии выбрать при превом запросе
