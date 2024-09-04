@@ -2,20 +2,27 @@ from django import forms
 from django.db.models import IntegerField
 from django.db.models.functions import Cast
 
-# from credit_v0.models import *
-from credit_v0.models import ClientCarInfo, ClientExtraInsurance, AutoSaleDocument, ClientPreData, \
-    ClientFinancingCondition, ClientPersonalInfo, ClientContact, FinancingTerm, ClientPassport, ClientDriverLicense, \
-    ClientTaxDocument, ClientPensionCertificate, ClientInternationalPassport, ClientEducation, ClientEmployment, \
-    EducationLevel, OrganizationType, ActivityCode, PositionType, ClientCitizenship, Country, ClientFamilyInfo, \
-    MaritalStatus, ClientFinancialInfo, ClientExpenses, ClientVehicle, PurchaseMethod, ClientRealEstate, RealEstateType
+from credit_v0.models import (
+    ClientCarInfo, ClientExtraInsurance, AutoSaleDocument, ClientPreData,
+    ClientFinancingCondition, ClientPersonalInfo, ClientContact, FinancingTerm,
+    ClientPassport, ClientDriverLicense, ClientTaxDocument, ClientPensionCertificate,
+    ClientInternationalPassport, ClientEducation, ClientEmployment, EducationLevel,
+    OrganizationType, ActivityCode, PositionType, ClientCitizenship, Country,
+    ClientFamilyInfo, MaritalStatus, ClientFinancialInfo, ClientExpenses,
+    ClientVehicle, PurchaseMethod, ClientRealEstate, RealEstateType
+)
 
 
 class BaseForm(forms.ModelForm):
     def save_or_update(self, **lookup):
-        instance, created = self.Meta.model.objects.update_or_create(
-            **lookup,
-            defaults=self.cleaned_data
-        )
+        try:
+            instance = self.Meta.model.objects.get(**lookup)
+            for attr, value in self.cleaned_data.items():
+                setattr(instance, attr, value)
+            instance.save()
+        except self.Meta.model.DoesNotExist:
+            instance = self.Meta.model.objects.create(**self.cleaned_data, **lookup)
+
         return instance
 
 
@@ -182,6 +189,8 @@ class ClientInfoPersonalForm(BaseForm):
         super(ClientInfoPersonalForm, self).__init__(*args, **kwargs)
         self.fields['first_name_client'].required = False
         self.fields['last_name_client'].required = False
+        # self.fields['type_client'].initial = 'Физическое лицо'
+        # self.fields['product_client'].initial = 'Кредит'
 
 
 class ContactClientForm(BaseForm):

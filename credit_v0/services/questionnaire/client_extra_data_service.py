@@ -65,4 +65,4 @@ class ClientExtraDataService:
 
     def save_forms(self, forms) -> None:
         for form in forms.values():
-            form.save()
+            form.save_or_update(client_id=self.client.id)
