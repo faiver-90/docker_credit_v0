@@ -381,8 +381,6 @@ class RegisterView(LoginRequiredMixin, FormView):
             context['user_form'] = self.form_class(self.request.POST)
             context['profile_form'] = form
         return self.render_to_response(context)
-
-
 class UserEditView(LoginRequiredMixin, UpdateView):
     """CRUD существующего менеджера"""
 
@@ -390,6 +388,32 @@ class UserEditView(LoginRequiredMixin, UpdateView):
     form_class = UserEditForm
     template_name = 'users/edit_user.html'
     success_url = reverse_lazy('user_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        """Проверка прав доступа перед выполнением запроса"""
+        user_instance = self.get_object()
+        user_profile = request.user.userprofile
+
+        # Проверка прав для роли "admin" (без ограничений)
+        if user_profile.role_manager == 'admin':
+            return super().dispatch(request, *args, **kwargs)
+
+        # Проверка для роли "Менеджер ДЦ" — может редактировать только свою запись
+        if user_profile.role_manager == 'Менеджер ДЦ' and user_instance != request.user:
+            return self.permission_denied_response("У вас нет доступа для редактирования этого пользователя.")
+
+        # Проверка для роли "owner" — может редактировать только пользователей из своей организации
+        if user_profile.role_manager == 'owner' and user_instance.userprofile.organization_manager != user_profile.organization_manager:
+            return self.permission_denied_response("У вас нет доступа для редактирования пользователей из другой организации.")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def permission_denied_response(self, message):
+        """Возвращает JSON-ответ при недостатке прав"""
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': message}, status=403)
+        else:
+            return JsonResponse({'success': False, 'error': message}, status=403)
 
     def get_object(self, queryset=None):
         return get_object_or_404(User, pk=self.kwargs['pk'])
@@ -400,8 +424,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         context['user_id'] = self.kwargs['pk']
         user_instance = self.get_object()
         if self.request.POST:
-            context['profile_form'] = ProfileEditForm(self.request.POST, instance=user_instance.userprofile,
-                                                      request=self.request)
+            context['profile_form'] = ProfileEditForm(self.request.POST, instance=user_instance.userprofile, request=self.request)
         else:
             context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
         context['next'] = self.request.GET.get('next', self.request.POST.get('next', ''))
@@ -411,7 +434,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         context = self.get_context_data()
         profile_form = context['profile_form']
 
-        # Проверяем, если запрос содержит флаг игнорирования обязательных полей
+        # Проверка на игнорирование обязательных полей
         ignore_required = self.request.POST.get('ignore_required', 'false') == 'true'
         if ignore_required and self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             for field in profile_form.fields.values():
@@ -437,7 +460,6 @@ class UserEditView(LoginRequiredMixin, UpdateView):
 
     def delete(self, request, *args, **kwargs):
         user = self.get_object()
-
         user.delete()
         success_url = self.get_success_url()
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':

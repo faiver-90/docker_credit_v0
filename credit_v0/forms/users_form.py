@@ -36,18 +36,25 @@ class BaseProfileForm(forms.ModelForm):
         super(BaseProfileForm, self).__init__(*args, **kwargs)
 
         if self.request and self.request.user.is_authenticated:
+            user_profile = self.request.user.userprofile
+
             if self.request.user.is_superuser:
                 self.fields['dealership_manager'].queryset = Dealership.objects.all()
-            elif self.request.user.userprofile.role_manager == 'owner':
-                user_organization = self.request.user.userprofile.organization_manager
+            elif user_profile.role_manager == 'owner':
+                user_organization = user_profile.organization_manager
                 self.fields['dealership_manager'].queryset = Dealership.objects.filter(
-                    organisation_name=user_organization)
-                self.fields = {field: self.fields[field] for field in self.fields if
-                               field not in ['organization_manager', 'role_manager']}
-            elif self.request.user.userprofile.role_manager == 'Менеджер ДЦ':
-                self.fields = {field: self.fields[field] for field in self.fields if
-                               field not in ['dealership_manager', 'organization_manager', 'role_manager',
-                                             'status_manager']}
+                    organisation_name=user_organization
+                )
+                # Удаление полей
+                self.fields.pop('organization_manager')
+                self.fields.pop('role_manager')
+            elif user_profile.role_manager == 'Менеджер ДЦ':
+                # Удаляем поля для менеджеров
+                self.fields.pop('dealership_manager')
+                self.fields.pop('organization_manager')
+                self.fields.pop('role_manager')
+                self.fields.pop('status_manager')
+
 
 
 class UserEditForm(forms.ModelForm):
