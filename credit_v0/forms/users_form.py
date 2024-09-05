@@ -57,6 +57,10 @@ class BaseProfileForm(forms.ModelForm):
 
 
 class UserEditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UserEditForm, self).__init__(*args, **kwargs)
+        self.fields.pop('username')
+
     class Meta:
         model = User
         fields = ['username', 'email']
