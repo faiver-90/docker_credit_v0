@@ -27,12 +27,12 @@ from .forms.users_form import UserRegistrationForm, ProfileRegistrationForm, Use
 from .models import ClientPreData, UserProfile, UserDocument, ClientDocument, Dealership
 from .services.access_control_service import AccessControlService
 from .services.common_servive import convert_str_list, handle_logger
+from .services.index_list_application_service import ApplicationService
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.offer_services.create_update_offers_in_db_service import CreateUpdateOffersInDbService
 from .services.offer_services.get_offers_by_status import GetByStatusOfferService
 from .services.offer_services.manage_select_offers_service import SelectedOfferService
 from .services.offer_services.show_selected_offers_to_card import ShowOfferService
-from .services.questionnaire.application_service import ApplicationService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
 from .services.questionnaire.questionnaire_view_services import QuestionnairePostHandler, QuestionnaireGetHandler
 from .services.questionnaire.send_to_bank_service import SendToBankService
@@ -65,7 +65,8 @@ class ContinueDocsView(LoginRequiredMixin, View):
         id_app_in_system = request.GET.get('id_app_in_system')
 
         service = ContinueDocsService()
-        context = service.get_context_for_continue_fill(client_id=client_id, id_app_in_system=id_app_in_system)
+        context = service.get_context_for_continue_fill(client_id=client_id,
+                                                        id_app_in_system=id_app_in_system)
 
         return render(request, 'continue_docs.html', context)
 
@@ -99,8 +100,11 @@ class SendToBankView(LoginRequiredMixin, View):
         selected_offers = request.POST.getlist('selected_offers')
 
         if selected_offers:
-            data = self.bank_offer_service.prepare_selected_offer_data(client_id, selected_offers)
-            self.kafka_service.send_to_kafka(data, self.topic, client_id)
+            data = self.bank_offer_service.prepare_selected_offer_data(client_id,
+                                                                       selected_offers)
+            self.kafka_service.send_to_kafka(data,
+                                             self.topic,
+                                             client_id)
 
         converted_elected_offers = convert_str_list(selected_offers)
 
@@ -125,7 +129,9 @@ class LoadAllDataClientView(LoginRequiredMixin, View):
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             service = ClientExtraDataService(client)
             context = service.get_client_context()
-            html = render_to_string('questionnaire/all_data_client.html', context, request=request)
+            html = render_to_string('questionnaire/all_data_client.html',
+                                    context,
+                                    request=request)
             return JsonResponse({'html': html})
         return HttpResponse(status=400)
 
@@ -227,7 +233,8 @@ class ManageSelectOffersView(LoginRequiredMixin, View):
             if not client_id or not offer_id:
                 return JsonResponse({'status': 'error', 'message': 'client_id and offer_id are required'}, status=400)
 
-            result = SelectedOfferService.delete_offer(client_id=client_id, offer_id=offer_id)
+            result = SelectedOfferService.delete_offer(client_id=client_id,
+                                                       offer_id=offer_id)
             return JsonResponse(result)
 
         except Exception as e:
