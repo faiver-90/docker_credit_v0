@@ -19,6 +19,13 @@
                                     <div class="form-group">
                                         {{ field.label_tag }}
                                         {{ field }}
+                                        {% if field.errors %}
+                                            <ul class="errorlist text-danger">
+                                                {% for error in field.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
@@ -33,24 +40,44 @@
                                 <div class="form-group">
                                     {{ profile_form.first_name_manager.label_tag }}
                                     {{ profile_form.first_name_manager }}
+                                    {% if profile_form.first_name_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.first_name_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-group">
                                     {{ profile_form.last_name_manager.label_tag }}
                                     {{ profile_form.last_name_manager }}
+                                    {% if profile_form.last_name_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.last_name_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-group">
                                     {{ profile_form.middle_name_manager.label_tag }}
                                     {{ profile_form.middle_name_manager }}
+                                    {% if profile_form.middle_name_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.middle_name_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-group">
                                     {{ profile_form.phone_number_manager.label_tag }}
                                     {{ profile_form.phone_number_manager }}
+                                    {% if profile_form.phone_number_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.phone_number_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -59,6 +86,11 @@
                                 <div class="form-group">
                                     {{ profile_form.date_of_birth_manager.label_tag }}
                                     {{ profile_form.date_of_birth_manager }}
+                                    {% if profile_form.date_of_birth_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.date_of_birth_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -72,30 +104,55 @@
                                 <div class="form-group">
                                     {{ profile_form.passport_series_manager.label_tag }}
                                     {{ profile_form.passport_series_manager }}
+                                    {% if profile_form.passport_series_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.passport_series_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-group">
                                     {{ profile_form.passport_number_manager.label_tag }}
                                     {{ profile_form.passport_number_manager }}
+                                    {% if profile_form.passport_number_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.passport_number_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-group">
                                     {{ profile_form.division_code_manager.label_tag }}
                                     {{ profile_form.division_code_manager }}
+                                    {% if profile_form.division_code_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.division_code_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-group">
                                     {{ profile_form.issued_by_manager.label_tag }}
                                     {{ profile_form.issued_by_manager }}
+                                    {% if profile_form.issued_by_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.issued_by_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-group">
                                     {{ profile_form.issue_date_manager.label_tag }}
                                     {{ profile_form.issue_date_manager }}
+                                    {% if profile_form.issue_date_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.issue_date_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -107,24 +164,44 @@
                                 <div class="form-group">
                                     {{ profile_form.dealership_manager.label_tag }}
                                     {{ profile_form.dealership_manager }}
+                                    {% if profile_form.dealership_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.dealership_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-6">
                                 <div class="form-group">
                                     {{ profile_form.organization_manager.label_tag }}
                                     {{ profile_form.organization_manager }}
+                                    {% if profile_form.organization_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.organization_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-12">
                                 <div class="form-group">
                                     {{ profile_form.status_manager.label_tag }}
                                     {{ profile_form.status_manager }}
+                                    {% if profile_form.status_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.status_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-12">
                                 <div class="form-group">
                                     {{ profile_form.role_manager.label_tag }}
                                     {{ profile_form.role_manager }}
+                                    {% if profile_form.role_manager.errors %}
+                                        <div class="text-danger">
+                                            {{ profile_form.role_manager.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
