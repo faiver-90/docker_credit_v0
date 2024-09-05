@@ -489,7 +489,7 @@ class UserListView(LoginRequiredMixin, View):
         user_profile = UserProfile.objects.get(user=request.user)
         user_organization = user_profile.organization_manager
 
-        if request.user.username == 'admin':
+        if request.user.is_superuser:
             object_list = User.objects.all().select_related('userprofile').order_by(ordering)
         else:
             object_list = User.objects.filter(userprofile__organization_manager=user_organization).select_related(

@@ -5,7 +5,7 @@ class AccessControlService:
     def has_access(user_profile, user_instance):
         """Проверка доступа на редактирование профиля пользователя."""
         # Администратор имеет полный доступ
-        if user_profile.role_manager == 'admin':
+        if user_profile.role_manager == 'superuser':
             return True
 
         # Менеджер ДЦ может редактировать только свою запись
