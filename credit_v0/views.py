@@ -24,8 +24,7 @@ from log_storage.logging_config import logger_error
 from .forms.upload_file_form import UserUploadDocumentForm, ClientUploadDocumentForm
 from .forms.users_form import UserRegistrationForm, ProfileRegistrationForm, UserEditForm, ProfileEditForm, \
     CustomAuthenticationForm
-from .models import ClientPreData, SelectedClientOffer, AllApplications, ClientFinancingCondition, \
-    ClientCarInfo, Offers, ClientOffer, UserProfile, UserDocument, ClientDocument, Dealership
+from .models import ClientPreData, UserProfile, UserDocument, ClientDocument, Dealership
 from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.offer_services.create_update_offers_in_db_service import CreateUpdateOffersInDbService
