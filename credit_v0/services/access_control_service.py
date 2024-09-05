@@ -2,10 +2,12 @@ class AccessControlService:
     """Сервис для проверки доступа на основе роли пользователя."""
 
     @staticmethod
-    def has_access(user_profile, user_instance):
+    def has_access(user_profile, user_instance, **kwargs):
         """Проверка доступа на редактирование профиля пользователя."""
-        # Администратор имеет полный доступ
-        if user_profile.role_manager == 'superuser':
+
+        is_superuser = kwargs.get('is_superuser', False)
+
+        if is_superuser:
             return True
 
         # Менеджер ДЦ может редактировать только свою запись

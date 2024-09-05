@@ -405,10 +405,11 @@ class UserEditView(LoginRequiredMixin, UpdateView):
     def dispatch(self, request, *args, **kwargs):
         """Проверка прав доступа перед выполнением запроса"""
         user_instance = self.get_object()
-        user_profile = request.user.userprofile
+        user = request.user
+        user_profile = user
 
         # Используем сервис для проверки прав доступа
-        if not AccessControlService.has_access(user_profile, user_instance):
+        if not AccessControlService.has_access(user_profile, user_instance, is_superuser=user.is_superuser):
             return self.permission_denied_response("У вас нет доступа для редактирования этого пользователя.")
 
         return super().dispatch(request, *args, **kwargs)
