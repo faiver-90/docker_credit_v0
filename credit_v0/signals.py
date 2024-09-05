@@ -31,4 +31,5 @@ def assign_group_on_profile_creation(sender, instance, created, **kwargs):
         if group:
             user_profile.user.groups.add(group)
         else:
-            logger_error(f'Пользователь {user_profile.user.username} имеет неизвестную роль: {user_profile.role_manager}')
+            logger_error(
+                f'Пользователь {user_profile.user.username} имеет неизвестную роль: {user_profile.role_manager}')
