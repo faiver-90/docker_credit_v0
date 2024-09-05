@@ -8,7 +8,7 @@ class ShowOfferService:
     """Сервис для работы с выбранными оферами"""
 
     @staticmethod
-    def get_offer_data(offer_id: int, request) -> dict:
+    def get_offer_data(offer_id: int, car_price=None, initial_payment=None, total_loan_amount=None) -> dict:
         """Получение и подготовка данных для офера"""
 
         # Получаем офер и проверяем, существует ли выбранное предложение
@@ -18,11 +18,12 @@ class ShowOfferService:
         if not select_offer:
             raise Http404("SelectedClientOffer does not exist")
 
-        # Получаем значения из GET-параметров или используем значения из select_offer
-        offer.car_price_display_select = request.GET.get('car_price', select_offer.car_price_display_select)
-        offer.initial_payment_select = request.GET.get('initial_payment', select_offer.initial_payment_select)
-        offer.total_loan_amount_select = request.GET.get('total_loan_amount', select_offer.total_loan_amount_select)
+        # Используем переданные значения или значения из select_offer
+        offer.car_price_display_select = car_price or select_offer.car_price_display_select
+        offer.initial_payment_select = initial_payment or select_offer.initial_payment_select
+        offer.total_loan_amount_select = total_loan_amount or select_offer.total_loan_amount_select
 
+        offer.offer_id = offer_id
         offer.title_select = offer.title
         offer.name_bank_select = offer.name_bank
         offer.term_select = offer.term

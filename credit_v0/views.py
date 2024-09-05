@@ -28,9 +28,11 @@ from .models import ClientPreData, SelectedClientOffer, AllApplications, ClientF
     ClientCarInfo, Offers, ClientOffer, UserProfile, UserDocument, ClientDocument, Dealership
 from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
+from .services.offer_services.create_update_offers_in_db_service import CreateUpdateOffersInDbService
 from .services.offer_services.get_offers_by_status import GetByStatusOfferService
 from .services.offer_services.manage_select_offers_service import SelectedOfferService
 from .services.offer_services.show_selected_offers_to_card import ShowOfferService
+from .services.questionnaire.application_service import ApplicationService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
 from .services.questionnaire.questionnaire_view_services import QuestionnairePostHandler, QuestionnaireGetHandler
 from .services.questionnaire.send_to_bank_service import SendToBankService
@@ -238,8 +240,17 @@ class ShowSelectCardOfferView(LoginRequiredMixin, View):
     @staticmethod
     def get(request, offer_id):
         try:
-            # Используем сервис для получения данных
-            context = ShowOfferService.get_offer_data(offer_id, request)
+            car_price = request.GET.get('car_price')
+            initial_payment = request.GET.get('initial_payment')
+            total_loan_amount = request.GET.get('total_loan_amount')
+
+            context = ShowOfferService.get_offer_data(
+                offer_id=offer_id,
+                car_price=car_price,
+                initial_payment=initial_payment,
+                total_loan_amount=total_loan_amount
+            )
+
             return render(request, 'questionnaire/card_offer.html', context)
         except Http404 as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=404)
@@ -247,20 +258,16 @@ class ShowSelectCardOfferView(LoginRequiredMixin, View):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 
-class OffersView(LoginRequiredMixin, View):
+class CreateUpdateOffersInDbView(LoginRequiredMixin, View):
     """Отображение и создание в БД предложений партнеров"""
 
     @staticmethod
     def get(request, *args, **kwargs):
         client_id = request.GET.get('client_id')
-        client = get_object_or_404(ClientPreData, id=client_id)
-        offers_client = ClientOffer.objects.filter(client=client)
+        if not client_id:
+            return JsonResponse({'error': 'client_id is required'}, status=400)
 
-        offers_data = []
-        for offer in offers_client:
-            offer_html = render_to_string('questionnaire/offer_item.html', {'offer': offer})
-            offers_data.append(offer_html)
-
+        offers_data = CreateUpdateOffersInDbService.get_client_offers(client_id=client_id)
         return JsonResponse({'offers': offers_data})
 
     @staticmethod
@@ -268,32 +275,11 @@ class OffersView(LoginRequiredMixin, View):
         financing_term = request.POST.get('financing_term')
         client_id = request.POST.get('client_id')
 
-        if financing_term and client_id:
-            offers = Offers.objects.filter(term=financing_term)
-            client = ClientPreData.objects.get(pk=client_id)
-            ClientOffer.objects.filter(client=client).delete()  # Удаляем предыдущие предложения
+        if not financing_term or not client_id:
+            return JsonResponse({'error': 'Invalid parameters'}, status=400)
 
-            offers_data = []
-            for offer in offers:
-                created_offer = ClientOffer.objects.create(
-                    client=client,
-                    offer_id=offer.id,
-                    title_offer=offer.title,
-                    name_bank_offer=offer.name_bank,
-                    term_offer=offer.term,
-                    stavka_offer=offer.stavka,
-                    pay_offer=offer.pay
-                )
-                offers_data.append(created_offer)
-
-            offers_html = []
-            for offer in offers_data:
-                offer_html = render_to_string('questionnaire/offer_item.html', {'offer': offer})
-                offers_html.append(offer_html)
-
-            return JsonResponse(offers_html, safe=False)
-
-        return JsonResponse({'error': 'Invalid parameters'}, status=400)
+        offers_html = CreateUpdateOffersInDbService.create_client_offers(client_id=client_id, financing_term=financing_term)
+        return JsonResponse(offers_html, safe=False)
 
 
 class IndexView(LoginRequiredMixin, View):
@@ -302,45 +288,25 @@ class IndexView(LoginRequiredMixin, View):
     per_page = 10
 
     def get(self, request):
+        # Получение параметров из запроса
         ordering = request.GET.get('ordering', '-date_create_all_app')
-        user_profile = UserProfile.objects.get(user=request.user)
-        user_organization = user_profile.organization_manager
-        user_dealership = user_profile.get_active_dealership()
-        user_role = user_profile.role_manager
-
         dealership_filter = request.GET.get('dealership', '')
         status_filter = request.GET.get('status', '')
 
-        if request.user.is_superuser:
-            object_list = AllApplications.objects.all().order_by(ordering)
-        elif user_role == 'owner':
-            object_list = AllApplications.objects.filter(
-                organization=user_organization
-            ).order_by(ordering)
-        else:
-            object_list = AllApplications.objects.filter(
-                organization=user_organization,
-                dealership_all_app=user_dealership if not dealership_filter else dealership_filter
-            ).order_by(ordering)
+        # Используем сервис для получения заявок с фильтрацией
+        object_list = ApplicationService.get_applications(
+            user=request.user,
+            dealership_filter=dealership_filter,
+            status_filter=status_filter,
+            ordering=ordering
+        )
 
-        if status_filter:
-            object_list = [app for app in object_list if
-                           SelectedClientOffer.objects.filter(client=app.client,
-                                                              status_select_offer=status_filter).exists()]
-
-        # Добавление статусов к заявкам
-        for application in object_list:
-            offers = SelectedClientOffer.objects.filter(client=application.client).exclude(
-                status_select_offer__isnull=True).exclude(status_select_offer__exact='')
-            application.statuses = [{'status': offer.status_select_offer,
-                                     'client_id': offer.client.id,
-                                     'button_class': self.get_button_class(offer.status_select_offer)} for offer in
-                                    offers]
-
+        # Пагинация
         paginator = Paginator(object_list, self.per_page)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
+        # Маппинг полей на лейблы
         field_labels = {
             'client': 'ФИО',
             'statuses': 'Статус',
@@ -352,24 +318,14 @@ class IndexView(LoginRequiredMixin, View):
             'date_create': 'Дата создания',
             'date_changes': 'Дата изменения',
         }
+
+        # Отправляем данные в шаблон
         return render(request, 'index.html', {
             'applications': page_obj,
             'dealership_filter': dealership_filter,
             'status_filter': status_filter,
             'field_labels': field_labels
         })
-
-    @staticmethod
-    def get_button_class(status):
-        classes = {
-            'Ошибка': 'btn btn-error',  # Оранжевый
-            'Ожидание решения': 'btn btn-pending',  # Желтый
-            'Отказ': 'btn btn-reject',  # Красный
-            'Запрос доп информации': 'btn btn-request-info',  # Синий
-            'Одобрение': 'btn btn-approve',  # Зеленый
-            'Нет статуса': 'btn btn-light'  # Светлый
-        }
-        return classes.get(status, 'btn btn-light')  # Цвет по умолчанию
 
 
 class RegisterView(LoginRequiredMixin, FormView):

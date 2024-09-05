@@ -20,7 +20,7 @@ urlpatterns = [
 
     path('load_all_data_client/<int:pk>/', LoadAllDataClientView.as_view(), name='load_all_data_client'),
     path('manage_offers/', ManageSelectOffersView.as_view(), name='manage_select_offers'),
-    path('offers/', OffersView.as_view(), name='offers'),
+    path('offers/', CreateUpdateOffersInDbView.as_view(), name='offers'),
     path('get_card_offer/<int:offer_id>/', ShowSelectCardOfferView.as_view(), name='show_select_offers'),
     path('car-form/', QuestionnaireView.as_view(), name='car_form'),
     path('car-form/<int:pk>/', QuestionnaireView.as_view(), name='car_form'),

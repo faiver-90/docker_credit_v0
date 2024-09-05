@@ -4,7 +4,7 @@ from django.http import JsonResponse
 def convert_str_list(li):
     print(f'convert work')
     # return list(map(int, li[0].split(',')))
-    return [int(x) for x in li[0].split(',')]
+    return [int(x) for x in li[0].split(',') if x.strip().isdigit()]
 
 
 def handle_logger(message, logger_and_lvl, additional_info=None, status=200):
