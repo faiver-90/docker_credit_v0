@@ -5,40 +5,71 @@
 
 {% block content %}
     <div class="w-100 rounded bg-light p-3">
-        <fieldset>
-            <div class="row">
-                {% for field in form %}
-                    <div class="col-md-3">
-                        <div class="form-group bg-light">
-                            {{ field.label_tag }}
-                            {{ field }}
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </fieldset>
-        <fieldset>
-            <div class="row">
-                {% for field in profile_form %}
-                    {% if field.name == 'status_manager' %}
-                        <div class="col-md-4">
-                            <div class="form-group bg-light">
-                                <div class="form-check form-switch">
-                                    {{ field }}
-                                    {{ field.label_tag }}
-                                </div>
-                            </div>
-                        </div>
-                    {% else %}
+        <form method="POST">
+            {% csrf_token %}
+            <!-- Поля основной формы -->
+            <fieldset>
+                <div class="row">
+                    {% for field in form %}
                         <div class="col-md-3">
                             <div class="form-group bg-light">
                                 {{ field.label_tag }}
                                 {{ field }}
+                                <!-- Вывод ошибок для каждого поля -->
+                                {% if field.errors %}
+                                    <ul class="errorlist text-danger">
+                                        {% for error in field.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
                             </div>
                         </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </fieldset>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <!-- Поля профиля -->
+            <fieldset>
+                <div class="row">
+                    {% for field in profile_form %}
+                        {% if field.name == 'status_manager' %}
+                            <div class="col-md-4">
+                                <div class="form-group bg-light">
+                                    <div class="form-check form-switch">
+                                        {{ field }}
+                                        {{ field.label_tag }}
+                                    </div>
+                                    <!-- Вывод ошибок для поля status_manager -->
+                                    {% if field.errors %}
+                                        <ul class="errorlist text-danger">
+                                            {% for error in field.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-md-3">
+                                <div class="form-group bg-light">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    <!-- Вывод ошибок для остальных полей -->
+                                    {% if field.errors %}
+                                        <ul class="errorlist text-danger">
+                                            {% for error in field.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-outline-primary">Зарегистрировать</button>
+        </form>
     </div>
 {% endblock %}

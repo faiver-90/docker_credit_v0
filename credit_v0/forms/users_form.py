@@ -56,7 +56,6 @@ class BaseProfileForm(forms.ModelForm):
                 self.fields.pop('status_manager')
 
 
-
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
@@ -109,14 +108,16 @@ class ProfileRegistrationForm(BaseProfileForm):
 class UserRegistrationForm(UserCreationForm):
     usable_password = None
 
-    email = forms.EmailField(required=True, initial='fa2@mail.ru',
-                             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите email'}))
-    username = forms.EmailField(required=True, label='Логин',
-                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите логин'}))
-    password1 = forms.EmailField(required=True, label='Пароль', widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Введите пароль'}))
-    password2 = forms.EmailField(required=True, label='Пароль повторить', widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Введите пароль еще раз'}))
+    email = forms.EmailField(required=True, label='Email', initial='fa2@mail.ru',
+                             widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Введите email'}))
+    username = forms.CharField(required=True, label='Логин',
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите логин'}))
+    password1 = forms.CharField(required=True, label='Пароль',
+                                widget=forms.PasswordInput(
+                                    attrs={'class': 'form-control', 'placeholder': 'Введите пароль'}))
+    password2 = forms.CharField(required=True, label='Повторите пароль',
+                                widget=forms.PasswordInput(
+                                    attrs={'class': 'form-control', 'placeholder': 'Введите пароль еще раз'}))
 
     class Meta:
         model = User

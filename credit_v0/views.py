@@ -19,12 +19,13 @@ from django.views.generic import FormView, UpdateView, ListView
 from django.contrib.auth.models import User
 import requests
 
-from log_storage.logging_config import logger_error
+from log_storage.logging_config import logger_error, logger_develop
 
 from .forms.upload_file_form import UserUploadDocumentForm, ClientUploadDocumentForm
 from .forms.users_form import UserRegistrationForm, ProfileRegistrationForm, UserEditForm, ProfileEditForm, \
     CustomAuthenticationForm
 from .models import ClientPreData, UserProfile, UserDocument, ClientDocument, Dealership
+from .services.access_control_service import AccessControlService
 from .services.common_servive import convert_str_list, handle_logger
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.offer_services.create_update_offers_in_db_service import CreateUpdateOffersInDbService
@@ -277,7 +278,8 @@ class CreateUpdateOffersInDbView(LoginRequiredMixin, View):
         if not financing_term or not client_id:
             return JsonResponse({'error': 'Invalid parameters'}, status=400)
 
-        offers_html = CreateUpdateOffersInDbService.create_client_offers(client_id=client_id, financing_term=financing_term)
+        offers_html = CreateUpdateOffersInDbService.create_client_offers(client_id=client_id,
+                                                                         financing_term=financing_term)
         return JsonResponse(offers_html, safe=False)
 
 
@@ -336,6 +338,8 @@ class RegisterView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy('user_list')
 
     def get_context_data(self, **kwargs):
+        logger_develop('get  work')
+
         context = super(RegisterView, self).get_context_data(**kwargs)
         if 'profile_form' not in context:
             context['profile_form'] = self.second_form_class(request=self.request)
@@ -344,13 +348,13 @@ class RegisterView(LoginRequiredMixin, FormView):
         return context
 
     def post(self, request, *args, **kwargs):
-        user_form = self.form_class(request.POST)
-        profile_form = self.second_form_class(request.POST, request=request)
+        user_form = self.form_class(data=request.POST)
+
+        profile_form = self.second_form_class(data=request.POST, request=request)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save(commit=False)
             user.save()
-
             profile = profile_form.save(commit=False)
             profile.user = user
 
@@ -360,7 +364,7 @@ class RegisterView(LoginRequiredMixin, FormView):
                 profile.role_manager = 'Менеджер ДЦ'
 
             profile.save()
-            profile_form.save_m2m()  # Save many-to-many relationships
+            profile_form.save_m2m()
 
             selected_dealership = profile_form.cleaned_data.get('dealership_manager').first()
             if selected_dealership:
@@ -381,6 +385,8 @@ class RegisterView(LoginRequiredMixin, FormView):
             context['user_form'] = self.form_class(self.request.POST)
             context['profile_form'] = form
         return self.render_to_response(context)
+
+
 class UserEditView(LoginRequiredMixin, UpdateView):
     """CRUD существующего менеджера"""
 
@@ -394,17 +400,9 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         user_instance = self.get_object()
         user_profile = request.user.userprofile
 
-        # Проверка прав для роли "admin" (без ограничений)
-        if user_profile.role_manager == 'admin':
-            return super().dispatch(request, *args, **kwargs)
-
-        # Проверка для роли "Менеджер ДЦ" — может редактировать только свою запись
-        if user_profile.role_manager == 'Менеджер ДЦ' and user_instance != request.user:
+        # Используем сервис для проверки прав доступа
+        if not AccessControlService.has_access(user_profile, user_instance):
             return self.permission_denied_response("У вас нет доступа для редактирования этого пользователя.")
-
-        # Проверка для роли "owner" — может редактировать только пользователей из своей организации
-        if user_profile.role_manager == 'owner' and user_instance.userprofile.organization_manager != user_profile.organization_manager:
-            return self.permission_denied_response("У вас нет доступа для редактирования пользователей из другой организации.")
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -423,10 +421,13 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         context['user'] = self.request.user
         context['user_id'] = self.kwargs['pk']
         user_instance = self.get_object()
+
         if self.request.POST:
-            context['profile_form'] = ProfileEditForm(self.request.POST, instance=user_instance.userprofile, request=self.request)
+            context['profile_form'] = ProfileEditForm(self.request.POST, instance=user_instance.userprofile,
+                                                      request=self.request)
         else:
             context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
+
         context['next'] = self.request.GET.get('next', self.request.POST.get('next', ''))
         return context
 
