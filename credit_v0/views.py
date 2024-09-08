@@ -38,6 +38,7 @@ from .services.questionnaire.questionnaire_view_services import QuestionnairePos
 from .services.questionnaire.send_to_bank_service import SendToBankService
 from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import DocumentService
+from .services.users.user_list_view_service import UserViewListService
 
 
 class ChangeActiveDealershipView(LoginRequiredMixin, View):
@@ -489,18 +490,15 @@ class UserListView(LoginRequiredMixin, View):
 
     def get(self, request):
         ordering = request.GET.get('ordering', 'username')
-        user_profile = UserProfile.objects.get(user=request.user)
-        user_organization = user_profile.organization_manager
+        page_number = request.GET.get('page', 1)
 
-        if request.user.is_superuser:
-            object_list = User.objects.all().select_related('userprofile').order_by(ordering)
-        else:
-            object_list = User.objects.filter(userprofile__organization_manager=user_organization).select_related(
-                'userprofile').order_by(ordering)
-
-        paginator = Paginator(object_list, self.per_page)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+        # Используем сервис для получения списка пользователей
+        page_obj = UserViewListService.get_users(
+            user=request.user,
+            ordering=ordering,
+            page_number=page_number,
+            per_page=self.per_page
+        )
 
         field_labels = {
             'username': 'Username',
@@ -518,7 +516,6 @@ class UserListView(LoginRequiredMixin, View):
             'users': page_obj,
             'field_labels': field_labels
         })
-
 
 class BaseUploadDocumentView(LoginRequiredMixin, FormView):
     """Базовый класс загрузки документов для клиента и менеджера в облако"""
