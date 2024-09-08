@@ -33,12 +33,13 @@ from .services.offer_services.create_update_offers_in_db_service import CreateUp
 from .services.offer_services.get_offers_by_status import GetByStatusOfferService
 from .services.offer_services.manage_select_offers_service import SelectedOfferService
 from .services.offer_services.show_selected_offers_to_card import ShowOfferService
+from .services.paginator_service import PaginationService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
 from .services.questionnaire.questionnaire_view_services import QuestionnairePostHandler, QuestionnaireGetHandler
 from .services.questionnaire.send_to_bank_service import SendToBankService
 from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import DocumentService
-from .services.users.user_list_view_service import UserViewListService
+from .services.users.user_list_view_service import UserViewListService, UserViewListService
 
 
 class ChangeActiveDealershipView(LoginRequiredMixin, View):
@@ -301,6 +302,7 @@ class IndexView(LoginRequiredMixin, View):
         ordering = request.GET.get('ordering', '-date_create_all_app')
         dealership_filter = request.GET.get('dealership', '')
         status_filter = request.GET.get('status', '')
+        page_number = request.GET.get('page', 1)
 
         # Используем сервис для получения заявок с фильтрацией
         object_list = ApplicationService.get_applications(
@@ -310,12 +312,8 @@ class IndexView(LoginRequiredMixin, View):
             ordering=ordering
         )
 
-        # Пагинация
-        paginator = Paginator(object_list, self.per_page)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+        page_obj = PaginationService.paginate(object_list, page_number=page_number, per_page=self.per_page)
 
-        # Маппинг полей на лейблы
         field_labels = {
             'client': 'ФИО',
             'statuses': 'Статус',
@@ -492,13 +490,9 @@ class UserListView(LoginRequiredMixin, View):
         ordering = request.GET.get('ordering', 'username')
         page_number = request.GET.get('page', 1)
 
-        # Используем сервис для получения списка пользователей
-        page_obj = UserViewListService.get_users(
-            user=request.user,
-            ordering=ordering,
-            page_number=page_number,
-            per_page=self.per_page
-        )
+        users = UserViewListService.get_filtered_users(user=request.user, ordering=ordering)
+
+        page_obj = PaginationService.paginate(users, page_number=page_number, per_page=self.per_page)
 
         field_labels = {
             'username': 'Username',
