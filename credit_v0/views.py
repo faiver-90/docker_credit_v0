@@ -517,6 +517,7 @@ class UserListView(LoginRequiredMixin, View):
             'field_labels': field_labels
         })
 
+
 class BaseUploadDocumentView(LoginRequiredMixin, FormView):
     """Базовый класс загрузки документов для клиента и менеджера в облако"""
     doc_service = DocumentService()
