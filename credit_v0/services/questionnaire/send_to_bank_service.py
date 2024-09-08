@@ -34,4 +34,5 @@ class SendToBankService:
                 return False
         return True
 
-
+    def send_to_bank_offers(self):
+        pass
