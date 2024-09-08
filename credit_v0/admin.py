@@ -170,7 +170,7 @@ class OffersAdmin(admin.ModelAdmin):
 @admin.register(ClientOffer)
 class OffersClientAdmin(admin.ModelAdmin):
     list_display = (
-        'client', 'offer_id', 'title_offer', 'name_bank_offer', 'term_offer', 'stavka_offer', 'pay_offer',
+        'id', 'client', 'offer_id', 'title_offer', 'name_bank_offer', 'term_offer', 'stavka_offer', 'pay_offer',
         get_client_id)
     search_fields = ('client', 'offer_id', 'title_offer', 'name_bank_offer', 'term_offer', 'stavka_offer', 'pay_offer')
 
@@ -178,7 +178,7 @@ class OffersClientAdmin(admin.ModelAdmin):
 @admin.register(SelectedClientOffer)
 class SelectOffersClientAdmin(admin.ModelAdmin):
     list_display = (
-        get_client_id, 'client', 'offer_id', 'total_loan_amount_select', 'car_price_display_select',
+        'id', get_client_id, 'client', 'offer_id', 'total_loan_amount_select', 'car_price_display_select',
         'initial_payment_select',
         'term_select', 'monthly_payment_select', 'stavka_select', 'status_select_offer', 'info_from_bank',
         'id_app_bank', 'id_app_in_system', 'link_to_detail_from_bank')

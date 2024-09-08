@@ -406,7 +406,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         """Проверка прав доступа перед выполнением запроса"""
         user_instance = self.get_object()
         user = request.user
-        user_profile = user
+        user_profile = user.userprofile
 
         # Используем сервис для проверки прав доступа
         if not AccessControlService.has_access(user_profile, user_instance, is_superuser=user.is_superuser):
@@ -417,9 +417,11 @@ class UserEditView(LoginRequiredMixin, UpdateView):
     def permission_denied_response(self, message):
         """Возвращает JSON-ответ при недостатке прав"""
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'success': False, 'error': message}, status=403)
+            return JsonResponse({'success': False, 'error': message}, status=403,
+                                json_dumps_params={'ensure_ascii': False})
         else:
-            return JsonResponse({'success': False, 'error': message}, status=403)
+            return JsonResponse({'success': False, 'error': message}, status=403,
+                                json_dumps_params={'ensure_ascii': False})
 
     def get_object(self, queryset=None):
         return get_object_or_404(User, pk=self.kwargs['pk'])

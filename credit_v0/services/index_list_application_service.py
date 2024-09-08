@@ -11,14 +11,14 @@ class ApplicationService:
         user_profile = UserProfile.objects.get(user=user)
         user_organization = user_profile.organization_manager
         user_dealership = user_profile.get_active_dealership()
-        user_role = user_profile.role_manager
+        # user_role = user_profile.role_manager
 
         if user.is_superuser:
             object_list = AllApplications.objects.all().order_by(ordering)
-        elif user_role == 'owner':
-            object_list = AllApplications.objects.filter(
-                organization=user_organization
-            ).order_by(ordering)
+        # elif user_role == 'owner':
+        #     object_list = AllApplications.objects.filter(
+        #         organization=user_organization
+        #     ).order_by(ordering)
         else:
             object_list = AllApplications.objects.filter(
                 organization=user_organization,
