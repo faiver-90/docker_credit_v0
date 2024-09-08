@@ -11,14 +11,9 @@ class ApplicationService:
         user_profile = UserProfile.objects.get(user=user)
         user_organization = user_profile.organization_manager
         user_dealership = user_profile.get_active_dealership()
-        # user_role = user_profile.role_manager
 
         if user.is_superuser:
             object_list = AllApplications.objects.all().order_by(ordering)
-        # elif user_role == 'owner':
-        #     object_list = AllApplications.objects.filter(
-        #         organization=user_organization
-        #     ).order_by(ordering)
         else:
             object_list = AllApplications.objects.filter(
                 organization=user_organization,
@@ -36,8 +31,8 @@ class ApplicationService:
                 status_select_offer__isnull=True).exclude(status_select_offer__exact='')
             application.statuses = [{'status': offer.status_select_offer,
                                      'client_id': offer.client.id,
-                                     'button_class': ApplicationService.get_button_class(offer.status_select_offer)} for offer in
-                                    offers]
+                                     'button_class': ApplicationService.get_button_class(offer.status_select_offer)} for
+                                    offer in offers]
 
         return object_list
 
