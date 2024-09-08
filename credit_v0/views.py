@@ -7,7 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import PasswordResetView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
@@ -24,7 +23,7 @@ from log_storage.logging_config import logger_error, logger_develop
 from .forms.upload_file_form import UserUploadDocumentForm, ClientUploadDocumentForm
 from .forms.users_form import UserRegistrationForm, ProfileRegistrationForm, UserEditForm, ProfileEditForm, \
     CustomAuthenticationForm
-from .models import ClientPreData, UserProfile, UserDocument, ClientDocument, Dealership
+from .models import ClientPreData, UserDocument, ClientDocument, Dealership
 from .services.access_control_service import AccessControlService
 from .services.common_servive import convert_str_list, handle_logger
 from .services.index_list_application_service import ApplicationService
@@ -39,7 +38,7 @@ from .services.questionnaire.questionnaire_view_services import QuestionnairePos
 from .services.questionnaire.send_to_bank_service import SendToBankService
 from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import DocumentService
-from .services.users.user_list_view_service import UserViewListService, UserViewListService
+from .services.users.user_list_view_service import UserViewListService
 
 
 class ChangeActiveDealershipView(LoginRequiredMixin, View):
