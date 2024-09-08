@@ -3,29 +3,28 @@ from typing import List, Dict
 from django.template.loader import render_to_string
 
 from credit_v0.models import SelectedClientOffer
+from credit_v0.services.constants import OFFER_STATUSES
 
 
 class GetByStatusOfferService:
     """
     Сервис для получения оферов у которых есть статус и распределяет по группам
     """
-    @staticmethod
-    def get_offers_by_status(client_id) -> Dict[str, list]:
+
+    def __init__(self):
+        # Инициализируем offers_data на основе статусов из константы
+        self.offers_data = {status: [] for status in OFFER_STATUSES}
+
+    def get_offers_by_status(self, client_id) -> Dict[str, list]:
         offers = SelectedClientOffer.objects.filter(client_id=client_id)
-        offers_data = {
-            'Ошибка': [],
-            'Ожидание решения': [],
-            'Отказ': [],
-            'Запрос доп информации': [],
-            'Одобрение': []
-        }
+
         for offer in offers:
             status = offer.status_select_offer
-            if status:
+            if status and status in OFFER_STATUSES:  # Проверяем наличие статуса в константе
                 offer_data = render_to_string('questionnaire/card_offer.html', {
                     'offer': offer,
                     'client_id': client_id,
                     'hide_controls': True
                 })
-                offers_data[status].append(offer_data)
-        return offers_data
+                self.offers_data[status].append(offer_data)
+        return self.offers_data
