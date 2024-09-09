@@ -3,7 +3,6 @@ from django.core.paginator import Paginator
 
 class PaginationService:
     """Сервис для пагинации"""
-
     @staticmethod
     def paginate(object_list, page_number=1, per_page=5):
         """Пагинация списка объектов"""

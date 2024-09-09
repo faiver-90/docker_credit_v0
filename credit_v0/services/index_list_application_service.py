@@ -3,7 +3,6 @@ from credit_v0.models import SelectedClientOffer, AllApplications, UserProfile
 
 class ApplicationService:
     """Сервис для работы с заявками"""
-
     @staticmethod
     def get_applications(user, dealership_filter='', status_filter='', ordering='-date_create_all_app'):
         """Получение списка заявок с учетом фильтров"""

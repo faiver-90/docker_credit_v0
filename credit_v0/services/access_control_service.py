@@ -1,10 +1,8 @@
 class AccessControlService:
     """Сервис для проверки доступа на основе роли пользователя."""
-
     @staticmethod
     def has_access(user_profile, user_instance, **kwargs):
         """Проверка доступа на редактирование профиля пользователя."""
-
         is_superuser = kwargs.get('is_superuser', False)
 
         if is_superuser:
