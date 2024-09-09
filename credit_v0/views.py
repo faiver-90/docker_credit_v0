@@ -418,14 +418,12 @@ class UserEditView(LoginRequiredMixin, UpdateView):
             return JsonResponse({'success': False, 'error': message}, status=403,
                                 json_dumps_params={'ensure_ascii': False})
 
-    def get_object(self, queryset=None):
-        return get_object_or_404(User, pk=self.kwargs['pk'])
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
         context['user_id'] = self.kwargs['pk']
-        user_instance = self.get_object()
+        user_instance = get_object_or_404(User, pk=self.kwargs['pk'])
+
 
         if self.request.POST:
             context['profile_form'] = ProfileEditForm(self.request.POST, instance=user_instance.userprofile,
