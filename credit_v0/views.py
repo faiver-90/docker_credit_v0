@@ -26,6 +26,7 @@ from .forms.users_form import UserRegistrationForm, ProfileRegistrationForm, Use
 from .models import ClientPreData, UserDocument, ClientDocument, Dealership
 from .services.access_control_service import AccessControlService
 from .services.common_servive import convert_str_list, handle_logger
+from .services.dadata_service.cladr_service import CladrService
 from .services.index_list_application_service import ApplicationService
 from .services.kafka.kafka_service import KafkaProducerService
 from .services.offer_services.create_update_offers_in_db_service import CreateUpdateOffersInDbService
@@ -37,7 +38,8 @@ from .services.questionnaire.client_extra_data_service import ClientExtraDataSer
 from .services.questionnaire.questionnaire_view_services import QuestionnairePostHandler, QuestionnaireGetHandler
 from .services.questionnaire.send_to_bank_service import SendToBankService
 from .services.questionnaire.continue_docs_service import ContinueDocsService
-from .services.upload_document_service import DocumentService, BaseUploadDocumentView
+from .services.upload_document_service import BaseUploadDocumentView
+from .services.users.reset_pass_service import PasswordResetService
 from .services.users.user_list_view_service import UserViewListService
 
 
@@ -572,7 +574,7 @@ class UploadDocumentView(BaseUploadDocumentView):
 
 class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
     """Восстановление пароля"""
-
+    reset_pass_service = PasswordResetService()
     email_template_name = 'reset_pass/password_reset_email.html'
     subject_template_name = 'reset_pass/password_reset_subject.txt'
     success_message = "На ваш адрес электронной почты было отправлено письмо с инструкциями по сбросу пароля."
@@ -580,45 +582,23 @@ class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
 
     def form_valid(self, form):
         email = form.cleaned_data['email']
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            messages.error(self.request, "Пользователь с указанным адресом электронной почты не найден.")
-            return redirect('password_reset')  # Перенаправление обратно на страницу сброса пароля
 
-        # Генерация токена и URL для сброса пароля
-        context = {
-            'email': email,
-            'domain': self.request.META['HTTP_HOST'],
-            'site_name': 'MySite',
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'user': user,
-            'token': default_token_generator.make_token(user),
-            'protocol': 'https' if self.request.is_secure() else 'http',
-        }
-        subject = render_to_string(self.subject_template_name, context)
-        subject = ''.join(subject.splitlines())
-        body = render_to_string(self.email_template_name, context)
+        # Вызов сервиса для отправки письма
+        response = self.reset_pass_service.send_password_reset_email(
+            user_email=email,
+            domain=self.request.META['HTTP_HOST'],
+            is_secure=self.request.is_secure(),
+            subject_template_name=self.subject_template_name,
+            email_template_name=self.email_template_name
+        )
 
-        # Отправка email через Unisender API
-        url = "https://api.unisender.com/ru/api/sendEmail?format=json"
-        payload = {
-            'api_key': settings.UNISENDER_API_KEY,
-            'email': email,
-            'sender_name': 'Motor Finance',
-            'sender_email': settings.DEFAULT_FROM_EMAIL,
-            'subject': subject,
-            'body': body,
-            'list_id': settings.UNISENDER_LIST_ID,
-        }
-
-        response = requests.post(url, data=payload)
-        if response.status_code != 200:
-            messages.error(self.request, f"Ошибка при отправке письма: {response.json()}")
+        # Обработка результата из сервиса
+        if response['status'] == 'error':
+            messages.error(self.request, response['message'])
+            return redirect('password_reset')
         else:
             messages.success(self.request, self.success_message)
-        # Переопределяем стандартный метод, возвращая успешный ответ
-        return redirect(self.success_url)
+            return redirect(self.success_url)
 
 
 class CustomLoginView(LoginView):
@@ -635,29 +615,8 @@ class CustomLoginView(LoginView):
             return self.form_invalid(form)
 
 
-def dadata_search(query):
-    url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address"
-    api_key = settings.DADATA_SEARCH_API_KEY
-
-    headers = {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": f"Token {api_key}"
-    }
-    data = {
-        "query": query,
-        "count": 10
-    }
-
-    try:
-        response = requests.post(url, json=data, headers=headers)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        return {'error': str(e)}
-
-
 def get_address_suggestions(request):
+    cladr_service = CladrService()
     query = request.GET.get('query', '')
-    result = dadata_search(query)
+    result = cladr_service.dadata_search(query)
     return JsonResponse(result)
