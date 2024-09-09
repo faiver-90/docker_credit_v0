@@ -37,7 +37,7 @@ from .services.questionnaire.client_extra_data_service import ClientExtraDataSer
 from .services.questionnaire.questionnaire_view_services import QuestionnairePostHandler, QuestionnaireGetHandler
 from .services.questionnaire.send_to_bank_service import SendToBankService
 from .services.questionnaire.continue_docs_service import ContinueDocsService
-from .services.upload_document_service import DocumentService
+from .services.upload_document_service import DocumentService, BaseUploadDocumentView
 from .services.users.user_list_view_service import UserViewListService
 
 
@@ -509,56 +509,6 @@ class UserListView(LoginRequiredMixin, View):
             'users': page_obj,
             'field_labels': field_labels
         })
-
-
-class BaseUploadDocumentView(LoginRequiredMixin, FormView):
-    """Базовый класс загрузки документов для клиента и менеджера в облако"""
-    doc_service = DocumentService()
-    document_model = None
-    client_user_field_name = None
-
-    def get_client_user(self):
-        raise NotImplementedError("NotImplementedError")
-
-    def get(self, request, *args, **kwargs):
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            context = self.get_context_data(**kwargs)
-
-            documents = context.get('documents', [])
-
-            documents = self.doc_service.generate_signed_urls(documents)
-            context['documents'] = documents
-
-            html_form = render_to_string(self.template_name, context, request=request)
-            return JsonResponse({'html_form': html_form})
-        else:
-            return render(request, self.template_name, self.get_context_data(**kwargs))
-
-    def post(self, request, *args, **kwargs):
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            form = self.form_class(request.POST, request.FILES)
-            if form.is_valid():
-                client = self.get_client_user()
-                result = self.doc_service.process_upload(form, self.document_model, self.client_user_field_name, client)
-
-                if result.get('status') == 'success':
-                    return JsonResponse(result)
-                elif result.get('status') == 'invalid':
-                    return self.form_invalid(result.get('form'))
-                else:
-                    return result
-            return self.form_invalid(form)
-        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
-
-    def delete(self, request, *args, **kwargs):
-        try:
-            document_id = json.loads(request.body).get('document_id')
-            document_model = kwargs.get('document_model')
-            response = self.doc_service.delete_document(document_model, document_id)
-
-            return response
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
 class UserUploadDocumentView(BaseUploadDocumentView):

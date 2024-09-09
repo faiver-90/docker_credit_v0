@@ -1,8 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from io import BytesIO
 from PIL import Image
 from PyPDF2 import PdfMerger, PdfFileReader, PdfFileWriter
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
+import json
+
+from django.template.loader import render_to_string
+from django.views.generic import FormView
 
 from app_v0 import settings
 from credit_v0.services.google_storage.google_storage_service import upload_to_bucket, delete_from_bucket, \
@@ -106,7 +111,6 @@ class DocumentService:
         bucket_name = settings.GOOGLE_CLOUD_STORAGE_BUCKET_NAME
         upload_to_bucket(bucket_name, BytesIO(pdf_content), destination_blob_name)
 
-
     def delete_document(self, document_model, document_id):
         try:
             document = get_object_or_404(document_model, id=document_id)
@@ -130,3 +134,53 @@ class DocumentService:
                 document.document_file.name
             )
         return documents
+
+
+class BaseUploadDocumentView(LoginRequiredMixin, FormView):
+    """Базовый класс загрузки документов для клиента и менеджера в облако"""
+    doc_service = DocumentService()
+    document_model = None
+    client_user_field_name = None
+
+    def get_client_user(self):
+        raise NotImplementedError("NotImplementedError")
+
+    def get(self, request, *args, **kwargs):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            context = self.get_context_data(**kwargs)
+
+            documents = context.get('documents', [])
+
+            documents = self.doc_service.generate_signed_urls(documents)
+            context['documents'] = documents
+
+            html_form = render_to_string(self.template_name, context, request=request)
+            return JsonResponse({'html_form': html_form})
+        else:
+            return render(request, self.template_name, self.get_context_data(**kwargs))
+
+    def post(self, request, *args, **kwargs):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            form = self.form_class(request.POST, request.FILES)
+            if form.is_valid():
+                client = self.get_client_user()
+                result = self.doc_service.process_upload(form, self.document_model, self.client_user_field_name, client)
+
+                if result.get('status') == 'success':
+                    return JsonResponse(result)
+                elif result.get('status') == 'invalid':
+                    return self.form_invalid(result.get('form'))
+                else:
+                    return result
+            return self.form_invalid(form)
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            document_id = json.loads(request.body).get('document_id')
+            # document_model = kwargs.get('document_model')
+            response = self.doc_service.delete_document(self.document_model, document_id)
+
+            return response
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
