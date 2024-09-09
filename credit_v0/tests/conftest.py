@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 
+import django
 import pytest
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright, Page
@@ -11,6 +12,9 @@ PROTOCOL = os.getenv("PROTOCOL")
 BASE_URL = f'{PROTOCOL}://{DOMAIN}'
 PASS_ALL_ACC = os.getenv("PASS_ALL_ACC")
 HEADLESS = False
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app_v0.settings')
+django.setup()
 
 
 def pytest_configure(config):

@@ -1,5 +1,6 @@
 from typing import List, Dict
 
+from django.shortcuts import get_list_or_404
 from django.template.loader import render_to_string
 
 from credit_v0.models import SelectedClientOffer
@@ -16,7 +17,7 @@ class GetByStatusOfferService:
         self.offers_data = {status: [] for status in OFFER_STATUSES}
 
     def get_offers_by_status(self, client_id) -> Dict[str, list]:
-        offers = SelectedClientOffer.objects.filter(client_id=client_id)
+        offers = get_list_or_404(SelectedClientOffer, client_id=client_id)
 
         for offer in offers:
             status = offer.status_select_offer

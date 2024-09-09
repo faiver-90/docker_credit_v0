@@ -1,5 +1,5 @@
 from django.http import Http404
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 
 from credit_v0.models import SelectedClientOffer, Offers
 
@@ -13,7 +13,7 @@ class ShowOfferService:
 
         # Получаем офер и проверяем, существует ли выбранное предложение
         offer = get_object_or_404(Offers, id=offer_id)
-        select_offer = SelectedClientOffer.objects.filter(offer_id=offer_id).first()
+        select_offer = get_object_or_404(SelectedClientOffer, offer_id=offer_id)
 
         if not select_offer:
             raise Http404("SelectedClientOffer does not exist")

@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from django.template.loader import render_to_string
 
 from credit_v0.models import SelectedClientOffer, ClientPreData, Offers, ClientCarInfo, ClientFinancingCondition
@@ -11,7 +11,8 @@ class SelectedOfferService:
     def get_offers(client_id: int) -> list:
         """Получить список выбранных оферов для клиента."""
         client = get_object_or_404(ClientPreData, id=client_id)
-        selected_offers = SelectedClientOffer.objects.filter(client=client)
+        selected_offers = get_list_or_404(SelectedClientOffer, client=client)
+
         offers_data = [SelectedOfferService.render_offer(offer, client_id) for offer in selected_offers]
         return offers_data
 
@@ -58,7 +59,7 @@ class SelectedOfferService:
     def delete_offer(client_id: int, offer_id: int) -> dict:
         """Удаление выбранного офера."""
         client = get_object_or_404(ClientPreData, id=client_id)
-        deleted, _ = SelectedClientOffer.objects.filter(client=client, offer_id=offer_id).delete()
+        deleted = get_object_or_404(SelectedClientOffer, client=client, offer_id=offer_id).delete()
 
         if deleted:
             return {'status': 'success'}

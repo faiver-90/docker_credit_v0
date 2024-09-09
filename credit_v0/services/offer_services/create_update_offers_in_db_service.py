@@ -11,7 +11,6 @@ class CreateUpdateOffersInDbService:
     def get_client_offers(client_id: int) -> list:
         """Получение предложений для клиента"""
         client = get_object_or_404(ClientPreData, id=client_id)
-        # offers_client = ClientOffer.objects.filter(client=client)
         offers_client = get_list_or_404(ClientOffer, client=client)
 
         # Преобразуем предложения в HTML
@@ -21,13 +20,12 @@ class CreateUpdateOffersInDbService:
     @staticmethod
     def create_client_offers(client_id: int, financing_term: int) -> list:
         """Создание новых предложений для клиента на основе условия финансирования"""
-        # offers = Offers.objects.filter(term=financing_term)
         offers = get_list_or_404(Offers, term=financing_term)
         client = get_object_or_404(ClientPreData, pk=client_id)
 
         # Удаляем старые предложения для клиента
         ClientOffer.objects.filter(client=client).delete()
-        # client = get_object_or_404(ClientOffer, client=client).delete()
+
 
         offers_data = []
         for offer in offers:
