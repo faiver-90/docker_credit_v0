@@ -1,20 +1,18 @@
-from django.http import JsonResponse
-
-
 def convert_str_list(li):
     print(f'convert work')
     # return list(map(int, li[0].split(',')))
     return [int(x) for x in li[0].split(',') if x.strip().isdigit()]
 
 
-def handle_logger(message, logger_and_lvl, additional_info=None, status=200):
-    if additional_info:
-        logger_and_lvl(f"{message}: {additional_info[:500]}... (total length: {len(str(additional_info))})")
-    else:
-        logger_and_lvl(message)
+def format_log_message(message, additional_info) -> str:
+    return f"\n Message: {message} \n Add info: {additional_info}"
 
-    return JsonResponse(
-        {'success': False, 'error': message},
-        status=status,
-        json_dumps_params={'ensure_ascii': False}
-    )
+
+def handle_logger(message, logger_and_lvl, additional_info=' ') -> str:
+    formatted_message = format_log_message(message, additional_info)
+
+    result_type = "Error" if 'error' in str(logger_and_lvl).lower() else "Success"
+    result_message = f"{result_type}: {formatted_message}"
+    logger_and_lvl(result_message)
+
+    return result_message
