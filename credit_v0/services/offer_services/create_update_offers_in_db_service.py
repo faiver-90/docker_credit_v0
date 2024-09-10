@@ -24,8 +24,15 @@ class CreateUpdateOffersInDbService:
         client = get_object_or_404(ClientPreData, pk=client_id)
 
         # Удаляем старые предложения для клиента
+<<<<<<< HEAD
         ClientOffer.objects.filter(client=client).delete()
 
+=======
+        client_offers = get_list_or_404(ClientOffer, client=client)
+
+        for _ in client_offers:
+            _.delete()
+>>>>>>> 20a697eecda0b04edfbb66055bb09661c6b726dc
 
         offers_data = []
         for offer in offers:

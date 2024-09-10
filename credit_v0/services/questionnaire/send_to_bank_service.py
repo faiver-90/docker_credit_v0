@@ -7,7 +7,6 @@ class SendToBankService:
     @staticmethod
     def prepare_selected_offer_data(client_id, offer_ids):
         """Готовит данные для отправки в Kafka"""
-
         return {
             'client_id': client_id,
             'selected_offers': offer_ids

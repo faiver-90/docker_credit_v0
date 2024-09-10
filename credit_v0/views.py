@@ -71,7 +71,6 @@ class ContinueDocsView(LoginRequiredMixin, View):
 
 class RequestOffersView(LoginRequiredMixin, ListView):
     """Формирование страницы с заявками"""
-
     template_name = 'requests.html'
     context_object_name = 'status_offers'
 
@@ -155,7 +154,6 @@ class LoadAllDataClientView(LoginRequiredMixin, View):
 
 class QuestionnaireView(LoginRequiredMixin, View):
     """Представление для обработки создания и редактирования заявки клиента."""
-
     template_name = 'questionnaire/car_form.html'
 
     def get(self, request, *args, **kwargs):
@@ -290,7 +288,6 @@ class CreateUpdateOffersInDbView(LoginRequiredMixin, View):
 
 class IndexView(LoginRequiredMixin, View):
     """Отображение всех созданных заявок"""
-
     per_page = 10
 
     def get(self, request):
@@ -333,7 +330,6 @@ class IndexView(LoginRequiredMixin, View):
 
 class RegisterView(LoginRequiredMixin, FormView):
     """Регистрация нового менеджера"""
-
     template_name = 'users/register.html'
     form_class = UserRegistrationForm
     second_form_class = ProfileRegistrationForm
@@ -391,7 +387,6 @@ class RegisterView(LoginRequiredMixin, FormView):
 
 class UserEditView(LoginRequiredMixin, UpdateView):
     """CRUD существующего менеджера"""
-
     model = User
     form_class = UserEditForm
     template_name = 'users/edit_user.html'
@@ -423,7 +418,6 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         context['user'] = self.request.user
         context['user_id'] = self.kwargs['pk']
         user_instance = get_object_or_404(User, pk=self.kwargs['pk'])
-
 
         if self.request.POST:
             context['profile_form'] = ProfileEditForm(self.request.POST, instance=user_instance.userprofile,
@@ -477,7 +471,6 @@ class UserEditView(LoginRequiredMixin, UpdateView):
 
 class UserListView(LoginRequiredMixin, View):
     """Вывод всех зарегистрированных менеджеров, доступных для этой компании"""
-
     per_page = 5
 
     def get(self, request):
@@ -508,7 +501,6 @@ class UserListView(LoginRequiredMixin, View):
 
 class UserUploadDocumentView(BaseUploadDocumentView):
     """Загрузка документов менеджера в облако"""
-
     form_class = UserUploadDocumentForm
     template_name = 'users/upload_document_user.html'
     document_model = UserDocument
@@ -539,7 +531,6 @@ class UserUploadDocumentView(BaseUploadDocumentView):
 
 class UploadDocumentView(BaseUploadDocumentView):
     """Загрузка документов клиента в облако"""
-
     form_class = ClientUploadDocumentForm
     template_name = 'questionnaire/upload_document_client.html'
     document_model = ClientDocument

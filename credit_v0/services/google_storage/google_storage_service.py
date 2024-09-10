@@ -12,7 +12,6 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = SERVICE_ACCOUNT_FILE
 
 def get_gsc_data(bucket_name, destination_blob_name=None):
     """Получение инстанса gsc"""
-
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     return bucket.blob(destination_blob_name)
@@ -20,7 +19,6 @@ def get_gsc_data(bucket_name, destination_blob_name=None):
 
 def generate_signed_url(bucket_name, destination_blob_name, expiration=timedelta(minutes=15)):
     """Генерация URL для сканов документов"""
-
     blob = get_gsc_data(bucket_name, destination_blob_name)
 
     url = blob.generate_signed_url(
@@ -32,7 +30,6 @@ def generate_signed_url(bucket_name, destination_blob_name, expiration=timedelta
 
 def upload_to_bucket(bucket_name, file_content, destination_blob_name):
     """Загрузка скана в бакет"""
-
     blob = get_gsc_data(bucket_name, destination_blob_name)
 
     blob.upload_from_file(file_content)
@@ -42,7 +39,6 @@ def upload_to_bucket(bucket_name, file_content, destination_blob_name):
 
 def delete_from_bucket(bucket_name, destination_blob_name):
     """Удаление файлы из бакета"""
-
     blob = get_gsc_data(bucket_name, destination_blob_name)
 
     if not blob.exists():
@@ -56,7 +52,6 @@ def delete_from_bucket(bucket_name, destination_blob_name):
 
 def send_file_directly_from_bucket(api_url, bucket_name, destination_blob_name):
     """Отправляет файл напрямую из Google Cloud Storage по API"""
-
     blob = get_gsc_data(bucket_name, destination_blob_name)
 
     # Получаем потоковый объект файла
@@ -68,7 +63,6 @@ def send_file_directly_from_bucket(api_url, bucket_name, destination_blob_name):
 
 def delete_folder(bucket_name, folder_name):
     """Удаление папки из бакета"""
-
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
 

@@ -13,7 +13,6 @@ class ClientExtraDataService:
     """
     Сервис для работы с дополнительной информацией о клиенте.
     """
-
     forms_map = {
         'client_person_data': ClientInfoPersonalForm,
         'financing_conditions': FinancingConditionsForm,
