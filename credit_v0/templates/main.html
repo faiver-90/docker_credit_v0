@@ -150,7 +150,7 @@
                     <ul class="nav">
                         {% if user.is_authenticated %}
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dealershipDropdown"
+                                <button data-testid="dropdown-toggle-button-ds" class="btn btn-secondary dropdown-toggle" type="button" id="dealershipDropdown"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ request.user.userprofile.get_active_dealership }}
                                 </button>
@@ -171,7 +171,7 @@
                             <li class="nav-item">
                                 <form method="post" action="{% url 'logout' %}">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary">Выход</button>
+                                    <button type="submit" data-testid="exit_button" class="btn btn-primary">Выход</button>
                                 </form>
                             </li>
                         {% else %}
