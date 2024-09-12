@@ -27,9 +27,9 @@ urlpatterns = [
     path('car-form/<int:pk>/', QuestionnaireView.as_view(), name='car_form'),
     path('', IndexView.as_view(), name='home'),
 
-    path('register/', RegisterView.as_view(), name='register'),
-    path('users/', UserListView.as_view(), name='user_list'),
-    path('users/edit/<int:pk>/', UserEditView.as_view(), name='edit_user'),
+    # path('register/', RegisterView.as_view(), name='register'),
+    # path('users/', UserListView.as_view(), name='user_list'),
+    # path('users/edit/<int:pk>/', UserEditView.as_view(), name='edit_user'),
     path('login/', auth_views.LoginView.as_view(authentication_form=CustomAuthenticationForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
 
