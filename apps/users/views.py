@@ -9,8 +9,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonRespons
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.views import View
-from django.views.generic import FormView, UpdateView, ListView
+from django.views.generic import FormView, UpdateView
 from django.contrib.auth.models import User
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,10 +19,10 @@ from django.views import View
 
 from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegistrationForm, ProfileRegistrationForm, \
     CustomAuthenticationForm
+from apps.users.services.reset_pass_service import PasswordResetService
 from apps.users.services.user_list_view_service import UserViewListService
 from credit_v0.services.paginator_service import PaginationService
 from log_storage.logging_config import logger_develop
-from log_storage.logging_servivce import handle_logger
 
 
 class UserListView(LoginRequiredMixin, View):
@@ -202,7 +201,8 @@ class RegisterView(LoginRequiredMixin, FormView):
 class CustomLoginView(LoginView):
     """Авторизация пользователя"""
     authentication_form = CustomAuthenticationForm
-    template_name = 'users/registration/login.html'
+    # template_name = 'users/registration/login.html'
+    template_name = 'users/login.html'
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -211,3 +211,33 @@ class CustomLoginView(LoginView):
         else:
 
             return self.form_invalid(form)
+
+
+class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
+    """Восстановление пароля"""
+    reset_pass_service = PasswordResetService()
+    email_template_name = 'users/reset_pass/password_reset_email.html'
+    subject_template_name = 'users/reset_pass/password_reset_subject.txt'
+    success_message = "На ваш адрес электронной почты было отправлено письмо с инструкциями по сбросу пароля."
+    success_url = reverse_lazy('password_reset_done')
+
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+
+        # Вызов сервиса для отправки письма
+        response = self.reset_pass_service.send_password_reset_email(
+            user_email=email,
+            domain=self.request.META['HTTP_HOST'],
+            is_secure=self.request.is_secure(),
+            subject_template_name=self.subject_template_name,
+            email_template_name=self.email_template_name
+        )
+
+        # Обработка результата из сервиса
+        if response['status'] == 'error':
+            messages.error(self.request, response['message'])
+            return redirect('password_reset')
+        else:
+            messages.success(self.request, self.success_message)
+            return redirect(self.success_url)
+

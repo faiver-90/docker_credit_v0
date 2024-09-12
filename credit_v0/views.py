@@ -385,34 +385,34 @@ class UploadDocumentView(BaseUploadDocumentView):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
-class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
-    """Восстановление пароля"""
-    reset_pass_service = PasswordResetService()
-    email_template_name = 'reset_pass/password_reset_email.html'
-    subject_template_name = 'reset_pass/password_reset_subject.txt'
-    success_message = "На ваш адрес электронной почты было отправлено письмо с инструкциями по сбросу пароля."
-    success_url = reverse_lazy('password_reset_done')
-
-    def form_valid(self, form):
-        email = form.cleaned_data['email']
-
-        # Вызов сервиса для отправки письма
-        response = self.reset_pass_service.send_password_reset_email(
-            user_email=email,
-            domain=self.request.META['HTTP_HOST'],
-            is_secure=self.request.is_secure(),
-            subject_template_name=self.subject_template_name,
-            email_template_name=self.email_template_name
-        )
-
-        # Обработка результата из сервиса
-        if response['status'] == 'error':
-            messages.error(self.request, response['message'])
-            return redirect('password_reset')
-        else:
-            messages.success(self.request, self.success_message)
-            return redirect(self.success_url)
-
+# class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
+#     """Восстановление пароля"""
+#     reset_pass_service = PasswordResetService()
+#     email_template_name = 'reset_pass/password_reset_email.html'
+#     subject_template_name = 'reset_pass/password_reset_subject.txt'
+#     success_message = "На ваш адрес электронной почты было отправлено письмо с инструкциями по сбросу пароля."
+#     success_url = reverse_lazy('password_reset_done')
+#
+#     def form_valid(self, form):
+#         email = form.cleaned_data['email']
+#
+#         # Вызов сервиса для отправки письма
+#         response = self.reset_pass_service.send_password_reset_email(
+#             user_email=email,
+#             domain=self.request.META['HTTP_HOST'],
+#             is_secure=self.request.is_secure(),
+#             subject_template_name=self.subject_template_name,
+#             email_template_name=self.email_template_name
+#         )
+#
+#         # Обработка результата из сервиса
+#         if response['status'] == 'error':
+#             messages.error(self.request, response['message'])
+#             return redirect('password_reset')
+#         else:
+#             messages.success(self.request, self.success_message)
+#             return redirect(self.success_url)
+#
 
 def get_address_suggestions(request):
     cladr_service = CladrService()

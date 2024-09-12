@@ -1,5 +1,4 @@
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.conf import settings
 
@@ -26,12 +25,8 @@ urlpatterns = [
     path('car-form/', QuestionnaireView.as_view(), name='car_form'),
     path('car-form/<int:pk>/', QuestionnaireView.as_view(), name='car_form'),
     path('', IndexView.as_view(), name='home'),
-
-    path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
