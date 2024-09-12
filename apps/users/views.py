@@ -18,7 +18,8 @@ from django.shortcuts import render
 
 from django.views import View
 
-from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegistrationForm, ProfileRegistrationForm
+from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegistrationForm, ProfileRegistrationForm, \
+    CustomAuthenticationForm
 from apps.users.services.user_list_view_service import UserViewListService
 from credit_v0.services.paginator_service import PaginationService
 from log_storage.logging_config import logger_develop
@@ -70,6 +71,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
 
         # Используем сервис для проверки прав доступа
         from credit_v0.services.access_control_service import AccessControlService
+
         if not AccessControlService.has_access(user_profile, user_instance, is_superuser=user.is_superuser):
             return self.permission_denied_response("У вас нет доступа для редактирования этого пользователя.")
 
@@ -195,3 +197,17 @@ class RegisterView(LoginRequiredMixin, FormView):
             context['user_form'] = self.form_class(self.request.POST)
             context['profile_form'] = form
         return self.render_to_response(context)
+
+
+class CustomLoginView(LoginView):
+    """Авторизация пользователя"""
+    authentication_form = CustomAuthenticationForm
+    template_name = 'users/registration/login.html'
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+
+            return self.form_invalid(form)

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const submitButton = document.getElementById('submit-edit-user');
     const deleteButton = document.getElementById('delete-user');
     const userId = document.getElementById('user_id').value;
-    const formActionUrl = '/credit/users/edit/' + userId + '/';
+    const formActionUrl = '/users/edit/' + userId + '/';
     const nextUrl = document.querySelector('input[name="next"]').value;
 
     async function saveField(field) {

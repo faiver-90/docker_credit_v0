@@ -31,6 +31,6 @@ urlpatterns = [
                   path("credit/", include("credit_v0.urls")),
                   path("users/", include("apps.users.urls")),
                   path('admin/', admin.site.urls),
-                  path('', lambda request: redirect('credit/', permanent=True)),
+                  # path('', lambda request: redirect('credit/', permanent=True)),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
