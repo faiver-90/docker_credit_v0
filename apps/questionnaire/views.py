@@ -14,8 +14,10 @@ from log_storage.logging_config import logger_error, logger_develop
 
 from .forms.upload_file_form import UserUploadDocumentForm, ClientUploadDocumentForm
 from .models import ClientPreData, UserDocument, ClientDocument
-from apps.users.models import  Dealership
-from .services.common_servive import convert_str_list, handle_logger
+from apps.users.models import Dealership
+from .services.common_servive import convert_str_list
+from log_storage.logging_servivce import handle_logger
+
 from .services.dadata_service.cladr_service import CladrService
 from .services.index_list_application_service import ApplicationService
 from .services.offer_services.create_update_offers_in_db_service import CreateUpdateOffersInDbService
@@ -275,6 +277,7 @@ class CreateUpdateOffersInDbView(LoginRequiredMixin, View):
 
         offers_html = CreateUpdateOffersInDbService.create_client_offers(client_id=client_id,
                                                                          financing_term=financing_term)
+
         return JsonResponse(offers_html, safe=False)
 
 

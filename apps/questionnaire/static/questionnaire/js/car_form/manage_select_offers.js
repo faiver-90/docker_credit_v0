@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 async function saveSelectedOffer(offerId, csrfToken, clientId, totalLoanAmount) {
-    const data = { client_id: clientId, offer_id: offerId, total_loan_amount: totalLoanAmount };
+    const data = {client_id: clientId, offer_id: offerId, total_loan_amount: totalLoanAmount};
 
     try {
         const response = await fetch('/questionnaire/manage_offers/', {
@@ -144,7 +144,7 @@ function addRemoveEventListener(card) {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken
             },
-            body: JSON.stringify({ offer_id: offerId, client_id: clientId })
+            body: JSON.stringify({offer_id: offerId, client_id: clientId})
         })
             .then(response => response.json())
             .then(data => {
@@ -176,7 +176,7 @@ function addRemoveEventListeners() {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken
                 },
-                body: JSON.stringify({ offer_id: offerId, client_id: clientId })
+                body: JSON.stringify({offer_id: offerId, client_id: clientId})
             })
                 .then(response => response.json())
                 .then(data => {
@@ -251,8 +251,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData();
             formData.append('financing_term', financingTerm);
             formData.append('client_id', clientId);
-
-            fetch('/crequestionnairedit/offers/', {
+            for (let pair of formData.entries()) {
+                console.log(`${pair[0]}: ${pair[1]}`);
+            }
+            fetch('/questionnaire/offers/', {
                 method: 'POST',
                 body: formData,
                 headers: {

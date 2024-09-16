@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from django.template.loader import render_to_string
 
 from apps.questionnaire.models import ClientPreData, ClientOffer, Offers
+from log_storage.logging_config import logger_develop
+from log_storage.logging_servivce import handle_logger
 
 
 class CreateUpdateOffersInDbService:
@@ -40,4 +42,5 @@ class CreateUpdateOffersInDbService:
 
         # Преобразуем предложения в HTML
         offers_html = [render_to_string('questionnaire/offer_item.html', {'offer': offer}) for offer in offers_data]
+
         return offers_html
