@@ -30,6 +30,7 @@ from django.urls import path, include
 urlpatterns = [
                   path("credit/", include("credit_v0.urls")),
                   path("users/", include("apps.users.urls")),
+                  path("questionnaire/", include("apps.questionnaire.urls")),
                   path('admin/', admin.site.urls),
                   # path('', lambda request: redirect('credit/', permanent=True)),
 
