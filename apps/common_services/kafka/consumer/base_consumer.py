@@ -3,7 +3,7 @@ import sys
 
 from confluent_kafka import Consumer, KafkaException
 
-from common_services.kafka.kafka_service import KafkaProducerService
+from apps.common_services.kafka.kafka_service import KafkaProducerService
 
 
 class BaseKafkaConsumerService:

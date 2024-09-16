@@ -1,8 +1,8 @@
 from celery import shared_task
 from django.contrib.sessions.models import Session
 
+from apps.common_services.kafka.consumer.runner import KafkaConsumerRunner
 from log_storage.logging_servivce import handle_logger
-from common_services.kafka.consumer.runner import KafkaConsumerRunner
 from log_storage.logging_config import logger_info
 
 

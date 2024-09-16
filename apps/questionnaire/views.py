@@ -9,7 +9,7 @@ from django.views import View
 from django.views.generic import ListView
 from django.contrib.auth.models import User
 
-from common_services.kafka.kafka_service import KafkaProducerService
+from apps.common_services.kafka.kafka_service import KafkaProducerService
 from log_storage.logging_config import logger_error, logger_develop
 
 from .forms.upload_file_form import UserUploadDocumentForm, ClientUploadDocumentForm

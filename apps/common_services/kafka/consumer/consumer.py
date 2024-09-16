@@ -1,10 +1,10 @@
 import json
 
+from apps.common_services.kafka.consumer.base_consumer import BaseKafkaConsumerService
+from apps.common_services.kafka.kafka_service import KafkaProducerService
 from apps.questionnaire.services.common_servive import convert_str_list
 from log_storage.logging_servivce import handle_logger
 
-from common_services.kafka.consumer.base_consumer import BaseKafkaConsumerService
-from common_services.kafka.kafka_service import KafkaProducerService
 from apps.questionnaire.services.questionnaire.send_to_bank_service import SendToBankService
 from log_storage.logging_config import logger_info
 

@@ -1,5 +1,5 @@
 # services_kafka/runner.py
-from common_services.kafka.consumer.consumer import KafkaConsumerAddSelectedOfferIdService
+from apps.common_services.kafka.consumer.consumer import KafkaConsumerAddSelectedOfferIdService
 
 
 class KafkaConsumerRunner:
