@@ -101,7 +101,7 @@ class SendToBankView(LoginRequiredMixin, View):
 
         for _ in range(60):
             if self.bank_offer_service.check_if_saved(client_id, converted_elected_offers):
-                return redirect(f'/credit/requests/{client_id}/')
+                return redirect(f'/questionnaire/requests/{client_id}/')
             time.sleep(1)
 
         return handle_logger('Офферы не были сохранены за отведенное время.',
