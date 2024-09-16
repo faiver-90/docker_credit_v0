@@ -21,7 +21,7 @@ from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegis
     CustomAuthenticationForm
 from apps.users.services.reset_pass_service import PasswordResetService
 from apps.users.services.user_list_view_service import UserViewListService
-from credit_v0.services.paginator_service import PaginationService
+from apps.questionnaire.services.paginator_service import PaginationService
 from log_storage.logging_config import logger_develop
 
 
@@ -69,7 +69,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         user_profile = user.userprofile
 
         # Используем сервис для проверки прав доступа
-        from credit_v0.services.access_control_service import AccessControlService
+        from apps.questionnaire.services.access_control_service import AccessControlService
 
         if not AccessControlService.has_access(user_profile, user_instance, is_superuser=user.is_superuser):
             return self.permission_denied_response("У вас нет доступа для редактирования этого пользователя.")
@@ -201,8 +201,7 @@ class RegisterView(LoginRequiredMixin, FormView):
 class CustomLoginView(LoginView):
     """Авторизация пользователя"""
     authentication_form = CustomAuthenticationForm
-    # template_name = 'users/registration/login.html'
-    template_name = 'users/login.html'
+    template_name = 'registration/login.html'
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()

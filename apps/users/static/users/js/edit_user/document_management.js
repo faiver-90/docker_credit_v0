@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const userId = document.querySelector('input[name="user_id"]').value;
-    const uploadDocumentUrl = `/credit/user_upload/${userId}/`;
+    const uploadDocumentUrl = `/questionnaire/user_upload/${userId}/`;
 
     function getCookie(name) {
         let cookieValue = null;

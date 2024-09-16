@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "mineral-bonus-431812-c5",
+  "private_key_id": "229ff63dd848a9d6acba9cdf7df0e3d24caf9d3f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDAlBSWf+S3EVJf\npZOLYETvFo3bIAkU58TmwF1azqnZKcumqClwiEQjE9u/asVQGtIGF/L686pE9/1J\nPVLK9d7Fm1z8zQrJ3YAHHb1ty5n+mIT6TD8UgBvzB6N2s85XN5KG8mDVVcCTk1KD\nZx8gl6kKHx68Cm+WhbrMXHUUtKIg+X/GNE1RZZbUCjJ/KJttPF2+rKCuQI5VoJSA\nH/ztyLsHtE7kP9rXGGR9emes/B8J9HHNK7s4HWnRzAC9ZNAHbyDcJk5ejSN1cFVi\nTyP5ihq3m1/SZjYs8+xxS4BdevE43xbzxvgysJEVjmgJJ+sj+7Q9vxH4o/QaIKyc\nrye5JhPlAgMBAAECggEAMX8+BWqs0gLRPcU0dYvSW/NblZkXzHg/qyGBPSBGFouA\nDP9G22YiwTNO9VWPjmW+WpOYP7kWJ/DneIYa/BCS6A5lKZLX9YeJawrRT+GXXJE+\nCIlFY1MEHAR4Fr/jRpaBgk7U5bBLNYMVn7GHFhz09SWHhERYZwNLPlB7RU2iKEAW\nGM0QF0Eh9GuhZclvHV5QXHTRPv/Hadzvrehm8ZPwar/Ecd8Q39owJRIKrdcIjmfB\nRKDy3fL/blqtLFpvo7BV13lSFZD+q+CTM/dyEfWw6o9YJiKfKDysnC4ZMdjuzA/d\n7iedNVBIaUaem0L+y9Fyq41/4VjENOLLlEVHjrJrRwKBgQDtqFaG8IexaQCt7w+Y\niYQ+7+3jtD661OlbdLUAazZNEmoMcxrVBw3Ac+izxefmw4EkZ4oX1crTrZE8In9v\nt8BJIm9HP0WeWHznMmkHszGxPVGFL4ZubX9srCVU5+3wQYrJEOaX5d25MHz/+Hal\n9ijVItanpbzHCBvv/KnUIlLOYwKBgQDPcRB/1TH7jY7KWkT+zedf4XF8CAq9tPnL\n26wz2nCo9f51Fi91uxUyGlRcSAPiO8q/gQ9piusHvXHnw8quay0e/bM0ZfSqU7KG\n3iW+RR4y1m/G7rrkAqmYVvJHVTU2FSkBdqy+XFFkb5iIQ31ccyE3b1gwWK7/FkYc\nYMjlGeojFwKBgQDnBI4n2cRtpl5stUf5xSNycpRSljGsN68nockYwR8lyFKiC3n3\nvkWV4JZBuo10enMcyjEofkANiFj3lak/FeWqsfhtz4mDJQ01SIFkZMJXQf3uc4Y/\n7dzB7IzVfiaDN5MLZIxi96WSkRnRUNs09JY4qQb0LF3XM4DExlznwv2vdQKBgQCd\nOYzP1r6zcm8vX4u7tEQRn8VrxIyfjHNn12+FPaL17LyX8eC20r0V5G7cIpkO91KM\nIz2TOP86NpQGnZcY65KfUppotH3kOtus7OKee7SPw4ekt3xfJMV1+TBYcHSMMS2L\nNm9nOIFYJlztqnlxgLFEWtf0jMLWBAPPrmuVeTbEsQKBgQDT7Gf47+RcSxix86i4\n0vKVAJJ7pQuQ1jC2MADVOsvDr0UAotO0xEFpjdchi1Vxnr73rpuRr8z4rXP4vIFY\nqcghcmo3Rp0gyXil3asnOt1CFYtc6wufPHKXGZNL6akXTR5SP+8Zp/+yFfX4kFUj\nsxCzjDq5I5k4NPkqAygmJ5y6Wg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "credit@mineral-bonus-431812-c5.iam.gserviceaccount.com",
+  "client_id": "108876597955347275045",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/credit%40mineral-bonus-431812-c5.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -1,0 +1,369 @@
+{% extends 'common_templates/main.html' %}
+{% load static %}
+
+{% block title %} Анкета {% endblock %}
+
+{% block header_left %}
+    <ul class="list-inline">
+        <li class="list-inline-item "><a class="text-white" href="{% url 'car_form' pk=client_id %}">Черновик</a></li>
+        <li class="list-inline-item "><a class="text-white" href="{% url 'client_offers' client_id=client_id %}">Отправлено</a>
+        </li>
+        <li class="list-inline-item">В работе</li>
+        <li class="list-inline-item">Завершено</li>
+    </ul>
+{% endblock %}
+
+
+{% block content %}
+
+    {% if id_app_in_system %}
+        {% include "questionnaire/card_offer.html" %}
+    {% endif %}
+    <h1 class="px-4">Анкета #{{ application.id }}</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 d-flex flex-column">
+                <div class="form-container mb-4 flex-grow-1">
+                    <form method="post" id="initial_information" class="w-100 rounded bg-light p-3">
+                        {% csrf_token %}
+                        <input type="hidden" name="client_id" value="{{ client_id }}">
+                        <hr>
+                        <fieldset>
+                            <legend>Авто</legend>
+                            <div class="row">
+                                {% for field in car_form %}
+                                    <div class="col-md-3 mb-3">
+                                        <div class="form-group bg-light">
+                                            {{ field.label_tag }}
+                                            {{ field }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                        <hr>
+                        <fieldset>
+                            <legend>Клиент</legend>
+                            <div class="row">
+                                {% for field in pre_data_client %}
+                                    <div class="col-md-4">
+                                        <div class="form-group bg-light">
+                                            {{ field.label_tag }}
+                                            {{ field }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                        <hr>
+                        <fieldset>
+                            <legend>Финансирование</legend>
+                            <div class="row">
+                                {% for field in fin_cond %}
+                                    <div class="col-md-3">
+                                        <div class="form-group bg-light">
+                                            {{ field.label_tag }}
+                                            {{ field }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                        <hr>
+                        <fieldset>
+                            <legend>Документы на авто</legend>
+                            <fieldset>
+                                <legend>ПТС</legend>
+                                <div class="row">
+                                    {% for field in document.pts_fields %}
+                                        <div class="col-md-4">
+                                            <div class="form-group bg-light">
+                                                {{ field.label_tag }}
+                                                {{ field }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </fieldset>
+                            <hr>
+                            <fieldset>
+                                <legend>ДКП</legend>
+                                <div class="row">
+                                    {% for field in document.dcp_fields %}
+                                        <div class="col-md-4">
+                                            <div class="form-group bg-light">
+                                                {{ field.label_tag }}
+                                                {{ field }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </fieldset>
+                        </fieldset>
+                        <hr>
+
+                        <fieldset>
+                            <div class="accordion" id="extraServicesAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingExtraServices">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseExtraServices" aria-expanded="true"
+                                                aria-controls="collapseExtraServices">
+                                            Дополнительные услуги
+                                        </button>
+                                    </h2>
+                                    <div id="collapseExtraServices" class="accordion-collapse collapse"
+                                         aria-labelledby="headingExtraServices"
+                                         data-bs-parent="#extraServicesAccordion">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                <!-- KASKO Field -->
+                                                <div class="col-md-4">
+                                                    <div class="card p-3 mb-3">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">КАСКО</h5>
+                                                            <div class="form-group">
+                                                                {{ extra.kasko_amount.label_tag }}
+                                                                {{ extra.kasko_amount }}
+                                                            </div>
+                                                            <div class="form-check form-switch">
+                                                                {{ extra.kasko_amount_include }}
+                                                                {{ extra.kasko_amount_include.label_tag }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- GAP Field -->
+                                                <div class="col-md-4">
+                                                    <div class="card p-3 mb-3">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">GAP</h5>
+                                                            <div class="form-group">
+                                                                {{ extra.gap_amount.label_tag }}
+                                                                {{ extra.gap_amount }}
+                                                            </div>
+                                                            <div class="form-check form-switch">
+                                                                {{ extra.gap_amount_include }}
+                                                                {{ extra.gap_amount_include.label_tag }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- SZH Field -->
+                                                <div class="col-md-4">
+                                                    <div class="card p-3 mb-3">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">СЖ</h5>
+                                                            <div class="form-group">
+                                                                {{ extra.szh_amount.label_tag }}
+                                                                {{ extra.szh_amount }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ extra.szh_term.label_tag }}
+                                                                {{ extra.szh_term }}
+                                                            </div>
+                                                            <div class="form-check form-switch">
+                                                                {{ extra.szh_term_include }}
+                                                                {{ extra.szh_term_include.label_tag }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Financial Products Field -->
+                                                <div class="col-md-4">
+                                                    <div class="card p-3 mb-3">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">Финансовые продукты</h5>
+                                                            <div class="form-group">
+                                                                {{ extra.financial_products_amount.label_tag }}
+                                                                {{ extra.financial_products_amount }}
+                                                            </div>
+                                                            <div class="form-check form-switch">
+                                                                {{ extra.financial_products_amount_include }}
+                                                                {{ extra.financial_products_amount_include.label_tag }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Installment Commission Field -->
+                                                <div class="col-md-4">
+                                                    <div class="card p-3 mb-3">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">Комиссия за рассрочку</h5>
+                                                            <div class="form-check form-switch">
+                                                                {{ extra.installment_commission_include }}
+                                                                {{ extra.installment_commission_include.label_tag }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- SMS Notification Field -->
+                                                <div class="col-md-4">
+                                                    <div class="card p-3 mb-3">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">СМС уведомление</h5>
+                                                            <div class="form-check form-switch">
+                                                                {{ extra.sms_notification_include }}
+                                                                {{ extra.sms_notification_include.label_tag }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+
+                        <input type="hidden" name="total_loan_amount" id="total_loan_amount_input">
+                        <input type="hidden" name="car_price_display" id="car_price_display_input">
+                        <input type="hidden" name="additional_equipment_price_display"
+                               id="additional_equipment_price_display_input">
+                    </form>
+
+                    {% if not id_app_in_system %}
+                        <hr>
+                        <div id="offers-container">
+                            <div class="accordion" id="bankOffersAccordion">
+                                <!-- Сюда будут добавляться оферы -->
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="accordion" id="accordionCard">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseSelectedCard" aria-expanded="true"
+                                            aria-controls="collapseSelectedCard">
+                                        Предварительные расчеты
+                                    </button>
+                                </h2>
+                                <div id="collapseSelectedCard" class="accordion-collapse collapse"
+                                     aria-labelledby="headingOne" data-bs-parent="#accordionCard">
+                                    <div class="accordion-body">
+                                        <div id="offers_card_list" class="row">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <hr>
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseAllOtherDataClient" aria-expanded="true"
+                                        aria-controls="collapseAllOtherDataClient">
+                                    Дополнительная информация
+                                </button>
+                            </h2>
+                            <div id="collapseAllOtherDataClient" class="accordion-collapse collapse"
+                                 aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div id="all_other_data_client">
+                                        <!-- Сюда будет загружаться контент -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="w-100 rounded bg-light p-3 d-flex align-items-center">
+                        <button class="btn btn-primary me-3">Скачать согласие</button>
+                        <i class="fas fa-info-circle m-1"></i>
+                        <p class="mb-0">Скачайте согласие на обработку персональных данных, проверьте введенные данные,
+                            подпишите.</p>
+                    </div>
+                    <hr>
+                    <div class="accordion" id="accordionDocuments">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingDocuments">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseDocuments" aria-expanded="false"
+                                        aria-controls="collapseDocuments">
+                                    Загрузка документов
+                                </button>
+                            </h2>
+                            <div id="collapseDocuments" class="accordion-collapse collapse"
+                                 aria-labelledby="headingDocuments" data-bs-parent="#accordionDocuments">
+                                <div class="accordion-body">
+                                    <div id="upload_file_client">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div id="right-block" class="sticky-top rounded bg-light text-end p-3 vh-100 overflow-auto">
+                    <fieldset>
+                        <div>
+                            <b>Общая сумма кредита</b>
+                            <p id="total_loan_amount">0</p>
+                            <b>Сумма за ТС</b>
+                            <p id="car_price_display">0</p>
+                            <b>Сумма за ДО</b>
+                            <p id="additional_equipment_price_display">0</p>
+                            <b>Требования банка:</b>
+                            <ul class="list-unstyled">
+                                <li>Персональные данные</li>
+                                <li>Контактные данные</li>
+                                <li>Паспорт</li>
+                                <li>Скан паспорта</li>
+                                <li>Второй документ</li>
+                                <li>Скан второго документа</li>
+                                <li>Информация о семье</li>
+                                <li>Работа и образование</li>
+                                <li>Финансы</li>
+                                <li>Гражданство</li>
+                                <li>2-НДФЛ</li>
+                            </ul>
+                            <b>Согласие на обработку</b>
+                            <p>скан подписанной заявки</p>
+                            <b>КАСКО</b>
+                            <p id="kasko_display">0</p>
+                            <b>GAP</b>
+                            <p id="gap_display">0</p>
+                            <b>СЖ</b>
+                            <p id="szg_display">0</p>
+                            <b>Финансовые продукты</b>
+                            <p id="financial_products_display">0</p>
+                            <b>СМС информирование</b>
+                            <p id="sms_notification_display"></p>
+                            <b>Снижение процента</b>
+                            <p id="installment_commission_display"></p>
+                        </div>
+                    </fieldset>
+                    <button type="submit" class="btn btn-outline-primary w-100" id="submit-offers">Сохранить
+                    </button>
+                    <button type="button" class="btn btn-outline-primary w-100 mt-2" id="show-partner-offers">Показать
+                        предложения партнеров
+                    </button>
+                    <form id="send-to-bank-form" method="post" action="{% url 'send_to_bank' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="client_id" value="{{ client_id }}">
+                        <input type="hidden" name="selected_offers" id="selected_offers">
+                        <button type="submit" class="btn btn-outline-primary w-100 mt-2">Отправить в банк</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/car_form/calculation_application.js' %}?v=1.0"></script>
+    <script src="{% static 'js/car_form/manage_select_offers.js' %}?v=1.0"></script>
+    <script src="{% static 'js/car_form/send_all_form_and_alert.js' %}?v=1.0"></script>
+    <script src="{% static 'js/car_form/upload_document_client.js' %}?v=1.0"></script>
+    <script src="{% static 'js/car_form/load_all_data.js' %}?v=1.0"></script>
+    <script src="{% static 'js/car_form/address_classifier.js' %}?v=1.0"></script>
+    <script src="{% static 'js/car_form/send_to_bank_check.js' %}?v=1.0"></script>
+
+{% endblock %}
