@@ -13,7 +13,7 @@ class KafkaProducerService:
         """Чтение конфигурации из файла client.properties"""
 
         config = {}
-        with open("common_services/kafka/client.properties") as fh:
+        with open("apps/common_services/kafka/client.properties") as fh:
             for line in fh:
                 line = line.strip()
                 if len(line) != 0 and line[0] != "#":
