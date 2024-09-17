@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from apps.common_services.kafka.kafka_service import KafkaProducerService
 from log_storage.logging_config import logger_error, logger_develop
 
-from .forms.upload_file_form import UserUploadDocumentForm, ClientUploadDocumentForm
+from .forms.upload_file_form import ClientUploadDocumentForm
 from .models import ClientPreData, UserDocument, ClientDocument
 from apps.users.models import Dealership
 from .services.common_servive import convert_str_list
@@ -322,35 +322,6 @@ class IndexView(LoginRequiredMixin, View):
             'field_labels': field_labels
         })
 
-
-class UserUploadDocumentView(BaseUploadDocumentView):
-    """Загрузка документов менеджера в облако"""
-    form_class = UserUploadDocumentForm
-    template_name = 'users/upload_document_user.html'
-    document_model = UserDocument
-    client_user_field_name = 'user'
-
-    def get_client_user(self):
-        return get_object_or_404(User, id=self.request.POST.get('user_id'))
-
-    def get_context_data(self, **kwargs):
-        user = get_object_or_404(User, id=self.kwargs.get('pk'))
-        documents = self.document_model.objects.filter(user=user)
-        form = self.form_class(initial={'user_id': user.id})
-        context = {
-            'documents': documents,
-            'user_id': user.id,
-            'form': form
-        }
-        return context
-
-    def delete(self, request, *args, **kwargs):
-        try:
-            document_id = json.loads(request.body).get('document_id')
-            response = self.doc_service.delete_document(self.document_model, document_id)
-            return response
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
 class UploadDocumentView(BaseUploadDocumentView):

@@ -4,7 +4,7 @@ from django.urls import path
 from django.conf import settings
 
 from apps.questionnaire.views import ChangeActiveDealershipView, ContinueDocsView, SendToBankView, RequestOffersView, \
-    UserUploadDocumentView, get_address_suggestions, UploadDocumentView, LoadAllDataClientView, ManageSelectOffersView, \
+    get_address_suggestions, UploadDocumentView, LoadAllDataClientView, ManageSelectOffersView, \
     CreateUpdateOffersInDbView, ShowSelectCardOfferView, QuestionnaireView, IndexView
 
 urlpatterns = [
@@ -14,8 +14,6 @@ urlpatterns = [
 
     path('send_to_bank/', SendToBankView.as_view(), name='send_to_bank'),
     path('requests/<int:client_id>/', RequestOffersView.as_view(), name='client_offers'),
-
-    path('user_upload/<int:pk>/', UserUploadDocumentView.as_view(), name='user_upload_document'),
 
     path('get-address-suggestions/', get_address_suggestions, name='get_address_suggestions'),
 

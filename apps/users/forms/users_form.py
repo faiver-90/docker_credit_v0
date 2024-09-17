@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
+from apps.questionnaire.forms.upload_file_form import MultipleFileField
+from apps.questionnaire.models import UserDocument
 from apps.users.models import UserProfile, Dealership
 
 
@@ -54,6 +56,17 @@ class BaseProfileForm(forms.ModelForm):
                 self.fields.pop('organization_manager')
                 self.fields.pop('role_manager')
                 self.fields.pop('status_manager')
+
+
+class UserUploadDocumentForm(forms.ModelForm):
+    document_files = MultipleFileField(required=True)
+
+    class Meta:
+        model = UserDocument
+        fields = ['document_type', 'document_files']
+        widgets = {
+            'document_type': forms.Select(attrs={'class': 'form-select'}),
+        }
 
 
 class UserEditForm(forms.ModelForm):

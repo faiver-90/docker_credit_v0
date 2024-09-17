@@ -4,7 +4,7 @@ from django.urls import path
 from django.conf import settings
 
 from apps.users.forms.users_form import CustomAuthenticationForm
-from apps.users.views import UserListView, UserEditView, RegisterView, CustomPasswordResetView
+from apps.users.views import UserListView, UserEditView, RegisterView, CustomPasswordResetView, UserUploadDocumentView
 
 urlpatterns = [
     path('', UserListView.as_view(), name='user_list'),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', auth_views.LoginView.as_view(authentication_form=CustomAuthenticationForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('user_upload/<int:pk>/', UserUploadDocumentView.as_view(), name='user_upload_document'),
 
     path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),

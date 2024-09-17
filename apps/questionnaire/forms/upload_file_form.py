@@ -24,17 +24,6 @@ class MultipleFileField(forms.FileField):
         return data
 
 
-class UserUploadDocumentForm(forms.ModelForm):
-    document_files = MultipleFileField(required=True)
-
-    class Meta:
-        model = UserDocument
-        fields = ['document_type', 'document_files']
-        widgets = {
-            'document_type': forms.Select(attrs={'class': 'form-select'}),
-        }
-
-
 class ClientUploadDocumentForm(forms.ModelForm):
     document_files = MultipleFileField(required=True)
 
