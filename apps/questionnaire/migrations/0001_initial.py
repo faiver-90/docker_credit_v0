@@ -704,20 +704,20 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Личная информация клиентов',
             },
         ),
-        migrations.CreateModel(
-            name='UserDocument',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('document_file', models.FileField(upload_to=apps.questionnaire.models.user_upload_to, verbose_name='Выбрать файл')),
-                ('uploaded_at', models.DateTimeField(auto_now_add=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('document_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='questionnaire.userdocumenttype', verbose_name='Тип документа')),
-            ],
-            options={
-                'verbose_name': 'Загруженный документ пользователя',
-                'verbose_name_plural': 'Загруженные документы пользователей',
-            },
-        ),
+        # migrations.CreateModel(
+        #     name='UserDocument',
+        #     fields=[
+        #         ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('document_file', models.FileField(upload_to=apps.questionnaire.models.user_upload_to, verbose_name='Выбрать файл')),
+        #         ('uploaded_at', models.DateTimeField(auto_now_add=True)),
+        #         ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+        #         ('document_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='questionnaire.userdocumenttype', verbose_name='Тип документа')),
+        #     ],
+        #     options={
+        #         'verbose_name': 'Загруженный документ пользователя',
+        #         'verbose_name_plural': 'Загруженные документы пользователей',
+        #     },
+        # ),
         migrations.CreateModel(
             name='UserProfile',
             fields=[

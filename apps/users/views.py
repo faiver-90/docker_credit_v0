@@ -18,9 +18,9 @@ from django.shortcuts import render
 from django.views import View
 
 from apps.common_services.upload_document_service import BaseUploadDocumentView
-from apps.questionnaire.models import UserDocument
 from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegistrationForm, ProfileRegistrationForm, \
     CustomAuthenticationForm, UserUploadDocumentForm
+from apps.users.models import UserDocument
 from apps.users.services.reset_pass_service import PasswordResetService
 from apps.users.services.user_list_view_service import UserViewListService
 from apps.questionnaire.services.paginator_service import PaginationService

@@ -2,9 +2,8 @@ from django.contrib import admin
 
 from .models import *
 
-
 # Для каждой модели добавляем поле client_id
-from apps.users.models import Dealership, UserProfile
+from apps.users.models import Dealership
 
 
 def get_client_id(obj):
@@ -30,12 +29,6 @@ class PreDataClientAdmin(admin.ModelAdmin):
 
 @admin.register(DocumentType)
 class TypeDocumentAdmin(admin.ModelAdmin):
-    list_display = ('document_type',)
-    search_fields = ('document_type',)
-
-
-@admin.register(UserDocumentType)
-class UserTypeDocumentAdmin(admin.ModelAdmin):
     list_display = ('document_type',)
     search_fields = ('document_type',)
 
@@ -144,24 +137,6 @@ class AllApplicationsAdmin(admin.ModelAdmin):
     search_fields = (
         'client', 'financing_conditions', 'car_info', 'documents', 'extra_insurance', 'status', 'type_all_app',
         'financing', 'manager', 'dealership_all_app', 'organization', 'date_create_all_app', 'date_changes_all_app')
-
-
-@admin.register(Dealership)
-class DealershipAdmin(admin.ModelAdmin):
-    list_display = ('name', 'organisation_name')
-    search_fields = ('name', 'organisation_name')
-
-
-@admin.register(UserProfile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = (
-        'user', 'first_name_manager', 'last_name_manager', 'middle_name_manager', 'organization_manager',
-        'role_manager', 'date_of_birth_manager', 'phone_number_manager', 'status_manager', 'passport_series_manager',
-        'passport_number_manager', 'division_code_manager', 'issued_by_manager', 'issue_date_manager')
-    search_fields = (
-        'user', 'first_name_manager', 'last_name_manager', 'middle_name_manager', 'organization_manager',
-        'role_manager', 'date_of_birth_manager', 'phone_number_manager', 'status_manager', 'passport_series_manager',
-        'passport_number_manager', 'division_code_manager', 'issued_by_manager', 'issue_date_manager')
 
 
 @admin.register(Offers)

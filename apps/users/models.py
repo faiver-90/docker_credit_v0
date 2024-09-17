@@ -5,6 +5,50 @@ from django.db import models
 from text_unidecode import unidecode
 
 
+def user_upload_to(instance, filename):
+    filename = unidecode(filename)
+    return os.path.join(f'user_documents/user_{instance.user.id}', filename)
+
+
+class UserDocumentType(models.Model):
+    document_type = models.CharField(max_length=50, unique=True, verbose_name="Тип документа")
+
+    class Meta:
+        verbose_name = "Тип документа пользователя"
+        verbose_name_plural = "Типы документов пользователей"
+
+    def __str__(self):
+        return self.document_type
+
+
+class UserDocument(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    document_type = models.ForeignKey(UserDocumentType, on_delete=models.CASCADE, null=True, blank=True,
+                                      verbose_name="Тип документа")
+    document_file = models.FileField(upload_to=user_upload_to, verbose_name="Выбрать файл")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    # def delete(self, *args, **kwargs):
+    #     file_path = self.document_file.path
+    #     super().delete(*args, **kwargs)
+    #     if os.path.exists(file_path):
+    #         os.remove(file_path)
+    #
+    #     folder_path = os.path.dirname(file_path)
+    #     if not os.listdir(folder_path):
+    #         os.rmdir(folder_path)
+
+    class Meta:
+        verbose_name = "Загруженный документ пользователя"
+        verbose_name_plural = "Загруженные документы пользователей"
+
+    def __str__(self):
+        if self.document_type:
+            return f"{self.document_type}"
+        else:
+            return f"Документ без типа ({self.user})"
+
+
 class Dealership(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название дилерского центра")
     organisation_name = models.CharField(max_length=255, verbose_name="Название организации")

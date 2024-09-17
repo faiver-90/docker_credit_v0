@@ -13,7 +13,7 @@ from apps.common_services.kafka.kafka_service import KafkaProducerService
 from log_storage.logging_config import logger_error, logger_develop
 
 from .forms.upload_file_form import ClientUploadDocumentForm
-from .models import ClientPreData, UserDocument, ClientDocument
+from .models import ClientPreData, ClientDocument
 from apps.users.models import Dealership
 from .services.common_servive import convert_str_list
 from log_storage.logging_servivce import handle_logger
