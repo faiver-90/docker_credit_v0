@@ -79,7 +79,7 @@ services:
 
   celery-beat:
     build: .
-    command: celery -A app_v0 beat --loglevel=info --queues=celery
+    command: celery -A app_v0 beat --loglevel=info --scheduler=django_celery_beat.schedulers:DatabaseScheduler
     volumes:
       - .:/var/www/motor_finance
     env_file:

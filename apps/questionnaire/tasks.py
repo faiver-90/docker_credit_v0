@@ -26,4 +26,5 @@ def run_kafka_consumer():
 @shared_task
 def logout_all_users():
     Session.objects.all().delete()
+    cache.clear()
     handle_logger('Successfully logged out all users', logger_info)
