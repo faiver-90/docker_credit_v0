@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from google.cloud import storage
 
 # Путь к вашему JSON файлу с ключом сервисного аккаунта
-SERVICE_ACCOUNT_FILE = 'common_services/google_storage/credit_f902.json'
+SERVICE_ACCOUNT_FILE = 'apps/common_services/google_storage/credit_f902.json'
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = SERVICE_ACCOUNT_FILE
 
 
