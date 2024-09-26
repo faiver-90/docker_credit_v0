@@ -2,7 +2,8 @@
 
 NAME="motor_finance"
 DJANGODIR=/var/www/motor_finance
-SOCKFILE=/var/www/motor_finance/run/gunicorn.sock
+#SOCKFILE=/var/www/motor_finance/run/gunicorn.sock
+
 USER=faiver90
 GROUP=www-data
 NUM_WORKERS=2
@@ -18,8 +19,8 @@ export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
 # Create the run directory if it doesn't exist
-RUNDIR=$(dirname $SOCKFILE)
-test -d $RUNDIR || mkdir -p $RUNDIR
+#RUNDIR=$(dirname $SOCKFILE)
+#test -d $RUNDIR || mkdir -p $RUNDIR
 
 # Start your Django Unicorn
 exec gunicorn ${DJANGO_WSGI_MODULE}:application \
@@ -33,5 +34,5 @@ exec gunicorn ${DJANGO_WSGI_MODULE}:application \
   --max-requests-jitter 100 \
   --worker-connections 1000 \
   --user=$USER --group=$GROUP \
-  --bind=unix:$SOCKFILE \
+  --bind=unix:0.0.0.0:8000 \
   --log-level=debug \
