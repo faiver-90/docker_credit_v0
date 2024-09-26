@@ -7,4 +7,11 @@ __pycache__/
 *.pyo
 *.pyd
 *.swp
+<<<<<<< HEAD:docker_unworked/.dockerignore
 .DS_Store
+=======
+.DS_Store
+.env/
+.idea/
+.git/
+>>>>>>> 3a5a403d6e31b05786487d328492e82eacf308ed:.dockerignore
