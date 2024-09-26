@@ -52,7 +52,7 @@ services:
       - "3307:3306"
     networks:
       - my_network
-   ллллл
+
 #  redis:
 #    image: redis:latest
 #    volumes:
