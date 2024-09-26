@@ -34,5 +34,5 @@ exec gunicorn ${DJANGO_WSGI_MODULE}:application \
   --max-requests-jitter 100 \
   --worker-connections 1000 \
   --user=$USER --group=$GROUP \
-  --bind=unix:0.0.0.0:8000 \
+  --bind=0.0.0.0:8000 \
   --log-level=debug \
