@@ -28,9 +28,8 @@ from django.urls import path, include
 # handler404 = custom_404
 
 urlpatterns = [
-                  path("users/", include("apps.users.urls")),
-                  path("questionnaire/", include("apps.questionnaire.urls")),
+                  path("credit/", include("credit_v0.urls")),
                   path('admin/', admin.site.urls),
-                  path('', lambda request: redirect('questionnaire/', permanent=True)),
+                  path('', lambda request: redirect('credit/', permanent=True)),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

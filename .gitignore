@@ -14,7 +14,6 @@ logs.txt
 !over_size_1.jpg
 !over_size_2.jpg
 !test_file.txt
-init.sql
 backup_mysql
 api-key-KW6O2TG2XQZWEUZL_confluent.txt
 client.properties
@@ -179,4 +178,5 @@ credentials.json
 
 
 /project-400121-ebb8a9fad16a.json
-credit_f902.json
+/credit_v0/management/commands/credit_f902.json
+/credit_v0/services/google_storage/credit_f902.json

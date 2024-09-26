@@ -1,0 +1,88 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %} Запросы {% endblock %}
+
+{% block header_left %}
+    <ul class="list-inline">
+        <li class="list-inline-item "><a class="text-white" href="{% url 'car_form' pk=client_id %}">Черновик</a></li>
+        <li class="list-inline-item "><a class="text-white" href="{% url 'client_offers' client_id=client_id %}">Отправлено</a>
+        </li>
+        <li class="list-inline-item">В работе</li>
+        <li class="list-inline-item">Завершено</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {% include "questionnaire/card_offer.html" %}
+
+    <input type="hidden" name="client_id" value="{{ client_id }}">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 d-flex flex-column">
+                <div class="w-100 rounded bg-light p-3">
+                    <fieldset>
+                        <legend>Авто</legend>
+                        <div class="row">
+                            {% for field in car_form %}
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ field.label_tag }}
+                                        {{ field }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                    <hr>
+                    <fieldset>
+                        <legend>Документы на авто</legend>
+                        <fieldset>
+                            <legend>ПТС</legend>
+                            <div class="row">
+                                {% for field in document.pts_fields %}
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {{ field.label_tag }}
+                                            {{ field }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>ДКП</legend>
+                            <div class="row">
+                                {% for field in document.dcp_fields %}
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {{ field.label_tag }}
+                                            {{ field }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div id="right-block" class="sticky-top rounded bg-light text-end p-3 vh-100 overflow-auto">
+                    <div class="w-100 rounded bg-light p-3">
+                        <button class="btn btn-primary">
+                            Загрузить сканы(не понял какие)
+                        </button>
+
+                        <button class="btn btn-primary">
+                            Реквизиты
+                        </button>
+                        <button class="btn btn-primary">
+                            Отменить сделку
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

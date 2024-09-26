@@ -1,0 +1,18 @@
+       <!-- templates/address_form.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск адреса</title>
+    {% load static %}
+</head>
+<body>
+    <h1>Поиск адреса</h1>
+    <form method="get" id="addressForm">
+        {{ form.as_p }}
+    </form>
+    <ul id="addressResults"></ul>
+
+    <script src="{% static 'js/address_classifier.js' %}"></script>
+</body>
+</html>
