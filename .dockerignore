@@ -9,4 +9,5 @@ __pycache__/
 *.swp
 .DS_Store
 .env/
-.idea
+.idea/
+.git/
