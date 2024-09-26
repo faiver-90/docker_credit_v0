@@ -7,6 +7,8 @@ db_settings.py
 logs.txt
 *.jpg
 *.png
+!404.png
+!logo.png
 *.gif
 *.pdf
 !ok_size_1.jpg
