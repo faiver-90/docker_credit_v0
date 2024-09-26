@@ -1,0 +1,2777 @@
+INFO 2024-09-01 18:41:10,521 common_servive selected_offers 1, ['8,9,10,11']
+INFO 2024-09-01 18:41:13,736 common_servive selected_offers 2, [8, 9, 10, 11]
+INFO 2024-09-01 18:47:17,415 common_servive selected_offers 1, ['12']
+INFO 2024-09-01 18:47:20,731 common_servive selected_offers 2, [12]
+INFO 2024-09-01 19:42:43,455 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-01 19:42:43,456 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-01 19:42:43,459 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-01 19:43:24,451 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-01 19:43:24,466 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-01 19:43:24,466 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:05:30,554 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:05:30,554 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:05:30,560 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:09:59,702 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:09:59,704 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:09:59,706 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:39:22,723 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:39:22,723 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:39:22,727 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:39:41,731 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:39:41,733 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:39:41,736 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:39:41,739 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:39:43,330 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:39:46,063 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:39:47,118 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:41:13,571 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:42:50,026 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:43:06,283 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:43:17,840 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:43:19,763 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:57:39,566 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:57:39,566 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:57:39,572 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:57:41,505 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:57:48,891 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:57:49,917 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:59:31,547 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 08:59:39,962 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:11:48,790 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:12:12,349 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:09,344 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:09,342 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:10,689 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:12,663 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:16,063 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:18,909 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:22,232 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:24,620 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:27,617 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:31,254 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:35,797 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:22:43,022 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,746 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,747 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,752 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,752 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,758 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,760 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,763 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,763 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,769 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,769 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,776 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:18,777 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:39,370 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:39,373 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:39,376 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:39,379 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:39,394 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:41,036 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:51,251 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:35:52,374 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:36:09,981 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,719 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,719 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,731 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,733 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,740 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,749 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,750 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,758 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,758 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,766 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,766 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:50:15,774 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:18,857 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:18,859 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:18,867 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:18,874 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:20,245 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:22,312 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:24,176 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:26,349 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:28,404 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:30,364 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:33,359 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:51:35,357 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:56:52,184 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:56:52,186 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:56:52,184 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:56:52,606 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:56:55,698 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:56:58,683 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:57:01,889 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:57:06,193 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:57:11,742 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:57:35,559 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:57:35,562 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:57:35,564 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:57:35,567 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:57:38,154 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:57:41,076 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 09:57:44,468 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:10,449 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:10,449 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:10,454 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:10,454 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:12,218 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:14,371 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:16,531 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:18,613 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:20,605 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:22,670 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:25,415 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:27,503 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:55,793 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:55,793 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:55,825 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:55,825 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:55,830 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:55,836 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:57,121 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:01:59,065 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:02:01,277 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:02:03,220 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:02:05,472 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:02:07,711 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:07:01,432 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:07:01,432 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:07:01,436 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:08:11,687 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:08:11,692 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:08:11,695 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:09:30,514 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:09:31,530 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:10:45,073 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:10:46,123 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:14:22,294 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:14:32,352 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:14:33,306 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:15:10,373 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:17:11,067 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:22:45,559 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:22:45,560 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:22:46,093 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:22:48,875 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:22:51,740 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:22:54,864 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:22:58,884 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:23:04,672 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:23:13,635 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:23:28,963 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:23:57,822 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:28:52,372 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:28:52,372 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:28:52,376 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:28:54,147 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:28:56,103 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:28:58,190 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:29:00,184 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:29:02,338 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:29:04,376 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:29:06,735 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:29:08,628 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:29:11,706 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:02,265 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:02,265 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:02,269 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:03,714 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:05,809 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:07,814 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:09,783 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:11,749 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:13,619 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:15,864 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:17,741 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:35:20,750 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:38:29,072 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:40,582 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:40,590 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:40,612 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:40,634 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:43,236 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:45,195 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:47,168 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:49,183 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:51,081 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:52,958 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:55,537 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:43:57,534 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:46:29,428 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:48:53,149 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:53:39,132 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:54:13,351 tasks Запуск всех Kafka Consumers через Celery"
+INFO 2024-09-03 10:54:50,115 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 10:54:50,119 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 10:54:50,130 common_servive Successfully logged out all users
+INFO 2024-09-03 10:54:50,134 common_servive Successfully logged out all users
+INFO 2024-09-03 10:59:12,669 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 10:59:12,692 common_servive Successfully logged out all users
+INFO 2024-09-03 11:44:27,863 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 11:44:27,871 common_servive Successfully logged out all users
+INFO 2024-09-03 11:44:27,877 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 11:44:27,897 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 11:44:27,912 common_servive Successfully logged out all users
+INFO 2024-09-03 11:44:27,912 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 11:44:27,915 common_servive Successfully logged out all users
+INFO 2024-09-03 11:44:27,917 common_servive Successfully logged out all users
+INFO 2024-09-03 11:44:27,931 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 11:44:27,935 common_servive Successfully logged out all users
+INFO 2024-09-03 11:44:27,940 common_servive Successfully logged out all users
+INFO 2024-09-03 11:46:07,871 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 11:46:07,876 common_servive Successfully logged out all users
+INFO 2024-09-03 12:46:13,367 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 12:46:13,397 common_servive Successfully logged out all users
+INFO 2024-09-03 12:52:46,803 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-03 12:52:46,847 common_servive Successfully logged out all users
+INFO 2024-09-03 12:54:43,639 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 13:54:27,594 common_servive Successfully logged out all users
+INFO 2024-09-04 13:54:27,689 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,209 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,215 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,219 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,226 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,231 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,231 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,232 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,236 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,244 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,246 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,248 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,250 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,256 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,257 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,264 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,265 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,271 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,280 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,284 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,292 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,295 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 14:01:47,304 common_servive Successfully logged out all users
+INFO 2024-09-04 14:01:47,312 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,134 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,139 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,147 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,156 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,164 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,164 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,167 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,167 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,170 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,180 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,186 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,201 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,202 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,202 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,211 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,216 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,224 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,231 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,235 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,248 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,256 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,258 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:29:29,272 common_servive Successfully logged out all users
+INFO 2024-09-04 15:29:29,280 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,634 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,639 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,652 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,653 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,654 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,661 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,661 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,668 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,660 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,670 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,670 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,675 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,681 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,683 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,688 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,689 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,695 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,700 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,703 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,718 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,725 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,735 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:33:09,746 common_servive Successfully logged out all users
+INFO 2024-09-04 15:33:09,759 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:54,994 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,008 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,013 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,014 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,014 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,013 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,018 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,018 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,012 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,024 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,030 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,036 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,036 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,043 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,042 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,051 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,055 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,064 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,069 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,075 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,085 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,085 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,101 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,105 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,113 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-04 15:38:55,114 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,124 common_servive Successfully logged out all users
+INFO 2024-09-04 15:38:55,130 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-05 10:16:48,475 common_servive BankOfferService worked
+INFO 2024-09-05 10:26:40,278 common_servive Successfully logged out all users
+INFO 2024-09-05 10:26:40,285 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-05 10:27:37,534 common_servive BankOfferService worked
+INFO 2024-09-05 10:27:48,188 common_servive BankOfferService worked
+INFO 2024-09-05 10:28:10,009 common_servive Successfully logged out all users
+INFO 2024-09-05 10:28:10,015 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-05 10:30:18,847 common_servive Successfully logged out all users
+INFO 2024-09-05 10:30:18,867 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-05 10:40:17,086 common_servive BankOfferService worked
+INFO 2024-09-05 10:40:37,745 common_servive BankOfferService worked
+INFO 2024-09-05 10:44:28,111 common_servive BankOfferService worked
+INFO 2024-09-05 17:17:14,458 common_servive BankOfferService worked
+INFO 2024-09-08 09:50:55,196 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,203 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,222 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,222 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,239 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,221 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,230 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,209 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,217 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,227 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,222 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,236 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,302 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,306 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,306 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,308 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,308 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,312 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,313 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,318 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,325 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,325 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 09:50:55,340 common_servive Successfully logged out all users
+INFO 2024-09-08 09:50:55,350 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 10:52:19,902 common_servive BankOfferService worked
+INFO 2024-09-08 12:14:44,554 common_servive BankOfferService worked
+INFO 2024-09-08 12:31:49,751 common_servive BankOfferService worked
+INFO 2024-09-08 19:14:08,947 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:14:08,952 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:14:09,148 common_servive Successfully logged out all users
+INFO 2024-09-08 19:14:09,178 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:14:09,360 common_servive Successfully logged out all users
+INFO 2024-09-08 19:14:09,385 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,524 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,530 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,536 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,543 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,542 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,542 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,550 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,555 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,558 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,558 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,565 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,567 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,570 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,575 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,577 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,579 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,582 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,588 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,595 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,599 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,604 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,610 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-08 19:57:06,621 common_servive Successfully logged out all users
+INFO 2024-09-08 19:57:06,634 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:05:29,287 common_servive BankOfferService worked
+INFO 2024-09-09 16:43:49,473 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,476 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,482 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,488 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,494 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,501 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,505 common_servive Successfully logged out all users
+INFO 2024-09-09 16:43:49,506 common_servive Successfully logged out all users
+INFO 2024-09-09 16:43:49,509 common_servive Successfully logged out all users
+INFO 2024-09-09 16:43:49,511 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,516 common_servive Successfully logged out all users
+INFO 2024-09-09 16:43:49,519 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,525 common_servive Successfully logged out all users
+INFO 2024-09-09 16:43:49,525 common_servive Successfully logged out all users
+INFO 2024-09-09 16:43:49,530 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,532 common_servive Successfully logged out all users
+INFO 2024-09-09 16:43:49,536 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,542 common_servive Successfully logged out all users
+INFO 2024-09-09 16:43:49,548 common_servive Successfully logged out all users
+INFO 2024-09-09 16:43:49,559 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 16:43:49,568 common_servive Successfully logged out all users
+INFO 2024-09-09 16:43:49,590 common_servive Запуск всех Kafka Consumers через Celery
+INFO 2024-09-09 20:22:55,542 common_servive BankOfferService worked
+INFO 2024-09-09 20:31:19,536 common_servive BankOfferService worked
+INFO 2024-09-09 20:40:38,574 common_servive BankOfferService worked
+INFO 2024-09-09 20:47:15,895 common_servive BankOfferService worked
+INFO 2024-09-10 17:32:32,012 common_servive BankOfferService worked
+INFO 2024-09-12 10:17:14,817 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,827 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,841 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,842 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,822 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,833 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,846 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,848 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,840 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,841 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,842 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,853 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,938 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,938 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,941 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,941 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,942 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,945 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,949 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,954 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,958 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,961 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 10:17:14,968 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 10:17:14,973 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,595 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,599 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,605 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,611 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,614 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,615 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,617 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,618 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,621 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,626 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,627 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,630 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,634 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,636 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,642 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,643 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,649 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,652 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,659 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,660 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,680 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 13:50:38,680 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,714 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 13:50:38,721 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,168 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,173 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,180 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,186 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,194 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,203 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,208 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,209 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,211 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,212 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,209 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,217 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,225 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,228 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,228 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,235 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,236 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,241 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,244 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,250 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,257 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,257 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 14:27:57,283 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 14:27:57,291 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,234 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,241 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,248 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,256 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,260 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,260 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,261 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,269 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,269 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,274 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,276 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,286 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,287 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,287 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,295 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,299 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,305 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,310 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,318 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,319 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,331 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-12 20:25:51,330 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,366 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-12 20:25:51,382 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,035 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,041 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,048 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,048 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,051 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,057 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,059 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,062 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,065 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,070 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,070 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,071 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,078 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,079 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,084 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,089 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,094 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,098 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,103 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,107 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,116 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 13:14:23,123 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,887 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 13:14:23,891 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:51,916 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:51,916 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:51,925 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:51,931 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:51,938 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:51,943 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:51,953 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:51,955 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:51,955 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:51,954 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:51,957 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:51,959 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:51,973 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:51,973 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:51,974 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:51,978 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:51,980 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:51,977 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:51,989 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:52,001 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:36:52,007 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:52,015 common_servive Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-16 14:36:52,019 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:17,498 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:17,498 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:17,514 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:17,517 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:20,027 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:22,228 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:25,302 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:27,548 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:30,384 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:32,657 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:35,935 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 14:56:38,301 common_servive Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-16 20:46:23,539 common_servive Success: 
+ Message: BankOfferService worked 
+ Add info:  
+INFO 2024-09-16 20:47:34,789 common_servive Success: 
+ Message: BankOfferService worked 
+ Add info:  
+INFO 2024-09-16 20:51:22,373 common_servive Success: 
+ Message: BankOfferService worked 
+ Add info:  
+INFO 2024-09-17 11:47:21,322 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,328 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,339 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,347 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,356 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,365 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,379 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,378 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,380 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,380 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,382 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,403 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,412 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,410 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,419 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,409 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,426 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,440 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,460 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,466 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,477 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,481 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,484 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,490 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,489 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,511 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,512 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,512 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,514 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,516 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,519 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,522 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,529 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,530 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,543 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,548 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,548 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,549 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,557 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,559 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,566 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,570 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,570 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,577 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,578 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,582 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,588 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,595 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,599 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,601 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,607 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,608 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,613 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,617 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,622 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,623 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,630 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,630 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,635 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,642 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,649 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,649 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,658 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,659 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,663 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,666 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,672 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,673 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,676 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,681 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,684 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,688 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,692 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,693 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,701 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,702 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,709 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,710 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,714 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,720 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,724 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,725 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,731 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,735 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,740 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,742 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,748 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,748 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,752 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,757 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,764 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,764 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,771 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,772 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,777 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,781 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,784 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,788 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,794 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,795 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,800 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,804 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,807 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,812 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,818 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,819 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,824 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,824 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,832 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,833 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,840 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,840 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,847 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,849 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,855 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,856 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,864 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,865 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,871 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,872 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,876 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,880 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,885 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,886 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,897 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,898 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,903 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,912 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,918 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,919 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,927 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,929 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,934 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,936 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,943 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,948 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,953 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,954 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,960 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,966 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,972 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,973 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,981 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,982 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,989 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,990 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:21,993 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:21,998 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,004 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,005 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,010 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,010 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,018 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,019 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,026 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,027 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,032 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,035 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,040 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,042 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,049 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,049 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,054 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,054 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,065 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,066 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,070 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,072 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,079 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,084 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,088 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,092 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,096 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,100 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,106 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,106 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,114 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,115 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,121 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,127 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,131 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,132 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,138 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,139 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,146 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,146 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,155 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,156 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,161 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,162 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,171 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,171 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,178 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,180 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,184 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,189 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,193 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,194 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,198 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,203 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,211 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,219 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,227 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,228 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,245 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,246 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,251 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,255 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,274 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,283 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,299 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,303 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,310 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,311 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,318 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:22,323 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:22,328 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:23,618 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:23,624 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:40,299 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:40,305 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:47:41,408 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:47:41,415 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:52:02,416 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:52:02,421 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:52:02,427 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:52:02,433 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:52:02,439 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:52:02,439 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:52:02,450 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:52:02,451 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:52:04,874 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:52:04,881 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:52:24,276 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:52:24,283 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:52:25,382 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:52:25,389 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 11:59:53,479 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 11:59:53,493 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:01:05,440 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:01:05,448 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:01:43,190 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:01:43,197 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:03:17,813 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:03:17,824 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:07:19,122 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:07:19,134 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:07:21,854 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:07:21,861 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:07:24,413 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:07:24,420 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:07:41,935 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:07:41,941 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:07:43,066 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:07:43,073 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:10:56,644 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:10:56,659 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:11:38,733 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:11:38,740 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:38:41,933 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:38:41,961 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:39:28,866 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:39:28,874 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:42:00,299 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:42:00,306 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:42:02,807 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:42:02,813 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:42:57,073 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:42:57,081 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:42:57,194 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:42:57,200 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:43:15,792 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:43:15,799 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:43:16,905 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:43:16,911 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:43:29,458 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:43:29,464 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:43:31,187 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:43:31,194 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:45:03,702 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:45:03,705 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:45:03,916 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:45:03,922 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:48:37,992 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:48:38,002 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 12:51:07,109 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 12:51:07,112 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:41:56,001 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:41:56,020 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:41:58,803 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:41:58,812 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:42:01,307 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:42:01,315 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:42:03,980 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:42:03,986 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:42:05,042 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:42:05,048 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:44:21,721 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:44:21,725 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:44:21,728 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:44:21,735 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:44:21,739 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:44:21,745 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:44:21,747 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:44:21,753 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:44:26,587 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:44:26,594 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:44:40,963 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:44:40,968 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:44:42,182 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:44:42,189 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:44:56,122 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:44:56,129 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:44:58,535 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:44:58,539 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:45:03,764 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:45:03,771 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:45:16,820 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:45:16,827 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:45:17,923 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:45:17,927 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:45:57,412 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:45:57,418 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:47:27,026 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:47:27,035 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:52:48,916 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:52:48,933 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:55:57,704 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:55:57,724 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:56:46,292 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:56:46,298 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:56:46,304 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:56:46,310 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:59:11,381 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:59:11,389 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:59:14,225 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:59:14,245 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:59:20,038 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:59:20,049 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:59:36,891 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:59:36,904 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 13:59:38,000 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 13:59:38,016 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:03:25,034 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:03:25,055 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:04:09,393 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:04:09,406 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:04:25,951 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:04:25,963 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:04:28,580 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:04:28,593 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:04:34,338 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:07:40,685 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:07:40,714 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:08:18,030 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:08:18,068 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:08:18,098 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:08:18,112 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:13:38,262 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:13:38,327 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:14:35,919 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:14:35,944 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:14:45,333 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:14:45,348 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:14:52,051 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:14:52,065 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:15:21,777 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:15:21,784 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:17:33,515 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:17:33,521 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:18:11,216 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:18:11,225 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:18:36,487 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:18:36,493 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:18:36,499 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:18:36,505 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:18:41,954 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:18:55,612 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:18:56,785 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:20:38,375 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:21:49,528 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:21:49,533 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:21:49,557 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:21:49,558 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:22:44,730 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:22:44,744 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:27:12,563 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:27:12,581 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:27:12,595 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:27:12,623 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:27:12,623 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:27:12,627 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:30:09,051 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:30:09,068 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:32:33,384 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:32:33,403 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:33:54,798 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:33:54,827 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:34:24,483 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:35:43,394 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:35:43,424 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:35:57,179 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:35:57,203 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:37:14,625 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:37:14,653 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:37:14,717 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:37:14,724 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:40:17,877 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:40:17,896 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:40:58,910 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:40:58,918 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:40:58,945 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:40:58,946 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:42:16,414 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:42:16,449 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:42:16,490 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:42:16,492 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:42:59,938 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:42:59,946 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:42:59,984 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:42:59,984 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:45:25,735 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:45:25,756 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 14:46:11,954 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:46:29,439 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:46:29,442 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:46:54,302 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:46:54,306 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:47:17,254 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:47:19,879 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:47:25,569 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:47:38,688 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:47:39,914 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:48:14,511 logging_servivce Success: 
+ Message: BankOfferService worked 
+ Add info:  
+INFO 2024-09-17 14:50:09,619 logging_servivce Success: 
+ Message: BankOfferService worked 
+ Add info:  
+INFO 2024-09-17 14:50:31,201 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:51:44,423 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:58:37,964 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:58:37,973 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 14:59:00,100 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 15:00:00,053 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 15:01:00,080 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 15:02:02,578 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:02:02,579 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:03:33,949 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:06:48,707 logging_servivce Success: 
+ Message: BankOfferService worked 
+ Add info:  
+INFO 2024-09-17 15:20:21,349 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:22:04,500 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:23:08,683 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:23:29,656 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:23:47,566 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:23,194 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:23,198 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:23,203 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:23,207 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:23,210 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:23,219 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:23,215 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:23,224 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:23,230 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:23,238 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:26,479 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:28:40,286 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:44:14,175 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:44:14,180 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:44:14,185 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:44:14,819 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:44:20,434 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:44:25,431 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:44:28,750 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:44:33,276 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:44:49,747 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:44:50,983 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:46:46,247 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 15:52:52,634 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,455 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,458 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,460 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,464 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,467 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,469 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,474 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,481 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,481 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,488 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,488 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:17:48,495 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:04,078 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:04,080 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:04,083 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:04,086 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:04,088 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:04,099 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:04,094 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:04,102 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:04,126 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:21:10,058 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:23,793 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:21:25,039 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:22:02,108 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:22:02,143 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:23:02,085 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:23:02,119 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:24:02,113 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:24:02,146 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:24:06,726 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:31:42,042 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:31:42,054 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:31:42,059 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:31:42,066 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:32:00,039 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:32:02,135 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:32:02,194 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:32:24,594 logging_servivce Success: 
+ Message: BankOfferService worked 
+ Add info:  
+INFO 2024-09-17 16:33:00,022 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:33:02,116 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:33:02,140 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:34:00,042 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:34:02,119 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:34:02,140 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:34:53,218 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:35:00,009 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:35:02,146 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:35:02,208 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:35:03,816 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:36:12,558 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:36:12,568 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:36:12,619 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:36:12,622 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:36:12,622 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:37:00,038 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:37:11,088 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:37:11,117 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:37:29,695 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:38:00,015 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:38:11,095 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:38:11,125 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:39:00,023 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:39:11,080 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:39:11,132 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:39:47,978 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:40:00,058 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:40:11,092 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:40:11,131 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:41:00,014 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:41:11,083 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:41:11,138 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:41:25,808 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:41:28,302 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:42:08,695 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:42:08,713 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:42:08,732 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:43:00,020 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:44:00,047 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 16:44:17,264 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:45:08,311 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:45:08,326 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:45:08,339 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:48:24,555 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:02,481 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:02,481 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:02,485 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:02,485 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:02,613 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:05,924 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:06,239 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:08,621 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:09,645 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:11,883 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:13,526 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 16:53:14,417 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:13:23,557 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:13:23,560 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:13:23,564 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:13:23,564 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:13:28,838 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:13:41,701 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:13:42,987 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:14:34,795 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:15:03,323 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:16:55,857 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:16:55,862 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:16:55,888 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 17:17:00,015 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 17:18:00,022 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-17 17:18:26,549 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:18:26,554 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:18:26,559 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:45:40,943 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:45:40,946 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:45:40,950 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:45:41,018 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:45:48,218 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:46:11,621 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 17:46:12,963 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-17 19:02:18,664 logging_servivce Success: 
+ Message: BankOfferService worked 
+ Add info:  
+INFO 2024-09-18 13:39:13,613 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-20 13:10:49,450 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-21 17:07:03,220 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-22 09:01:00,159 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-23 16:05:45,119 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-24 15:32:39,238 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-25 15:42:32,204 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-25 19:25:17,210 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-25 19:25:17,215 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-25 19:25:17,215 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-25 19:25:17,220 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-25 19:25:23,418 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-25 19:25:41,152 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-25 19:25:42,338 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:39:07,331 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:39:07,339 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:39:07,339 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:39:07,355 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:39:07,370 logging_servivce Success: 
+ Message: Successfully logged out all users 
+ Add info:  
+INFO 2024-09-26 10:39:13,553 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:39:26,883 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:39:28,172 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:40:08,440 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:40:08,440 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:40:08,445 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:40:08,449 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:40:13,944 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:40:31,126 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
+INFO 2024-09-26 10:40:32,325 logging_servivce Success: 
+ Message: Запуск всех Kafka Consumers через Celery 
+ Add info:  
