@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 NAME="motor_finance"
 DJANGODIR=/var/www/motor_finance
