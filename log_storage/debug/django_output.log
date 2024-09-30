@@ -17521,3 +17521,187 @@ Not Found: /questionnaire/manage_offers/
 [26/Sep/2024 11:43:20] "GET /questionnaire/upload/3/ HTTP/1.0" 200 2716
 [26/Sep/2024 11:43:20] "GET /questionnaire/manage_offers/?client_id=3 HTTP/1.0" 404 4843
 [26/Sep/2024 11:43:20] "GET /questionnaire/load_all_data_client/3/ HTTP/1.0" 200 45135
+[26/Sep/2024 12:10:39] "POST /users/logout/ HTTP/1.0" 302 0
+[26/Sep/2024 12:10:39] "GET /users/login/ HTTP/1.0" 200 3434
+[26/Sep/2024 12:10:39] "GET /staticfiles/users/css/styles.css HTTP/1.0" 404 1879
+Watching for file changes with StatReloader
+[30/Sep/2024 13:37:56] "GET /admin HTTP/1.0" 301 0
+[30/Sep/2024 13:37:57] "GET /admin/ HTTP/1.0" 302 0
+[30/Sep/2024 13:37:57] "GET /admin/login/?next=/admin/ HTTP/1.0" 200 4199
+[30/Sep/2024 13:37:57] "GET /staticfiles/admin/js/theme.js HTTP/1.0" 200 1653
+[30/Sep/2024 13:37:57] "GET /staticfiles/admin/css/nav_sidebar.css HTTP/1.0" 200 2810
+[30/Sep/2024 13:37:57] "GET /staticfiles/admin/css/dark_mode.css HTTP/1.0" 200 2804
+[30/Sep/2024 13:37:57] "GET /staticfiles/admin/css/login.css HTTP/1.0" 200 951
+[30/Sep/2024 13:37:57] "GET /staticfiles/admin/css/base.css HTTP/1.0" 200 22092
+[30/Sep/2024 13:37:57] "GET /staticfiles/admin/css/responsive.css HTTP/1.0" 200 17972
+[30/Sep/2024 13:37:57] "GET /staticfiles/admin/js/nav_sidebar.js HTTP/1.0" 200 3063
+Not Found: /favicon.ico
+[30/Sep/2024 13:37:57] "GET /favicon.ico HTTP/1.0" 404 2821
+[30/Sep/2024 13:38:01] "GET / HTTP/1.0" 301 0
+[30/Sep/2024 13:38:01] "GET /questionnaire/ HTTP/1.0" 302 0
+[30/Sep/2024 13:38:01] "GET /users/login/?next=/questionnaire/ HTTP/1.0" 200 3449
+[30/Sep/2024 13:38:01] "GET /staticfiles/images/logo.png HTTP/1.0" 200 42878
+[30/Sep/2024 13:38:01] "GET /staticfiles/users/css/styles.css HTTP/1.0" 404 1879
+[30/Sep/2024 13:38:05] "POST /users/login/?next=/questionnaire/ HTTP/1.0" 302 0
+[30/Sep/2024 13:38:05] "GET /questionnaire/ HTTP/1.0" 200 16134
+[30/Sep/2024 13:38:05] "GET /staticfiles/js/inputmask_jquery.js?v=1.0 HTTP/1.0" 200 6884
+[30/Sep/2024 13:38:05] "GET /staticfiles/css/styles.css HTTP/1.0" 200 4474
+[30/Sep/2024 13:38:05] "GET /staticfiles/js/modal_windows_set.js?v=1.0 HTTP/1.0" 200 977
+[30/Sep/2024 13:38:05] "GET /staticfiles/js/required_field_light.js?v=1.0 HTTP/1.0" 200 3589
+[30/Sep/2024 13:38:08] "GET /questionnaire/car-form/4/ HTTP/1.0" 200 50860
+[30/Sep/2024 13:38:08] "GET /staticfiles/questionnaire/js/car_form/calculation_application.js?v=1.0 HTTP/1.0" 200 5773
+[30/Sep/2024 13:38:08] "GET /staticfiles/questionnaire/js/car_form/load_all_data.js?v=1.0 HTTP/1.0" 200 1358
+[30/Sep/2024 13:38:08] "GET /staticfiles/questionnaire/js/car_form/upload_document_client.js?v=1.0 HTTP/1.0" 200 6663
+[30/Sep/2024 13:38:08] "GET /staticfiles/questionnaire/js/car_form/address_classifier.js?v=1.0 HTTP/1.0" 200 5042
+[30/Sep/2024 13:38:08] "GET /staticfiles/questionnaire/js/car_form/manage_select_offers.js?v=1.0 HTTP/1.0" 200 15609
+[30/Sep/2024 13:38:08] "GET /staticfiles/questionnaire/js/car_form/send_all_form_and_alert.js?v=1.0 HTTP/1.0" 200 9781
+[30/Sep/2024 13:38:08] "GET /staticfiles/questionnaire/js/car_form/send_to_bank_check.js?v=1.0 HTTP/1.0" 200 1674
+Not Found: /questionnaire/offers/
+Not Found: /questionnaire/manage_offers/
+[30/Sep/2024 13:38:08] "GET /questionnaire/offers/?client_id=4 HTTP/1.0" 404 5087
+[30/Sep/2024 13:38:08] "GET /questionnaire/manage_offers/?client_id=4 HTTP/1.0" 404 4843
+[30/Sep/2024 13:38:09] "GET /questionnaire/upload/4/ HTTP/1.0" 200 2716
+[30/Sep/2024 13:38:09] "GET /questionnaire/load_all_data_client/4/ HTTP/1.0" 200 45135
+/var/www/motor_finance/apps/common_services/google_storage/google_storage_service.py changed, reloading.
+Watching for file changes with StatReloader
+[30/Sep/2024 13:39:18] "GET /questionnaire/car-form/4/ HTTP/1.0" 200 50860
+Not Found: /questionnaire/offers/
+Not Found: /questionnaire/manage_offers/
+[30/Sep/2024 13:39:18] "GET /questionnaire/offers/?client_id=4 HTTP/1.0" 404 5087
+[30/Sep/2024 13:39:18] "GET /questionnaire/manage_offers/?client_id=4 HTTP/1.0" 404 4843
+[30/Sep/2024 13:39:18] "GET /questionnaire/upload/4/ HTTP/1.0" 200 2716
+[30/Sep/2024 13:39:19] "GET /questionnaire/load_all_data_client/4/ HTTP/1.0" 200 45135
+[30/Sep/2024 13:39:21] "GET /users/ HTTP/1.0" 200 17472
+[30/Sep/2024 13:39:22] "GET /users/edit/1/?next=/users/ HTTP/1.0" 200 21004
+[30/Sep/2024 13:39:22] "GET /staticfiles/users/js/edit_user/send_edit_user_form.js?v=1.0 HTTP/1.0" 200 4779
+[30/Sep/2024 13:39:22] "GET /staticfiles/users/js/edit_user/document_management.js?v=1.0 HTTP/1.0" 200 6705
+[30/Sep/2024 13:39:22] "GET /users/user_upload/1/ HTTP/1.0" 200 3054
+[30/Sep/2024 13:40:02] "POST /users/user_upload/1/ HTTP/1.0" 200 232
+Internal Server Error: /users/user_upload/1/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/contrib/auth/mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/var/www/motor_finance/apps/common_services/upload_document_service.py", line 167, in post
+    result = self.doc_service.process_upload(form, self.document_model, self.client_user_field_name, client)
+  File "/var/www/motor_finance/apps/common_services/upload_document_service.py", line 65, in process_upload
+    self.upload_document_to_gcs(pdf_content, destination_blob_name)
+  File "/var/www/motor_finance/apps/common_services/upload_document_service.py", line 112, in upload_document_to_gcs
+    upload_to_bucket(bucket_name, BytesIO(pdf_content), destination_blob_name)
+  File "/var/www/motor_finance/apps/common_services/google_storage/google_storage_service.py", line 37, in upload_to_bucket
+    s3_client.put_object(Bucket=bucket_name, Key=destination_blob_name, Body=file_content)
+  File "/usr/local/lib/python3.10/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+  File "/usr/local/lib/python3.10/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (InvalidBucketName) when calling the PutObject operation: The specified bucket is not valid.
+[30/Sep/2024 13:40:06] "POST /users/user_upload/1/ HTTP/1.0" 500 123086
+/var/www/motor_finance/app_v0/settings.py changed, reloading.
+Watching for file changes with StatReloader
+[30/Sep/2024 13:41:55] "GET /users/edit/1/?next=/users/ HTTP/1.0" 200 21004
+[30/Sep/2024 13:41:55] "GET /users/user_upload/1/ HTTP/1.0" 200 3053
+[30/Sep/2024 13:42:00] "DELETE /users/user_upload/1/ HTTP/1.0" 200 165
+[30/Sep/2024 13:42:00] "GET /users/user_upload/1/ HTTP/1.0" 200 2391
+[30/Sep/2024 13:42:10] "POST /users/user_upload/1/ HTTP/1.0" 200 135
+[30/Sep/2024 13:42:10] "GET /users/user_upload/1/ HTTP/1.0" 200 3053
+[30/Sep/2024 13:42:24] "DELETE /users/user_upload/1/ HTTP/1.0" 200 165
+[30/Sep/2024 13:42:24] "GET /users/user_upload/1/ HTTP/1.0" 200 2391
+[30/Sep/2024 13:43:11] "GET /users/edit/1/?next=/users/ HTTP/1.0" 200 21004
+[30/Sep/2024 13:43:11] "GET /staticfiles/css/styles.css HTTP/1.0" 200 4474
+[30/Sep/2024 13:43:11] "GET /staticfiles/js/required_field_light.js?v=1.0 HTTP/1.0" 200 3589
+[30/Sep/2024 13:43:11] "GET /staticfiles/js/modal_windows_set.js?v=1.0 HTTP/1.0" 200 977
+[30/Sep/2024 13:43:11] "GET /staticfiles/js/inputmask_jquery.js?v=1.0 HTTP/1.0" 200 6884
+[30/Sep/2024 13:43:11] "GET /staticfiles/users/js/edit_user/document_management.js?v=1.0 HTTP/1.0" 200 6705
+[30/Sep/2024 13:43:11] "GET /staticfiles/users/js/edit_user/send_edit_user_form.js?v=1.0 HTTP/1.0" 200 4779
+[30/Sep/2024 13:43:11] "GET /users/user_upload/1/ HTTP/1.0" 200 2391
+[30/Sep/2024 13:43:11] "GET /staticfiles/favicon.ico HTTP/1.0" 200 15406
+[30/Sep/2024 13:43:18] "POST /users/user_upload/1/ HTTP/1.0" 200 135
+[30/Sep/2024 13:43:18] "GET /users/user_upload/1/ HTTP/1.0" 200 3053
+[30/Sep/2024 13:43:30] "GET /questionnaire/ HTTP/1.0" 200 16134
+[30/Sep/2024 13:43:31] "GET /questionnaire/car-form/3/ HTTP/1.0" 200 50802
+Not Found: /questionnaire/manage_offers/
+[30/Sep/2024 13:43:31] "GET /questionnaire/manage_offers/?client_id=3 HTTP/1.0" 404 4843
+[30/Sep/2024 13:43:31] "GET /questionnaire/offers/?client_id=3 HTTP/1.0" 200 954
+[30/Sep/2024 13:43:31] "GET /questionnaire/upload/3/ HTTP/1.0" 200 2716
+[30/Sep/2024 13:43:31] "GET /questionnaire/load_all_data_client/3/ HTTP/1.0" 200 45135
+[30/Sep/2024 13:43:41] "POST /questionnaire/upload/3/ HTTP/1.0" 200 285
+[30/Sep/2024 13:43:41] "GET /questionnaire/upload/3/ HTTP/1.0" 200 3911
+/var/www/motor_finance/app_v0/settings.py changed, reloading.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/usr/local/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/utils/autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
+    self.check(display_num_errors=True)
+  File "/usr/local/lib/python3.10/site-packages/django/core/management/base.py", line 486, in check
+    all_issues = checks.run_checks(
+  File "/usr/local/lib/python3.10/site-packages/django/core/checks/registry.py", line 88, in run_checks
+    new_errors = check(app_configs=app_configs, databases=databases)
+  File "/usr/local/lib/python3.10/site-packages/django/core/checks/urls.py", line 44, in check_url_namespaces_unique
+    all_namespaces = _load_all_namespaces(resolver)
+  File "/usr/local/lib/python3.10/site-packages/django/core/checks/urls.py", line 63, in _load_all_namespaces
+    url_patterns = getattr(resolver, "url_patterns", [])
+  File "/usr/local/lib/python3.10/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/usr/local/lib/python3.10/site-packages/django/urls/resolvers.py", line 718, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/usr/local/lib/python3.10/site-packages/django/utils/functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/usr/local/lib/python3.10/site-packages/django/urls/resolvers.py", line 711, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/local/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/var/www/motor_finance/app_v0/urls.py", line 31, in <module>
+    path("users/", include("apps.users.urls")),
+  File "/usr/local/lib/python3.10/site-packages/django/urls/conf.py", line 39, in include
+    urlconf_module = import_module(urlconf_module)
+  File "/usr/local/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/var/www/motor_finance/apps/users/urls.py", line 7, in <module>
+    from apps.users.views import UserListView, UserEditView, RegisterView, CustomPasswordResetView, UserUploadDocumentView
+  File "/var/www/motor_finance/apps/users/views.py", line 20, in <module>
+    from apps.common_services.upload_document_service import BaseUploadDocumentView
+  File "/var/www/motor_finance/apps/common_services/upload_document_service.py", line 13, in <module>
+    from apps.common_services.s3_storage.storage_service import upload_to_bucket, delete_from_bucket, \
+  File "/var/www/motor_finance/apps/common_services/s3_storage/storage_service.py", line 6, in <module>
+    ACCESS_KEY = os.getenv('UNISENDER_API_KEY')
+NameError: name 'os' is not defined
+/var/www/motor_finance/apps/common_services/s3_storage/storage_service.py changed, reloading.
+Watching for file changes with StatReloader
+[30/Sep/2024 13:50:10] "GET /questionnaire/car-form/3/ HTTP/1.0" 200 50802
+Not Found: /questionnaire/manage_offers/
+[30/Sep/2024 13:50:11] "GET /questionnaire/manage_offers/?client_id=3 HTTP/1.0" 404 4843
+[30/Sep/2024 13:50:11] "GET /questionnaire/offers/?client_id=3 HTTP/1.0" 200 954
+[30/Sep/2024 13:50:11] "GET /questionnaire/upload/3/ HTTP/1.0" 200 3926
+[30/Sep/2024 13:50:11] "GET /questionnaire/load_all_data_client/3/ HTTP/1.0" 200 45135
+[30/Sep/2024 13:50:18] "DELETE /questionnaire/upload/3/ HTTP/1.0" 200 165
+[30/Sep/2024 13:50:18] "GET /questionnaire/upload/3/ HTTP/1.0" 200 2716
+[30/Sep/2024 13:51:24] "GET /users/ HTTP/1.0" 200 17472
+[30/Sep/2024 13:51:25] "GET /users/edit/1/?next=/users/ HTTP/1.0" 200 21004
+[30/Sep/2024 13:51:26] "GET /users/user_upload/1/ HTTP/1.0" 200 3068
+[30/Sep/2024 13:51:29] "DELETE /users/user_upload/1/ HTTP/1.0" 200 165
+[30/Sep/2024 13:51:29] "GET /users/user_upload/1/ HTTP/1.0" 200 2391

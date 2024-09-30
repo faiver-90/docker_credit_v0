@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from django.views.generic import FormView
 
 from app_v0 import settings
-from apps.common_services.google_storage.google_storage_service import upload_to_bucket, delete_from_bucket, \
+from apps.common_services.s3_storage.storage_service import upload_to_bucket, delete_from_bucket, \
     generate_signed_url
 
 
@@ -108,13 +108,13 @@ class DocumentService:
 
     @staticmethod
     def upload_document_to_gcs(pdf_content, destination_blob_name):
-        bucket_name = settings.GOOGLE_CLOUD_STORAGE_BUCKET_NAME
+        bucket_name = settings.CLOUD_STORAGE_BUCKET_NAME
         upload_to_bucket(bucket_name, BytesIO(pdf_content), destination_blob_name)
 
     def delete_document(self, document_model, document_id):
         try:
             document = get_object_or_404(document_model, id=document_id)
-            bucket_name = settings.GOOGLE_CLOUD_STORAGE_BUCKET_NAME
+            bucket_name = settings.CLOUD_STORAGE_BUCKET_NAME
             blob_name = str(document.document_file)  # Преобразуем объект FieldFile в строку
 
             # Удаление файла из Google Cloud Storage
@@ -130,7 +130,7 @@ class DocumentService:
     def generate_signed_urls(documents):
         for document in documents:
             document.signed_url = generate_signed_url(
-                settings.GOOGLE_CLOUD_STORAGE_BUCKET_NAME,
+                settings.CLOUD_STORAGE_BUCKET_NAME,
                 document.document_file.name
             )
         return documents
