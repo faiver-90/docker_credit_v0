@@ -17705,3 +17705,39 @@ Not Found: /questionnaire/manage_offers/
 [30/Sep/2024 13:51:26] "GET /users/user_upload/1/ HTTP/1.0" 200 3068
 [30/Sep/2024 13:51:29] "DELETE /users/user_upload/1/ HTTP/1.0" 200 165
 [30/Sep/2024 13:51:29] "GET /users/user_upload/1/ HTTP/1.0" 200 2391
+[30/Sep/2024 13:55:41] "GET /users/user_upload/1/ HTTP/1.0" 200 2391
+[30/Sep/2024 13:55:42] "GET /users/edit/1/?next=/users/ HTTP/1.0" 200 21004
+[30/Sep/2024 13:55:43] "GET /staticfiles/js/modal_windows_set.js?v=1.0 HTTP/1.0" 200 977
+[30/Sep/2024 13:55:43] "GET /staticfiles/css/styles.css HTTP/1.0" 200 4474
+[30/Sep/2024 13:55:43] "GET /staticfiles/js/required_field_light.js?v=1.0 HTTP/1.0" 200 3589
+[30/Sep/2024 13:55:43] "GET /staticfiles/js/inputmask_jquery.js?v=1.0 HTTP/1.0" 200 6884
+[30/Sep/2024 13:55:43] "GET /staticfiles/users/js/edit_user/send_edit_user_form.js?v=1.0 HTTP/1.0" 200 4779
+[30/Sep/2024 13:55:43] "GET /staticfiles/users/js/edit_user/document_management.js?v=1.0 HTTP/1.0" 200 6705
+[30/Sep/2024 13:55:43] "GET /users/user_upload/1/ HTTP/1.0" 200 2391
+[30/Sep/2024 13:55:43] "GET /staticfiles/favicon.ico HTTP/1.0" 200 15406
+Internal Server Error: /users/user_upload/1/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/contrib/auth/mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "/usr/local/lib/python3.10/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/var/www/motor_finance/apps/common_services/upload_document_service.py", line 167, in post
+    result = self.doc_service.process_upload(form, self.document_model, self.client_user_field_name, client)
+  File "/var/www/motor_finance/apps/common_services/upload_document_service.py", line 65, in process_upload
+    self.upload_document_to_gcs(pdf_content, destination_blob_name)
+  File "/var/www/motor_finance/apps/common_services/upload_document_service.py", line 112, in upload_document_to_gcs
+    upload_to_bucket(bucket_name, BytesIO(pdf_content), destination_blob_name)
+  File "/var/www/motor_finance/apps/common_services/s3_storage/storage_service.py", line 38, in upload_to_bucket
+    s3_client.put_object(Bucket=bucket_name, Key=destination_blob_name, Body=file_content)
+  File "/usr/local/lib/python3.10/site-packages/botocore/client.py", line 569, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+  File "/usr/local/lib/python3.10/site-packages/botocore/client.py", line 1023, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (SignatureDoesNotMatch) when calling the PutObject operation: The request signature we calculated does not match the signature you provided. Check your key and signing method.
+[30/Sep/2024 13:55:49] "POST /users/user_upload/1/ HTTP/1.0" 500 130371

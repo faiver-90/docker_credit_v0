@@ -5,8 +5,8 @@ from botocore.client import Config
 import requests
 
 # Настройки для работы с Yandex S3
-ACCESS_KEY = os.getenv('UNISENDER_API_KEY')
-SECRET_KEY = os.getenv('UNISENDER_API_KEY')
+ACCESS_KEY = os.getenv('ACCESS_KEY_YA_CLOUD')
+SECRET_KEY = os.getenv('SECRET_KEY_YA_CLOUD')
 ENDPOINT_URL = 'https://storage.yandexcloud.net'
 
 s3_client = boto3.client(
