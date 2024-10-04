@@ -73,9 +73,9 @@ jobs:
           touch /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/info/development.log
 
       # Шаг 7: Предоставление привилегий пользователю MySQL для создания БД
-      - name: Grant MySQL Privileges for DB creation
+      - name: Grant MySQL Privileges
         run: |
-          docker exec $(docker ps -q --filter "ancestor=mysql:8.2") mysql -u root -p1234 \ 
+          docker exec $(docker ps -q --filter "ancestor=mysql:8.2") mysql -u root -p1234 \
           -e "GRANT ALL PRIVILEGES ON *.* TO 'user'@'%'; FLUSH PRIVILEGES;"
 
       # Шаг 9: Запуск тестов
