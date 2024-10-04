@@ -36,7 +36,8 @@ jobs:
 
     - name: Create settings.py file from secret
       run: |
-        echo "${{ secrets.SETTINGS }}" | base64 --decode > app_v0/settings.py
+        echo "${{ secrets.SETTINGS }}" > app_v0/settings.py
+#        echo "${{ secrets.SETTINGS }}" | base64 --decode > app_v0/settings.py
         cat app_v0/settings.py
     - name: Run  tests
       run: pytest
