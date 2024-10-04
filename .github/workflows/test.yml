@@ -44,7 +44,7 @@
 #
 ##    - name: Run Playwright tests
 ##      run: pytest -s credit_v0/tests/playwright/test_pw.py
-vname: Run Tests
+name: Run Tests
 
 on:
   push:
