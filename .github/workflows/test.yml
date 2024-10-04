@@ -103,11 +103,21 @@ jobs:
         env:
           SETTINGS_PY_CONTENT: ${{ secrets.SETTINGS_PY_CONTENT }}
 
-      # Шаг 6: Создание папок для логов
-      - name: Create log directories
+      # Шаг 6: Создание папок и файлов для логов
+      - name: Create log directories and files
         run: |
+          # Создание директорий для логов
           mkdir -p /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/debug/
+          mkdir -p /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/error/
+          mkdir -p /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/info/
+
+          # Создание файлов логов
           touch /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/debug/debug.log
+          touch /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/debug/django_output.log
+          touch /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/error/error.log
+          touch /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/info/info.log
+          touch /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/info/development.log
+
 
       # Шаг 7: Настройка переменных среды для MySQL
       - name: Set environment variables for MySQL
