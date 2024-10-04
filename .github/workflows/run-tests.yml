@@ -1,8 +1,8 @@
 name: Run Tests
 
 on:
-#  push:
-#    branches: [ main ]
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -23,13 +23,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt || true
         pip install python-dotenv
-        pip install pytest-playwright
-
-    - name: Install Playwright browsers
-      run: |
-        npm install @playwright/test
-        npx playwright install
-        playwright install
+#        pip install pytest-playwright
+#
+#    - name: Install Playwright browsers
+#      run: |
+#        npm install @playwright/test
+#        npx playwright install
+#        playwright install
 
     - name: Create .env file from secret
       run: echo "${{ secrets.ENV }}" > .env
@@ -38,6 +38,8 @@ jobs:
       run: |
         echo "${{ secrets.SETTINGS }}" | base64 --decode > app_v0/settings.py
         cat app_v0/settings.py
+    - name: Run  tests
+      run: pytest
 
-    - name: Run Playwright tests
-      run: pytest -s credit_v0/tests/playwright/test_pw.py
+#    - name: Run Playwright tests
+#      run: pytest -s credit_v0/tests/playwright/test_pw.py

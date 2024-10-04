@@ -23,7 +23,7 @@ class UserDocumentType(models.Model):
 
 class UserDocument(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    document_type = models.ForeignKey(UserDocumentType, on_delete=models.CASCADE, null=True, blank=True,
+    document_type = models.ForeignKey(UserDocumentType, on_delete=models.CASCADE,
                                       verbose_name="Тип документа")
     document_file = models.FileField(upload_to=user_upload_to, verbose_name="Выбрать файл")
     uploaded_at = models.DateTimeField(auto_now_add=True)
