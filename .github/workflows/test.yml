@@ -63,10 +63,10 @@ jobs:
       mysql:
         image: mysql:8.2
         env:
-          MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_DATABASE: test_database
-          MYSQL_USER: test_user
-          MYSQL_PASSWORD: test_password
+          MYSQL_ROOT_PASSWORD: 1234
+          MYSQL_DATABASE: credit
+          MYSQL_USER: user
+          MYSQL_PASSWORD: 1234
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -119,13 +119,13 @@ jobs:
           touch /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/info/development.log
 
 
-      # Шаг 7: Настройка переменных среды для MySQL
-      - name: Set environment variables for MySQL
-        run: |
-          echo "DATABASE_NAME=test_database" >> .env
-          echo "DATABASE_USER=test_user" >> .env
-          echo "DATABASE_PASSWORD=test_password" >> .env
-          echo "DATABASE_HOST=127.0.0.1" >> .env
+#      # Шаг 7: Настройка переменных среды для MySQL
+#      - name: Set environment variables for MySQL
+#        run: |
+#          echo "DATABASE_NAME=test_database" >> .env
+#          echo "DATABASE_USER=test_user" >> .env
+#          echo "DATABASE_PASSWORD=test_password" >> .env
+#          echo "DATABASE_HOST=127.0.0.1" >> .env
 
       # Шаг 8: Запуск тестов
       - name: Run tests
