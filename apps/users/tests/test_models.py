@@ -1,45 +1,78 @@
 import pytest
 from django.contrib.auth.models import User
 
-from apps.users.models import UserProfile
+from django.core.files.uploadedfile import SimpleUploadedFile
+from apps.users.models import UserDocumentType, UserDocument, Dealership, UserProfile
+from django.db import IntegrityError
 
 
-class TestUsers:
-    @pytest.fixture
-    def create_user(self):
-        return User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+@pytest.mark.django_db
+class TestModels:
 
-    @pytest.mark.django_db
-    def test_user_create(self, create_user):
-        assert User.objects.count() == 1
-        assert User.objects.filter(username='john').exists()
-
-    @pytest.mark.django_db
-    def test_create_profile(self, create_user):
-        user = create_user
-        profile = UserProfile.objects.create(
-            user=user,
+    @classmethod
+    @pytest.fixture(autouse=True)
+    def setup_class(cls, db):
+        cls.user = User.objects.create_user(username='john', email='john@doe.com', password='password')
+        cls.document_type = UserDocumentType.objects.create(document_type="Паспорт")
+        cls.dealership = Dealership.objects.create(name="Автоцентр", organisation_name="ООО Авто")
+        cls.user_profile = UserProfile.objects.create(
+            user=cls.user,
             first_name_manager='Иван',
             last_name_manager='Иванов',
             middle_name_manager='Иванович',
-            organization_manager='ООО Компания',
-            role_manager='Менеджер',
-            date_of_birth_manager='1980-01-01',
-            phone_number_manager='+71234567890',
-            status_manager=True,
-            passport_series_manager='1234',
-            passport_number_manager='567890',
-            division_code_manager='123-456',
-            issued_by_manager='ОВД г. Москва',
-            issue_date_manager='2000-01-01'
+            organization_manager="ООО Компания",
+            role_manager="Менеджер"
         )
+        cls.user_profile.dealership_manager.add(cls.dealership)
 
-        assert profile.user == user
-        assert profile.first_name_manager == 'Иван'
-        assert profile.last_name_manager == 'Иванов'
-        assert profile.phone_number_manager == '+71234567890'
+    def test_create_user_document_type(self):
+        assert UserDocumentType.objects.count() == 1
+        assert self.document_type.document_type == "Паспорт"
 
-    @pytest.mark.django_db
-    def test_delete_user(self, create_user):
-        User.objects.filter(username='john').delete()
+    def test_unique_document_type(self):
+        with pytest.raises(IntegrityError):
+            UserDocumentType.objects.create(document_type="Паспорт")  # Должен быть уникальным
+
+    # def test_create_user_document(self):
+    #     document_file = SimpleUploadedFile("file.pdf", b"file_content")
+    #     user_document = UserDocument.objects.create(
+    #         user=self.user,
+    #         document_type=self.document_type,
+    #         document_file=document_file
+    #     )
+    #     assert UserDocument.objects.count() == 1
+    #     assert user_document.document_file.name.startswith('user_documents/user_')
+    #     assert user_document.user == self.user
+    #     assert user_document.document_type == self.document_type
+
+    def test_create_dealership(self):
+        assert Dealership.objects.count() == 1
+        assert self.dealership.name == "Автоцентр"
+        assert self.dealership.organisation_name == "ООО Авто"
+
+    def test_dealership_str_method(self):
+        assert str(self.dealership) == "Автоцентр"
+
+    def test_create_user_profile(self):
+        assert UserProfile.objects.count() == 1
+        assert self.user_profile.user == self.user
+        assert self.user_profile.first_name_manager == 'Иван'
+        assert self.user_profile.dealership_manager.filter(id=self.dealership.id).exists()
+
+    def test_set_active_dealership(self):
+        self.user_profile.set_active_dealership(self.dealership)
+        assert self.user_profile.get_active_dealership() == self.dealership
+
+    def test_set_active_dealership_not_associated(self):
+        other_dealership = Dealership.objects.create(name="Другой Автоцентр", organisation_name="ООО Другой Авто")
+        with pytest.raises(ValueError, match="Dealership not associated with this profile"):
+            self.user_profile.set_active_dealership(other_dealership)
+
+    def test_user_profile_str_method(self):
+        assert str(self.user_profile) == self.user.username
+
+    def test_delete_user(self):
+        self.user.delete()
         assert User.objects.count() == 0
+        assert UserProfile.objects.count() == 0
+        assert UserDocument.objects.count() == 0
