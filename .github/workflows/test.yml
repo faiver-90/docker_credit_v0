@@ -77,13 +77,13 @@ jobs:
         run: |
           docker exec $(docker ps -q --filter "ancestor=mysql:8.2") mysql -u root -p1234 -e "GRANT ALL PRIVILEGES ON *.* TO 'user'@'%'; FLUSH PRIVILEGES;"
 
-      # Шаг 8: Настройка переменных среды для MySQL
-      - name: Set environment variables for MySQL
-        run: |
-          echo "DATABASE_NAME=credit" >> .env
-          echo "DATABASE_USER=user" >> .env
-          echo "DATABASE_PASSWORD=1234" >> .env
-          echo "DATABASE_HOST=127.0.0.1" >> .env
+#      # Шаг 8: Настройка переменных среды для MySQL
+#      - name: Set environment variables for MySQL
+#        run: |
+#          echo "DATABASE_NAME=credit" >> .env
+#          echo "DATABASE_USER=user" >> .env
+#          echo "DATABASE_PASSWORD=1234" >> .env
+#          echo "DATABASE_HOST=127.0.0.1" >> .env
 
       # Шаг 9: Запуск тестов
       - name: Run tests
