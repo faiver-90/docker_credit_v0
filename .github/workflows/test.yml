@@ -72,37 +72,44 @@ jobs:
         options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      # Проверка кода (обязательно)
+      # Шаг 1: Клонирование репозитория
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Установка Python
+      # Шаг 2: Установка Python
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.10'  # Укажите версию Python, которую вы используете
+          python-version: '3.10'  # Укажите нужную версию Python
 
-      # Установка зависимостей
+      # Шаг 3: Установка зависимостей
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Восстановление файла .env из секрета
+      # Шаг 4: Восстановление файла .env из секрета
       - name: Create .env file
         run: |
           echo "$ENV_FILE_CONTENT" > .env
         env:
           ENV_FILE_CONTENT: ${{ secrets.ENV_FILE_CONTENT }}
 
-      # Восстановление settings.py из секрета
+      # Шаг 5: Восстановление settings.py из секрета
       - name: Create settings.py
         run: |
           mkdir -p your_project_folder/  # Замените на реальную папку, где хранится settings.py
           echo "$SETTINGS_PY_CONTENT" > app_v0/settings.py
         env:
           SETTINGS_PY_CONTENT: ${{ secrets.SETTINGS_PY_CONTENT }}
-        # Шаг 6: Настройка базы данных MySQL и переменных окружения
+
+      # Шаг 6: Создание папок для логов
+      - name: Create log directories
+        run: |
+          mkdir -p /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/debug/
+          touch /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/debug/debug.log
+
+      # Шаг 7: Настройка переменных среды для MySQL
       - name: Set environment variables for MySQL
         run: |
           echo "DATABASE_NAME=test_database" >> .env
@@ -110,7 +117,7 @@ jobs:
           echo "DATABASE_PASSWORD=test_password" >> .env
           echo "DATABASE_HOST=127.0.0.1" >> .env
 
-      # Запуск тестов
+      # Шаг 8: Запуск тестов
       - name: Run tests
         run: |
           pytest
