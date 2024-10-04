@@ -118,9 +118,10 @@ jobs:
           touch /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/info/info.log
           touch /home/runner/work/docker_credit_v0/docker_credit_v0/log_storage/info/development.log
 
+      # Шаг для предоставления привилегий пользователю test_user
       - name: Grant MySQL Privileges
         run: |
-            docker exec $(docker ps -q --filter "ancestor=mysql:8.2") mysql -u root -p1234 -e "GRANT ALL PRIVILEGES ON test_database.* TO 'test_user'@'%'; FLUSH PRIVILEGES;"
+          docker exec $(docker ps -q --filter "ancestor=mysql:8.2") mysql -u root -p1234 -e "GRANT ALL PRIVILEGES ON test_database.* TO 'test_user'@'%' IDENTIFIED BY 'test_password'; FLUSH PRIVILEGES;"
 
       #      # Шаг 7: Настройка переменных среды для MySQL
       #      - name: Set environment variables for MySQL
