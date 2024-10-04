@@ -28,16 +28,6 @@ class UserDocument(models.Model):
     document_file = models.FileField(upload_to=user_upload_to, verbose_name="Выбрать файл")
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
-    # def delete(self, *args, **kwargs):
-    #     file_path = self.document_file.path
-    #     super().delete(*args, **kwargs)
-    #     if os.path.exists(file_path):
-    #         os.remove(file_path)
-    #
-    #     folder_path = os.path.dirname(file_path)
-    #     if not os.listdir(folder_path):
-    #         os.rmdir(folder_path)
-
     class Meta:
         verbose_name = "Загруженный документ пользователя"
         verbose_name_plural = "Загруженные документы пользователей"
