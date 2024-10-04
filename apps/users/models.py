@@ -43,8 +43,6 @@ class Dealership(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название дилерского центра")
     organisation_name = models.CharField(max_length=255, verbose_name="Название организации")
 
-    # is_active = models.BooleanField(default=False, verbose_name="Активный")
-
     class Meta:
         verbose_name = "Дилерский центр"
         verbose_name_plural = "Дилерские центры"
