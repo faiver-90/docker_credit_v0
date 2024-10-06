@@ -9,13 +9,15 @@ class UserViewListService:
     @staticmethod
     def get_filtered_users(user, ordering='username'):
         """Получение пользователей с фильтрацией"""
+        if user.is_superuser:
+            return User.objects.all().select_related('userprofile').order_by(ordering)
+
         user_profile = UserProfile.objects.get(user=user)
         user_organization = user_profile.organization_manager
 
-        if user.is_superuser:
-            object_list = User.objects.all().select_related('userprofile').order_by(ordering)
-        else:
-            object_list = User.objects.filter(userprofile__organization_manager=user_organization).select_related(
-                'userprofile').order_by(ordering)
+        if user_organization:
+            return User.objects.filter(
+                userprofile__organization_manager=user_organization
+            ).select_related('userprofile').order_by(ordering)
 
-        return object_list
+        return User.objects.none()

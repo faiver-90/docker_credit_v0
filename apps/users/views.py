@@ -1,5 +1,6 @@
 import json
 import time
+from datetime import datetime
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,14 +18,17 @@ from django.shortcuts import render
 
 from django.views import View
 
+from apps.common_services.access_control_service import AccessControlService
 from apps.common_services.paginator_service import PaginationService
 from apps.common_services.upload_document_service import BaseUploadDocumentView
+from apps.core.common_services.event_sourcing_service import EventSourcingService
 from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegistrationForm, ProfileRegistrationForm, \
     CustomAuthenticationForm, UserUploadDocumentForm
 from apps.users.models import UserDocument
 from apps.users.services.reset_pass_service import PasswordResetService
 from apps.users.services.user_list_view_service import UserViewListService
-from log_storage.logging_config import logger_develop
+from log_storage.logging_config import logger_develop, logger_debug
+from log_storage.logging_servivce import handle_logger
 
 
 class UserUploadDocumentView(BaseUploadDocumentView):
@@ -93,6 +97,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
     form_class = UserEditForm
     template_name = 'users/edit_user.html'
     success_url = reverse_lazy('user_list')
+    event_sourcing_service = EventSourcingService()
 
     def dispatch(self, request, *args, **kwargs):
         """Проверка прав доступа перед выполнением запроса"""
@@ -101,7 +106,6 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         user_profile = user.userprofile
 
         # Используем сервис для проверки прав доступа
-        from apps.questionnaire.services.access_control_service import AccessControlService
 
         if not AccessControlService.has_access(user_profile, user_instance, is_superuser=user.is_superuser):
             return self.permission_denied_response("У вас нет доступа для редактирования этого пользователя.")
@@ -124,12 +128,46 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         user_instance = get_object_or_404(User, pk=self.kwargs['pk'])
 
         if self.request.POST:
-            context['profile_form'] = ProfileEditForm(self.request.POST, instance=user_instance.userprofile,
-                                                      request=self.request)
+            profile_form = ProfileEditForm(self.request.POST, instance=user_instance.userprofile, request=self.request)
+            context['profile_form'] = profile_form
+
+            # Сохраняем старые значения перед валидацией формы
+            old_values = {
+                field: getattr(user_instance.userprofile, field)
+                for field in profile_form.fields
+            }
+
+            # Сохраняем старые данные по ManyToMany полям
+            old_dealership = list(user_instance.userprofile.dealership_manager.all())
+
+            if profile_form.is_valid():
+                payload = {}
+
+                # Сравниваем обычные поля
+                for field in profile_form.changed_data:
+                    old_value = old_values.get(field)
+                    new_value = profile_form.cleaned_data[field]
+
+                    if old_value != new_value:
+                        payload[field] = {'old': old_value, 'new': new_value}
+
+                # Проверяем изменения для дилерского центра (ManyToManyField)
+                new_dealership = list(profile_form.cleaned_data.get('dealership_manager'))
+
+                if set(old_dealership) != set(new_dealership):
+                    payload['dealership_manager'] = {
+                        'old': [d.name for d in old_dealership],
+                        'new': [d.name for d in new_dealership]
+                    }
+
+                # Создание события с изменёнными полями
+                self.event_sourcing_service.create_event(context['user'].id, 'updated', payload)
+
         else:
             context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
 
         context['next'] = self.request.GET.get('next', self.request.POST.get('next', ''))
+
         return context
 
     def form_valid(self, form):
@@ -162,7 +200,14 @@ class UserEditView(LoginRequiredMixin, UpdateView):
 
     def delete(self, request, *args, **kwargs):
         user = self.get_object()
+        payload = {
+            'user_id': user.id,
+            'username': user.username,
+            'date': datetime.now().isoformat()
+        }
+        self.event_sourcing_service.create_event(user.id, 'deleted', payload)
         user.delete()
+
         success_url = self.get_success_url()
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({'success': True, 'redirect_url': success_url})
@@ -179,6 +224,7 @@ class RegisterView(LoginRequiredMixin, FormView):
     form_class = UserRegistrationForm
     second_form_class = ProfileRegistrationForm
     success_url = reverse_lazy('user_list')
+    event_sourcing_service = EventSourcingService()
 
     def get_context_data(self, **kwargs):
         context = super(RegisterView, self).get_context_data(**kwargs)
@@ -211,6 +257,16 @@ class RegisterView(LoginRequiredMixin, FormView):
             if selected_dealership:
                 profile.set_active_dealership(selected_dealership)
                 profile.save()
+
+            payload = {
+                'username_manager': user.username,
+                'email_manager': user.email,
+                'role_manager': user.userprofile.role_manager,
+                'organization_manager': user.userprofile.organization_manager,
+                'status_manager': user.userprofile.status_manager,
+                'date_joined': user.date_joined.isoformat()
+            }
+            self.event_sourcing_service.create_event(user.id, 'created', payload)
 
             return redirect(self.success_url)
         else:
