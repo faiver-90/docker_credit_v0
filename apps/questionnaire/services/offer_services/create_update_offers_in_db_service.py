@@ -2,8 +2,6 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from django.template.loader import render_to_string
 
 from apps.questionnaire.models import ClientPreData, ClientOffer, Offers
-from log_storage.logging_config import logger_develop
-from log_storage.logging_servivce import handle_logger
 
 
 class CreateUpdateOffersInDbService:

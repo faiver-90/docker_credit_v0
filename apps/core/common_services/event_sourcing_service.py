@@ -9,7 +9,7 @@ class EventSourcingService:
     и предоставлять историю событий.
     """
 
-    def record_event(self, user_id, event_type, payload, target_id=None):
+    def record_event(self, user_id, event_type, payload, target_id=None, client_id=None):
         """
         Создаёт новое событие на основе user_id и сохраняет его в базе данных.
 
@@ -17,14 +17,20 @@ class EventSourcingService:
             user_id (int): Идентификатор пользователя, для которого создаётся событие.
             event_type (str): Тип события (например, 'created', 'updated').
             payload (dict): Данные, связанные с событием (изменённые или новые значения).
-            target_id (int): Идентификатор пользователя, которого изменяют, если это не сам пользвоатель
+            target_id (int): Идентификатор пользователя или клиента, которого изменяют, если это не сам пользвоатель
+            client_id (int): Идентификатор клиента.
         Returns:
             None
         """
         if target_id:
-            aggregate_id = self.generate_aggregate_id(target_id)
+            aggregate_reference = ('target_id', target_id)
+        elif client_id:
+            aggregate_reference = ('client_id', client_id)
         else:
-            aggregate_id = self.generate_aggregate_id(user_id)
+            aggregate_reference = ('user_id', user_id)
+
+        prefix, reference_id = aggregate_reference
+        aggregate_id = self.generate_aggregate_id(f'{prefix}_{reference_id}')
 
         Event.objects.create(
             aggregate_id=aggregate_id,
@@ -33,45 +39,58 @@ class EventSourcingService:
             user_id=user_id
         )
 
-    def get_aggregate_state(self, aggregate_id):
-        """
-        Восстанавливает текущее состояние агрегата (объекта) на основе всех событий.
-
-        Args:
-            aggregate_id (str): Идентификатор агрегата, состояние которого нужно восстановить.
-
-        Returns:
-            dict: Текущее состояние агрегата, построенное на основе последовательности событий.
-        """
-        events = Event.objects.filter(aggregate_id=aggregate_id).order_by('timestamp')
-        state = {}
-        for event in events:
-            state = self.apply_event(state, event)
-        return state
-
     @staticmethod
-    def apply_event(state, event):
+    def generate_aggregate_id(user_id: str):
         """
-        Применяет событие к состоянию агрегата и обновляет его.
+        Генерирует уникальный идентификатор агрегата на основе идентификатора пользователя.
 
         Args:
-            state (dict): Текущее состояние агрегата.
-            event (Event): Событие, которое нужно применить к состоянию.
+            user_id (int): Идентификатор пользователя.
 
         Returns:
-            dict: Обновлённое состояние агрегата.
+            str: Уникальный хешированный идентификатор агрегата.
         """
-        if event.event_type == 'created':
-            state.update(event.payload)
-        elif event.event_type == 'updated':
-            state.update(event.payload)
-        elif event.event_type == 'deleted':
-            # Обработка удаления - в зависимости от логики, можно удалять конкретные ключи
-            for key in event.payload.keys():
-                if key in state:
-                    del state[key]
+        return hashlib.sha256(f"user_{user_id}".encode()).hexdigest()
 
-        return state
+    # def get_aggregate_state(self, aggregate_id):
+    #     """
+    #     Восстанавливает текущее состояние агрегата (объекта) на основе всех событий.
+    #
+    #     Args:
+    #         aggregate_id (str): Идентификатор агрегата, состояние которого нужно восстановить.
+    #
+    #     Returns:
+    #         dict: Текущее состояние агрегата, построенное на основе последовательности событий.
+    #     """
+    #     events = Event.objects.filter(aggregate_id=aggregate_id).order_by('timestamp')
+    #     state = {}
+    #     for event in events:
+    #         state = self.apply_event(state, event)
+    #     return state
+    #
+    # @staticmethod
+    # def apply_event(state, event):
+    #     """
+    #     Применяет событие к состоянию агрегата и обновляет его.
+    #
+    #     Args:
+    #         state (dict): Текущее состояние агрегата.
+    #         event (Event): Событие, которое нужно применить к состоянию.
+    #
+    #     Returns:
+    #         dict: Обновлённое состояние агрегата.
+    #     """
+    #     if event.event_type == 'created':
+    #         state.update(event.payload)
+    #     elif event.event_type == 'updated':
+    #         state.update(event.payload)
+    #     elif event.event_type == 'deleted':
+    #         # Обработка удаления - в зависимости от логики, можно удалять конкретные ключи
+    #         for key in event.payload.keys():
+    #             if key in state:
+    #                 del state[key]
+    #
+    #     return state
 
     @staticmethod
     def get_event_history(aggregate_id):
@@ -86,16 +105,3 @@ class EventSourcingService:
         """
         events = Event.objects.filter(aggregate_id=aggregate_id).order_by('timestamp')
         return events
-
-    @staticmethod
-    def generate_aggregate_id(user_id):
-        """
-        Генерирует уникальный идентификатор агрегата на основе идентификатора пользователя.
-
-        Args:
-            user_id (int): Идентификатор пользователя.
-
-        Returns:
-            str: Уникальный хешированный идентификатор агрегата.
-        """
-        return hashlib.sha256(f"user_{user_id}".encode()).hexdigest()

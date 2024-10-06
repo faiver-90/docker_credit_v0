@@ -10,13 +10,12 @@ from django.views.generic import ListView
 from django.contrib.auth.models import User
 
 # from apps.common_services.kafka.kafka_service import KafkaProducerService
-from log_storage.logging_config import logger_error, logger_develop
 
 from .forms.upload_file_form import ClientUploadDocumentForm
 from .models import ClientPreData, ClientDocument
 from apps.users.models import Dealership
 from .services.common_servive import convert_str_list
-from log_storage.logging_servivce import handle_logger
+from log_storage.logging_servivce import custom_logger
 
 from .services.dadata_service.cladr_service import CladrService
 from .services.index_list_application_service import ApplicationService
@@ -42,7 +41,7 @@ class ChangeActiveDealershipView(LoginRequiredMixin, View):
                 dealership = user_profile.dealership_manager.get(id=dealership_id)
                 user_profile.set_active_dealership(dealership)
             except Dealership.DoesNotExist as e:
-                handle_logger(e, logger_error)
+                custom_logger(e, 'error')
                 return JsonResponse("Dealership does not exist.")
 
         return redirect(request.META.get('HTTP_REFERER', 'home'))

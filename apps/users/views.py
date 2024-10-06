@@ -1,14 +1,11 @@
 import json
-import time
 from datetime import datetime
 
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.template.loader import render_to_string
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView
 from django.contrib.auth.models import User
@@ -27,11 +24,9 @@ from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegis
 from apps.users.models import UserDocument
 from apps.users.services.reset_pass_service import PasswordResetService
 from apps.users.services.user_list_view_service import UserViewListService
-from log_storage.logging_config import logger_develop, logger_debug
-from log_storage.logging_servivce import handle_logger
 
 
-class UserUploadDocumentView(BaseUploadDocumentView):
+class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
     """Загрузка документов менеджера в облако"""
     form_class = UserUploadDocumentForm
     template_name = 'users/upload_document_user.html'
@@ -66,6 +61,8 @@ class UserListView(LoginRequiredMixin, View):
     per_page = 5
 
     def get(self, request):
+        from log_storage.logging_servivce import custom_logger
+        custom_logger('debufg', 'add info')
         ordering = request.GET.get('ordering', 'username')
         page_number = request.GET.get('page', 1)
 
@@ -123,8 +120,8 @@ class UserEditView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
-        context['user_id'] = self.kwargs['pk']
+        user = context['user'] = self.request.user
+        user_id = context['user_id'] = self.kwargs['pk']
         user_instance = get_object_or_404(User, pk=self.kwargs['pk'])
 
         if self.request.POST:
@@ -142,7 +139,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
 
             if profile_form.is_valid():
                 payload = {}
-                payload['target_user_id'] = context['user_id']
+                payload['target_id'] = user_id
 
                 # Сравниваем обычные поля
                 for field in profile_form.changed_data:
@@ -150,7 +147,8 @@ class UserEditView(LoginRequiredMixin, UpdateView):
                     new_value = profile_form.cleaned_data[field]
 
                     if old_value != new_value:
-                        payload[field] = {'old': old_value, 'new': new_value}
+                        payload[field] = {'old': old_value,
+                                          'new': new_value}
 
                 # Проверяем изменения для дилерского центра (ManyToManyField)
                 new_dealership = list(profile_form.cleaned_data.get('dealership_manager'))
@@ -162,7 +160,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
                     }
 
                 # Создание события с изменёнными полями
-                self.event_sourcing_service.record_event(context['user'].id, 'updated', payload, context['user_id'])
+                self.event_sourcing_service.record_event(user.id, 'updated', payload, user_id)
 
         else:
             context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
