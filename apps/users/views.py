@@ -17,13 +17,13 @@ from django.shortcuts import render
 
 from django.views import View
 
+from apps.common_services.paginator_service import PaginationService
 from apps.common_services.upload_document_service import BaseUploadDocumentView
 from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegistrationForm, ProfileRegistrationForm, \
     CustomAuthenticationForm, UserUploadDocumentForm
 from apps.users.models import UserDocument
 from apps.users.services.reset_pass_service import PasswordResetService
 from apps.users.services.user_list_view_service import UserViewListService
-from apps.questionnaire.services.paginator_service import PaginationService
 from log_storage.logging_config import logger_develop
 
 
@@ -181,8 +181,6 @@ class RegisterView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy('user_list')
 
     def get_context_data(self, **kwargs):
-        logger_develop('get  work')
-
         context = super(RegisterView, self).get_context_data(**kwargs)
         if 'profile_form' not in context:
             context['profile_form'] = self.second_form_class(request=self.request)

@@ -24,12 +24,12 @@ from .services.offer_services.create_update_offers_in_db_service import CreateUp
 from .services.offer_services.get_offers_by_status import GetByStatusOfferService
 from .services.offer_services.manage_select_offers_service import SelectedOfferService
 from .services.offer_services.show_selected_offers_to_card import ShowOfferService
-from .services.paginator_service import PaginationService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
 from .services.questionnaire.questionnaire_view_services import QuestionnairePostHandler, QuestionnaireGetHandler
 from .services.questionnaire.send_to_bank_service import SendToBankService
 from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import BaseUploadDocumentView
+from ..common_services.paginator_service import PaginationService
 
 
 class ChangeActiveDealershipView(LoginRequiredMixin, View):
