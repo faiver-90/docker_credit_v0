@@ -142,6 +142,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
 
             if profile_form.is_valid():
                 payload = {}
+                payload['target_user_id'] = context['user_id']
 
                 # Сравниваем обычные поля
                 for field in profile_form.changed_data:
@@ -161,7 +162,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
                     }
 
                 # Создание события с изменёнными полями
-                self.event_sourcing_service.create_event(context['user'].id, 'updated', payload)
+                self.event_sourcing_service.record_event(context['user'].id, 'updated', payload, context['user_id'])
 
         else:
             context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
@@ -205,7 +206,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
             'username': user.username,
             'date': datetime.now().isoformat()
         }
-        self.event_sourcing_service.create_event(user.id, 'deleted', payload)
+        self.event_sourcing_service.record_event(user.id, 'deleted', payload)
         user.delete()
 
         success_url = self.get_success_url()
@@ -235,15 +236,16 @@ class RegisterView(LoginRequiredMixin, FormView):
         return context
 
     def post(self, request, *args, **kwargs):
+        user = request.user.id
         user_form = self.form_class(data=request.POST)
 
         profile_form = self.second_form_class(data=request.POST, request=request)
 
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save(commit=False)
-            user.save()
+            created_user = user_form.save(commit=False)
+            created_user.save()
             profile = profile_form.save(commit=False)
-            profile.user = user
+            profile.user = created_user
 
             if not profile.organization_manager:
                 profile.organization_manager = request.user.userprofile.organization_manager
@@ -259,14 +261,14 @@ class RegisterView(LoginRequiredMixin, FormView):
                 profile.save()
 
             payload = {
-                'username_manager': user.username,
-                'email_manager': user.email,
-                'role_manager': user.userprofile.role_manager,
-                'organization_manager': user.userprofile.organization_manager,
-                'status_manager': user.userprofile.status_manager,
-                'date_joined': user.date_joined.isoformat()
+                'username_manager': created_user.username,
+                'email_manager': created_user.email,
+                'role_manager': created_user.userprofile.role_manager,
+                'organization_manager': created_user.userprofile.organization_manager,
+                'status_manager': created_user.userprofile.status_manager,
+                'date_joined': created_user.date_joined.isoformat()
             }
-            self.event_sourcing_service.create_event(user.id, 'created', payload)
+            self.event_sourcing_service.record_event(user, 'created', payload, created_user.id)
 
             return redirect(self.success_url)
         else:

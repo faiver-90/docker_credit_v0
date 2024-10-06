@@ -9,7 +9,7 @@ class EventSourcingService:
     и предоставлять историю событий.
     """
 
-    def create_event(self, user_id, event_type, payload):
+    def record_event(self, user_id, event_type, payload, target_id=None):
         """
         Создаёт новое событие на основе user_id и сохраняет его в базе данных.
 
@@ -17,37 +17,21 @@ class EventSourcingService:
             user_id (int): Идентификатор пользователя, для которого создаётся событие.
             event_type (str): Тип события (например, 'created', 'updated').
             payload (dict): Данные, связанные с событием (изменённые или новые значения).
-
+            target_id (int): Идентификатор пользователя, которого изменяют, если это не сам пользвоатель
         Returns:
             None
         """
-        aggregate_id = self.generate_aggregate_id(user_id)
+        if target_id:
+            aggregate_id = self.generate_aggregate_id(target_id)
+        else:
+            aggregate_id = self.generate_aggregate_id(user_id)
+
         Event.objects.create(
             aggregate_id=aggregate_id,
             event_type=event_type,
             payload=payload,
             user_id=user_id
         )
-
-    @staticmethod
-    def record_event(aggregate_id, event_type, payload):
-        """
-        Записывает новое событие в базе данных.
-
-        Args:
-            aggregate_id (str): Идентификатор агрегата (генерируется для каждого пользователя).
-            event_type (str): Тип события (например, 'created', 'updated').
-            payload (dict): Данные, связанные с событием.
-
-        Returns:
-            Event: Созданный объект события.
-        """
-        event = Event.objects.create(
-            aggregate_id=aggregate_id,
-            event_type=event_type,
-            payload=payload
-        )
-        return event
 
     def get_aggregate_state(self, aggregate_id):
         """
