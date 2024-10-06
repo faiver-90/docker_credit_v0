@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from apps.core.models import Event
+
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('event_id', 'aggregate_id', 'event_type', 'payload', 'timestamp')
+    search_fields = ('event_id', 'aggregate_id', 'event_type', 'payload', 'timestamp')
