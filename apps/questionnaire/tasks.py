@@ -3,8 +3,7 @@ from django.contrib.sessions.models import Session
 from django.core.cache import cache
 
 # from apps.common_services.kafka.consumer.runner import KafkaConsumerRunner
-from log_storage.logging_servivce import custom_logger
-from log_storage.logging_config import logger_info
+from apps.core.log_storage.logging_servivce import custom_logger
 
 
 # @shared_task

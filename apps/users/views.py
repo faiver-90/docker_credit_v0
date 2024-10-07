@@ -61,8 +61,6 @@ class UserListView(LoginRequiredMixin, View):
     per_page = 5
 
     def get(self, request):
-        from log_storage.logging_servivce import custom_logger
-        custom_logger('debufg', 'add info')
         ordering = request.GET.get('ordering', 'username')
         page_number = request.GET.get('page', 1)
 

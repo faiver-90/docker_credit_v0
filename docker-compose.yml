@@ -2,6 +2,8 @@ version: '3.8'
 
 services:
   web:
+    environment:
+      - PYTHONUNBUFFERED=1
     build: .
     #    command: ./gunicorn_start.sh
     #    command: gunicorn app_v0.wsgi:application --bind 0.0.0.0:8000 --reload
@@ -10,7 +12,7 @@ services:
              python manage.py migrate &&
              rm -rf /var/www/motor_finance/staticfiles &&
              python manage.py collectstatic --noinput &&
-             python manage.py runserver 0.0.0.0:8000 2>> /var/www/motor_finance/log_storage/debug/django_output.log"
+             python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/var/www/motor_finance
       - static_volume:/var/www/motor_finance/static
@@ -18,7 +20,7 @@ services:
       - .env
     depends_on:
       - db
-#      - redis
+    #      - redis
     restart: always
     networks:
       - my_network

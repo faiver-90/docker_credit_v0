@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import Group
 
-from log_storage.logging_servivce import custom_logger
+from apps.core.log_storage.logging_servivce import custom_logger
 
 
 @receiver(m2m_changed, sender=UserProfile.dealership_manager.through)

@@ -15,7 +15,7 @@ from .forms.upload_file_form import ClientUploadDocumentForm
 from .models import ClientPreData, ClientDocument
 from apps.users.models import Dealership
 from .services.common_servive import convert_str_list
-from log_storage.logging_servivce import custom_logger
+from apps.core.log_storage.logging_servivce import custom_logger
 
 from .services.dadata_service.cladr_service import CladrService
 from .services.index_list_application_service import ApplicationService
