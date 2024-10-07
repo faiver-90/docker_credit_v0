@@ -49,7 +49,7 @@ class ClientCreationService:
                forms['document_form'].fields}
         )
 
-        AllApplications.objects.create(
+        application  = AllApplications.objects.create(
             client=client,
             financing_conditions=financing_conditions,
             car_info=car_info,
@@ -74,10 +74,10 @@ class ClientCreationService:
 
         self.event_sourcing_service.record_event(
             user.id,
-            'created_application',
+            'application_created',
             payload={
-                'user_id': user.id,
                 'client_id': client.id,
+                'app_id': application.id
             },
             client_id=client.id
         )
