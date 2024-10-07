@@ -36,7 +36,7 @@ class EventSourcingService:
             aggregate_id=aggregate_id,
             event_type=event_type,
             payload=payload,
-            user_id=user_id
+            id_user_changing=user_id
         )
 
     @staticmethod

@@ -9,7 +9,7 @@ class Event(models.Model):
     event_type = models.CharField(max_length=255)
     payload = models.JSONField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    user_id = models.IntegerField(default=None)
+    id_user_changing = models.IntegerField(default=None)
 
     def __str__(self):
         return f"{self.event_type} - {self.aggregate_id}"
