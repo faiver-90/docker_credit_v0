@@ -23,6 +23,7 @@ from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegis
     CustomAuthenticationForm, UserUploadDocumentForm
 from apps.users.models import UserDocument
 from apps.users.services.reset_pass_service import PasswordResetService
+from apps.users.services.user_edit_service import UserEditService
 from apps.users.services.user_list_view_service import UserViewListService
 import logging
 
@@ -30,10 +31,21 @@ logger = logging.getLogger(__name__)
 
 
 class UserListView(LoginRequiredMixin, View):
-    """Вывод всех зарегистрированных менеджеров, доступных для этой компании"""
+    """
+    Представление для отображения всех зарегистрированных пользователей (менеджеров), доступных для текущей компании.
+    """
     per_page = 5
 
     def get(self, request):
+        """
+        Обрабатывает GET-запрос для отображения списка пользователей с пагинацией и сортировкой.
+
+        Args:
+            request: HTTP-запрос.
+
+        Returns:
+            HTTP-ответ с рендерингом страницы списка пользователей.
+        """
         ordering = request.GET.get('ordering', 'username')
         page_number = request.GET.get('page', 1)
 
@@ -60,16 +72,33 @@ class UserListView(LoginRequiredMixin, View):
 
 
 class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
-    """Загрузка документов менеджера в облако"""
+    """
+    Представление для загрузки документов пользователя в облако.
+    """
     form_class = UserUploadDocumentForm
     template_name = 'users/upload_document_user.html'
     document_model = UserDocument
     client_user_field_name = 'user'
 
     def get_client_user(self):
+        """
+        Получает пользователя, к которому относится загружаемый документ.
+
+        Returns:
+            Экземпляр пользователя (User).
+        """
         return get_object_or_404(User, id=self.request.POST.get('user_id'))
 
     def get_context_data(self, **kwargs):
+        """
+        Формирует контекст для рендеринга страницы загрузки документа.
+
+        Args:
+            **kwargs: Дополнительные параметры контекста.
+
+        Returns:
+            Контекст данных для шаблона.
+        """
         user = get_object_or_404(User, id=self.kwargs.get('pk'))
         documents = self.document_model.objects.filter(user=user)
         form = self.form_class(initial={'user_id': user.id})
@@ -81,6 +110,15 @@ class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
         return context
 
     def delete(self, request, *args, **kwargs):
+        """
+        Обрабатывает DELETE-запрос для удаления документа пользователя.
+
+        Args:
+            request: HTTP-запрос.
+
+        Returns:
+            JsonResponse с результатом удаления документа.
+        """
         try:
             document_id = json.loads(request.body).get('document_id')
             response = self.doc_service.delete_document(self.document_model, document_id)
@@ -90,36 +128,59 @@ class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
 
 
 class UserEditView(LoginRequiredMixin, UpdateView):
-    """CRUD существующего менеджера"""
+    """
+    Представление для редактирования существующего пользователя.
+    """
     model = User
     form_class = UserEditForm
     template_name = 'users/edit_user.html'
     success_url = reverse_lazy('user_list')
+
     event_sourcing_service = EventSourcingService()
+    access_control_service = AccessControlService()
+    user_edit_service = UserEditService()
 
     def dispatch(self, request, *args, **kwargs):
-        """Проверка прав доступа перед выполнением запроса"""
+        """
+        Проверяет права доступа пользователя перед выполнением запроса.
+
+        Args:
+            request: HTTP-запрос.
+
+        Returns:
+            HTTP-ответ или редирект в случае отсутствия прав.
+        """
         user_instance = self.get_object()
         user = request.user
         user_profile = user.userprofile
 
-        # Используем сервис для проверки прав доступа
-
-        if not AccessControlService.has_access(user_profile, user_instance, is_superuser=user.is_superuser):
+        if not self.access_control_service.has_access(user_profile, user_instance, is_superuser=user.is_superuser):
             return self.permission_denied_response("У вас нет доступа для редактирования этого пользователя.")
 
         return super().dispatch(request, *args, **kwargs)
 
     def permission_denied_response(self, message):
-        """Возвращает JSON-ответ при недостатке прав"""
-        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'success': False, 'error': message}, status=403,
-                                json_dumps_params={'ensure_ascii': False})
-        else:
-            return JsonResponse({'success': False, 'error': message}, status=403,
-                                json_dumps_params={'ensure_ascii': False})
+        """
+        Возвращает JSON-ответ при недостатке прав доступа.
+
+        Args:
+            message: Сообщение об ошибке.
+
+        Returns:
+            JsonResponse с сообщением об ошибке.
+        """
+        return JsonResponse({'success': False, 'error': message}, status=403, json_dumps_params={'ensure_ascii': False})
 
     def get_context_data(self, **kwargs):
+        """
+        Формирует контекст для отображения формы редактирования профиля пользователя.
+
+        Args:
+            **kwargs: Дополнительные параметры контекста.
+
+        Returns:
+            Контекст данных для шаблона.
+        """
         context = super().get_context_data(**kwargs)
         user = context['user'] = self.request.user
         user_id = context['user_id'] = self.kwargs['pk']
@@ -129,40 +190,13 @@ class UserEditView(LoginRequiredMixin, UpdateView):
             profile_form = ProfileEditForm(self.request.POST, instance=user_instance.userprofile, request=self.request)
             context['profile_form'] = profile_form
 
-            # Сохраняем старые значения перед валидацией формы
-            old_values = {
-                field: getattr(user_instance.userprofile, field)
-                for field in profile_form.fields
-            }
-
-            # Сохраняем старые данные по ManyToMany полям
-            old_dealership = list(user_instance.userprofile.dealership_manager.all())
+            old_values, old_dealership = self.user_edit_service.save_old_feild(user_instance, profile_form)
 
             if profile_form.is_valid():
                 payload = {}
                 payload['target_id'] = user_id
-
-                # Сравниваем обычные поля
-                for field in profile_form.changed_data:
-                    old_value = old_values.get(field)
-                    new_value = profile_form.cleaned_data[field]
-
-                    if old_value != new_value:
-                        payload[field] = {'old': old_value,
-                                          'new': new_value}
-
-                # Проверяем изменения для дилерского центра (ManyToManyField)
-                new_dealership = list(profile_form.cleaned_data.get('dealership_manager'))
-
-                if set(old_dealership) != set(new_dealership):
-                    payload['dealership_manager'] = {
-                        'old': [d.name for d in old_dealership],
-                        'new': [d.name for d in new_dealership]
-                    }
-
-                # Создание события с изменёнными полями
+                payload = self.user_edit_service.compare_fields(profile_form, old_values, payload, old_dealership)
                 self.event_sourcing_service.record_event(user.id, 'user_updated', payload, user_id)
-
         else:
             context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
 
@@ -171,6 +205,15 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        """
+        Обрабатывает сохранение формы при валидных данных.
+
+        Args:
+            form: Валидная форма редактирования.
+
+        Returns:
+            JsonResponse или редирект на success_url.
+        """
         context = self.get_context_data()
         profile_form = context['profile_form']
 
@@ -181,7 +224,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
                 field.required = False
 
         if profile_form.is_valid():
-            self.object = form.save()
+            form.save()
             profile_form.save()
             profile_form.save_m2m()
             if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -189,37 +232,64 @@ class UserEditView(LoginRequiredMixin, UpdateView):
             next_url = self.request.POST.get('next', self.get_success_url())
             return HttpResponseRedirect(next_url)
         else:
-            if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({'success': False, 'error': profile_form.errors}, status=400)
-            return self.render_to_response(self.get_context_data(form=form))
+            return self.form_invalid(form)
 
     def form_invalid(self, form):
+        """
+        Обрабатывает невалидные данные формы.
+
+        Args:
+            form: Невалидная форма.
+
+        Returns:
+            JsonResponse с ошибками или рендер страницы с ошибками.
+        """
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({'success': False, 'error': form.errors}, status=400)
         return super().form_invalid(form)
 
     def delete(self, request, *args, **kwargs):
+        """
+        Обрабатывает удаление пользователя и создание события в системе событий.
+
+        Args:
+            request: HTTP-запрос.
+
+        Returns:
+            JsonResponse или редирект на success_url.
+        """
         user = self.get_object()
+
         payload = {
             'user_id': user.id,
             'username': user.username,
             'date': datetime.now().isoformat()
         }
+
         self.event_sourcing_service.record_event(user.id, 'user_deleted', payload)
         user.delete()
 
         success_url = self.get_success_url()
+
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({'success': True, 'redirect_url': success_url})
         return redirect(success_url)
 
     def get_success_url(self):
+        """
+        Получает URL для редиректа после успешного сохранения/удаления.
+
+        Returns:
+            URL для редиректа.
+        """
         next_url = self.request.GET.get('next', self.request.POST.get('next', ''))
         return next_url if next_url else super().get_success_url()
 
 
 class RegisterView(LoginRequiredMixin, FormView):
-    """Регистрация нового менеджера"""
+    """
+    Представление для регистрации нового пользователя (менеджера).
+    """
     template_name = 'users/register.html'
     form_class = UserRegistrationForm
     second_form_class = ProfileRegistrationForm
@@ -227,17 +297,32 @@ class RegisterView(LoginRequiredMixin, FormView):
     event_sourcing_service = EventSourcingService()
 
     def get_context_data(self, **kwargs):
+        """
+        Формирует контекст для рендеринга страницы регистрации пользователя.
+
+        Args:
+            **kwargs: Дополнительные параметры контекста.
+
+        Returns:
+            Контекст данных для шаблона.
+        """
         context = super(RegisterView, self).get_context_data(**kwargs)
         if 'profile_form' not in context:
             context['profile_form'] = self.second_form_class(request=self.request)
-        else:
-            context['profile_form'] = context['profile_form']
         return context
 
     def post(self, request, *args, **kwargs):
+        """
+        Обрабатывает POST-запрос для регистрации нового пользователя.
+
+        Args:
+            request: HTTP-запрос.
+
+        Returns:
+            Редирект на success_url при успешной регистрации или рендер формы с ошибками.
+        """
         user = request.user.id
         user_form = self.form_class(data=request.POST)
-
         profile_form = self.second_form_class(data=request.POST, request=request)
 
         if user_form.is_valid() and profile_form.is_valid():
@@ -274,33 +359,50 @@ class RegisterView(LoginRequiredMixin, FormView):
             return self.form_invalid(user_form, profile_form)
 
     def form_invalid(self, form, profile_form=None):
-        # Если один из форм невалиден, необходимо отобразить обе формы, чтобы пользователь видел ошибки в обеих формах
+        """
+        Обрабатывает невалидные формы и возвращает ошибки для обеих форм.
+
+        Args:
+            form: Невалидная форма регистрации пользователя.
+            profile_form: Невалидная форма профиля пользователя (опционально).
+
+        Returns:
+            Рендер страницы с отображением ошибок.
+        """
         context = self.get_context_data()
-        if isinstance(form, UserRegistrationForm):
-            context['user_form'] = form
-            context['profile_form'] = self.second_form_class(self.request.POST, request=self.request)
-        else:
-            context['user_form'] = self.form_class(self.request.POST)
-            context['profile_form'] = form
+        context['user_form'] = form
+        context['profile_form'] = profile_form if profile_form else self.second_form_class(self.request.POST,
+                                                                                           request=self.request)
         return self.render_to_response(context)
 
 
 class CustomLoginView(LoginView):
-    """Авторизация пользователя"""
+    """
+    Кастомизированное представление для авторизации пользователя.
+    """
     authentication_form = CustomAuthenticationForm
     template_name = 'registration/login.html'
 
     def post(self, request, *args, **kwargs):
+        """
+        Обрабатывает POST-запрос для авторизации пользователя.
+
+        Args:
+            request: HTTP-запрос.
+
+        Returns:
+            Редирект при успешной авторизации или рендер страницы с ошибками.
+        """
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form)
-        else:
-
-            return self.form_invalid(form)
+        return self.form_invalid(form)
 
 
 class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
-    """Восстановление пароля"""
+    """
+    Представление для сброса пароля пользователя.
+    """
     reset_pass_service = PasswordResetService()
     email_template_name = 'users/reset_pass/password_reset_email.html'
     subject_template_name = 'users/reset_pass/password_reset_subject.txt'
@@ -308,6 +410,15 @@ class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
     success_url = reverse_lazy('password_reset_done')
 
     def form_valid(self, form):
+        """
+        Обрабатывает валидную форму для сброса пароля и отправляет письмо.
+
+        Args:
+            form: Валидная форма сброса пароля.
+
+        Returns:
+            Редирект на success_url при успешной отправке письма или отображение ошибки.
+        """
         email = form.cleaned_data['email']
 
         # Вызов сервиса для отправки письма
@@ -319,10 +430,8 @@ class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
             email_template_name=self.email_template_name
         )
 
-        # Обработка результата из сервиса
         if response['status'] == 'error':
             messages.error(self.request, response['message'])
             return redirect('password_reset')
-        else:
-            messages.success(self.request, self.success_message)
-            return redirect(self.success_url)
+        messages.success(self.request, self.success_message)
+        return redirect(self.success_url)

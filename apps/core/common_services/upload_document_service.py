@@ -57,12 +57,10 @@ class DocumentService:
 
         merged_pdf_name, pdf_content = self.save_pdf(documents, images, f'{client.id}_{document_type}')
 
-        # Генерация пути для хранения файла в GCS
         folder_path = f'{client_user_field_name}_documents/{client_user_field_name}_{client.id}'
         destination_blob_name = f'{folder_path}/{merged_pdf_name}'
 
-        # Загрузка файла в Google Cloud Storage
-        self.upload_document_to_gcs(pdf_content, destination_blob_name)
+        self.upload_document_to_s3(pdf_content, destination_blob_name)
 
         document_kwargs = {client_user_field_name: client, 'document_type': document_type}
         document = document_model(**document_kwargs)
@@ -107,7 +105,7 @@ class DocumentService:
         return merged_pdf_name, pdf_io.getvalue()
 
     @staticmethod
-    def upload_document_to_gcs(pdf_content, destination_blob_name):
+    def upload_document_to_s3(pdf_content, destination_blob_name):
         bucket_name = settings.CLOUD_STORAGE_BUCKET_NAME
         upload_to_bucket(bucket_name, BytesIO(pdf_content), destination_blob_name)
 
