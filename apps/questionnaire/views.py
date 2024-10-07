@@ -323,7 +323,6 @@ class IndexView(LoginRequiredMixin, View):
         })
 
 
-
 class UploadDocumentView(BaseUploadDocumentView):
     """Загрузка документов клиента в облако"""
     form_class = ClientUploadDocumentForm

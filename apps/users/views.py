@@ -160,7 +160,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
                     }
 
                 # Создание события с изменёнными полями
-                self.event_sourcing_service.record_event(user.id, 'updated', payload, user_id)
+                self.event_sourcing_service.record_event(user.id, 'user_updated', payload, user_id)
 
         else:
             context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
@@ -204,7 +204,7 @@ class UserEditView(LoginRequiredMixin, UpdateView):
             'username': user.username,
             'date': datetime.now().isoformat()
         }
-        self.event_sourcing_service.record_event(user.id, 'deleted', payload)
+        self.event_sourcing_service.record_event(user.id, 'user_deleted', payload)
         user.delete()
 
         success_url = self.get_success_url()
@@ -266,7 +266,7 @@ class RegisterView(LoginRequiredMixin, FormView):
                 'status_manager': created_user.userprofile.status_manager,
                 'date_joined': created_user.date_joined.isoformat()
             }
-            self.event_sourcing_service.record_event(user, 'created', payload, created_user.id)
+            self.event_sourcing_service.record_event(user, 'user_created', payload, created_user.id)
 
             return redirect(self.success_url)
         else:
