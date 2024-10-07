@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import Group
 
-from apps.core.log_storage.logging_servivce import custom_logger
+# from apps.core.log_storage.logging_servivce import custom_logger
 
 
 @receiver(m2m_changed, sender=UserProfile.dealership_manager.through)
@@ -31,6 +31,6 @@ def assign_group_on_profile_creation(sender, instance, created, **kwargs):
 
         if group:
             user_profile.user.groups.add(group)
-        else:
-            custom_logger(
-                f'Пользователь {user_profile.user.username} имеет неизвестную роль: {user_profile.role_manager}', 'info')
+        # else:
+        #     custom_logger(
+        #         f'Пользователь {user_profile.user.username} имеет неизвестную роль: {user_profile.role_manager}', 'info')

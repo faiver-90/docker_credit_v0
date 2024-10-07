@@ -1,5 +1,11 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 class AccessControlService:
     """Сервис для проверки доступа на основе роли пользователя."""
+
     @staticmethod
     def has_access(user_profile, user_instance, **kwargs):
         """Проверка доступа на редактирование профиля пользователя."""

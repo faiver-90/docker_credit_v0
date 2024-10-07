@@ -24,36 +24,9 @@ from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegis
 from apps.users.models import UserDocument
 from apps.users.services.reset_pass_service import PasswordResetService
 from apps.users.services.user_list_view_service import UserViewListService
+import logging
 
-
-class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
-    """Загрузка документов менеджера в облако"""
-    form_class = UserUploadDocumentForm
-    template_name = 'users/upload_document_user.html'
-    document_model = UserDocument
-    client_user_field_name = 'user'
-
-    def get_client_user(self):
-        return get_object_or_404(User, id=self.request.POST.get('user_id'))
-
-    def get_context_data(self, **kwargs):
-        user = get_object_or_404(User, id=self.kwargs.get('pk'))
-        documents = self.document_model.objects.filter(user=user)
-        form = self.form_class(initial={'user_id': user.id})
-        context = {
-            'documents': documents,
-            'user_id': user.id,
-            'form': form
-        }
-        return context
-
-    def delete(self, request, *args, **kwargs):
-        try:
-            document_id = json.loads(request.body).get('document_id')
-            response = self.doc_service.delete_document(self.document_model, document_id)
-            return response
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+logger = logging.getLogger(__name__)
 
 
 class UserListView(LoginRequiredMixin, View):
@@ -84,6 +57,36 @@ class UserListView(LoginRequiredMixin, View):
             'users': page_obj,
             'field_labels': field_labels
         })
+
+
+class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
+    """Загрузка документов менеджера в облако"""
+    form_class = UserUploadDocumentForm
+    template_name = 'users/upload_document_user.html'
+    document_model = UserDocument
+    client_user_field_name = 'user'
+
+    def get_client_user(self):
+        return get_object_or_404(User, id=self.request.POST.get('user_id'))
+
+    def get_context_data(self, **kwargs):
+        user = get_object_or_404(User, id=self.kwargs.get('pk'))
+        documents = self.document_model.objects.filter(user=user)
+        form = self.form_class(initial={'user_id': user.id})
+        context = {
+            'documents': documents,
+            'user_id': user.id,
+            'form': form
+        }
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            document_id = json.loads(request.body).get('document_id')
+            response = self.doc_service.delete_document(self.document_model, document_id)
+            return response
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
 class UserEditView(LoginRequiredMixin, UpdateView):

@@ -1,13 +1,17 @@
 from apps.questionnaire.models import SelectedClientOffer, AllApplications
 from apps.users.models import UserProfile
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class ApplicationService:
     """Сервис для работы с заявками"""
+
     @staticmethod
     def get_applications(user, dealership_filter='', status_filter='', ordering='-date_create_all_app'):
         """Получение списка заявок с учетом фильтров"""
-
         user_profile = UserProfile.objects.get(user=user)
         user_organization = user_profile.organization_manager
         user_dealership = user_profile.get_active_dealership()

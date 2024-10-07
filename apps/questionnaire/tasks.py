@@ -3,7 +3,7 @@ from django.contrib.sessions.models import Session
 from django.core.cache import cache
 
 # from apps.common_services.kafka.consumer.runner import KafkaConsumerRunner
-from apps.core.log_storage.logging_servivce import custom_logger
+# from apps.core.log_storage.logging_servivce import custom_logger
 
 
 # @shared_task
@@ -26,4 +26,4 @@ from apps.core.log_storage.logging_servivce import custom_logger
 def logout_all_users():
     Session.objects.all().delete()
     cache.clear()
-    custom_logger('Successfully logged out all users', 'info')
+    # custom_logger('Successfully logged out all users', 'info')

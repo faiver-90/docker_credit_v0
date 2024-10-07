@@ -12,7 +12,7 @@ from django.views.generic import ListView
 from .forms.upload_file_form import ClientUploadDocumentForm
 from .models import ClientPreData, ClientDocument
 from apps.users.models import Dealership
-from apps.core.log_storage.logging_servivce import custom_logger
+# from apps.core.log_storage.logging_servivce import custom_logger
 
 from .services.dadata_service.cladr_service import CladrService
 from .services.index_list_application_service import ApplicationService
@@ -26,6 +26,52 @@ from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import BaseUploadDocumentView
 from apps.core.common_services.paginator_service import PaginationService
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+class IndexView(LoginRequiredMixin, View):
+    """Отображение всех созданных заявок"""
+    per_page = 10
+
+    def get(self, request):
+        # Получение параметров из запроса
+        ordering = request.GET.get('ordering', '-date_create_all_app')
+        dealership_filter = request.GET.get('dealership', '')
+        status_filter = request.GET.get('status', '')
+        page_number = request.GET.get('page', 1)
+
+        # Используем сервис для получения заявок с фильтрацией
+        object_list = ApplicationService.get_applications(
+            user=request.user,
+            dealership_filter=dealership_filter,
+            status_filter=status_filter,
+            ordering=ordering
+        )
+
+        page_obj = PaginationService.paginate(object_list, page_number=page_number, per_page=self.per_page)
+
+        field_labels = {
+            'client': 'ФИО',
+            'statuses': 'Статус',
+            'type': 'Тип',
+            'financing': 'Финансирование',
+            'author': 'Автор',
+            'dealership': 'Дилерский центр',
+            'organization': 'Юридическое лицо',
+            'date_create': 'Дата создания',
+            'date_changes': 'Дата изменения',
+        }
+
+        # Отправляем данные в шаблон
+        return render(request, 'questionnaire/index.html', {
+            'applications': page_obj,
+            'dealership_filter': dealership_filter,
+            'status_filter': status_filter,
+            'field_labels': field_labels
+        })
+
 
 class ChangeActiveDealershipView(LoginRequiredMixin, View):
     @staticmethod
@@ -37,7 +83,7 @@ class ChangeActiveDealershipView(LoginRequiredMixin, View):
                 dealership = user_profile.dealership_manager.get(id=dealership_id)
                 user_profile.set_active_dealership(dealership)
             except Dealership.DoesNotExist as e:
-                custom_logger(e, 'error')
+                # custom_logger(e, 'error')
                 return JsonResponse("Dealership does not exist.")
 
         return redirect(request.META.get('HTTP_REFERER', 'home'))
@@ -275,48 +321,6 @@ class CreateUpdateOffersInDbView(LoginRequiredMixin, View):
                                                                          financing_term=financing_term)
 
         return JsonResponse(offers_html, safe=False)
-
-
-class IndexView(LoginRequiredMixin, View):
-    """Отображение всех созданных заявок"""
-    per_page = 10
-
-    def get(self, request):
-        # Получение параметров из запроса
-        ordering = request.GET.get('ordering', '-date_create_all_app')
-        dealership_filter = request.GET.get('dealership', '')
-        status_filter = request.GET.get('status', '')
-        page_number = request.GET.get('page', 1)
-
-        # Используем сервис для получения заявок с фильтрацией
-        object_list = ApplicationService.get_applications(
-            user=request.user,
-            dealership_filter=dealership_filter,
-            status_filter=status_filter,
-            ordering=ordering
-        )
-
-        page_obj = PaginationService.paginate(object_list, page_number=page_number, per_page=self.per_page)
-
-        field_labels = {
-            'client': 'ФИО',
-            'statuses': 'Статус',
-            'type': 'Тип',
-            'financing': 'Финансирование',
-            'author': 'Автор',
-            'dealership': 'Дилерский центр',
-            'organization': 'Юридическое лицо',
-            'date_create': 'Дата создания',
-            'date_changes': 'Дата изменения',
-        }
-
-        # Отправляем данные в шаблон
-        return render(request, 'questionnaire/index.html', {
-            'applications': page_obj,
-            'dealership_filter': dealership_filter,
-            'status_filter': status_filter,
-            'field_labels': field_labels
-        })
 
 
 class UploadDocumentView(BaseUploadDocumentView):
