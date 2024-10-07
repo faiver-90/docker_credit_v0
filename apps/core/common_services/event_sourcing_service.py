@@ -52,6 +52,20 @@ class EventSourcingService:
         """
         return hashlib.sha256(f"user_{user_id}".encode()).hexdigest()
 
+    @staticmethod
+    def get_event_history(aggregate_id):
+        """
+        Возвращает список всех событий для заданного агрегата.
+
+        Args:
+            aggregate_id (str): Идентификатор агрегата, для которого требуется получить историю событий.
+
+        Returns:
+            QuerySet: Список событий, отсортированных по времени.
+        """
+        events = Event.objects.filter(aggregate_id=aggregate_id).order_by('timestamp')
+        return events
+
     # def get_aggregate_state(self, aggregate_id):
     #     """
     #     Восстанавливает текущее состояние агрегата (объекта) на основе всех событий.
@@ -91,17 +105,3 @@ class EventSourcingService:
     #                 del state[key]
     #
     #     return state
-
-    @staticmethod
-    def get_event_history(aggregate_id):
-        """
-        Возвращает список всех событий для заданного агрегата.
-
-        Args:
-            aggregate_id (str): Идентификатор агрегата, для которого требуется получить историю событий.
-
-        Returns:
-            QuerySet: Список событий, отсортированных по времени.
-        """
-        events = Event.objects.filter(aggregate_id=aggregate_id).order_by('timestamp')
-        return events
