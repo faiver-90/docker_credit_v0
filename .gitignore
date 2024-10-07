@@ -1,5 +1,4 @@
 db_con.py
-./static
 ./staticfiles
 # Progect files
 config.ini
