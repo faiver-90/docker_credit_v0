@@ -15,9 +15,9 @@ from django.shortcuts import render
 
 from django.views import View
 
-from apps.common_services.access_control_service import AccessControlService
-from apps.common_services.paginator_service import PaginationService
-from apps.common_services.upload_document_service import BaseUploadDocumentView
+from apps.core.common_services.access_control_service import AccessControlService
+from apps.core.common_services.paginator_service import PaginationService
+from apps.core.common_services.upload_document_service import BaseUploadDocumentView
 from apps.core.common_services.event_sourcing_service import EventSourcingService
 from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegistrationForm, ProfileRegistrationForm, \
     CustomAuthenticationForm, UserUploadDocumentForm

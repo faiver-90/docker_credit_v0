@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from django.views.generic import FormView
 
 from app_v0 import settings
-from apps.common_services.s3_storage.storage_service import upload_to_bucket, delete_from_bucket, \
+from apps.core.common_services.s3_storage.storage_service import upload_to_bucket, delete_from_bucket, \
     generate_signed_url
 
 

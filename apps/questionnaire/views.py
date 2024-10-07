@@ -1,5 +1,4 @@
 import json
-import time
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, Http404, JsonResponse
@@ -7,14 +6,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.views import View
 from django.views.generic import ListView
-from django.contrib.auth.models import User
 
 # from apps.common_services.kafka.kafka_service import KafkaProducerService
 
 from .forms.upload_file_form import ClientUploadDocumentForm
 from .models import ClientPreData, ClientDocument
 from apps.users.models import Dealership
-from .services.common_servive import convert_str_list
 from apps.core.log_storage.logging_servivce import custom_logger
 
 from .services.dadata_service.cladr_service import CladrService
@@ -25,10 +22,9 @@ from .services.offer_services.manage_select_offers_service import SelectedOfferS
 from .services.offer_services.show_selected_offers_to_card import ShowOfferService
 from .services.questionnaire.client_extra_data_service import ClientExtraDataService
 from .services.questionnaire.questionnaire_view_services import QuestionnairePostHandler, QuestionnaireGetHandler
-from .services.questionnaire.send_to_bank_service import SendToBankService
 from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import BaseUploadDocumentView
-from ..common_services.paginator_service import PaginationService
+from apps.core.common_services.paginator_service import PaginationService
 
 
 class ChangeActiveDealershipView(LoginRequiredMixin, View):
