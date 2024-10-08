@@ -32,12 +32,56 @@ class EventSourcingService:
         prefix, reference_id = aggregate_reference
         aggregate_id = self.generate_aggregate_id(f'{prefix}_{reference_id}')
 
-        Event.objects.create(
-            aggregate_id=aggregate_id,
-            event_type=event_type,
-            payload=payload,
-            id_user_changing=user_id
-        )
+        if len(payload.keys()) > 1:
+            Event.objects.create(
+                aggregate_id=aggregate_id,
+                event_type=event_type,
+                payload=payload,
+                id_user_changing=user_id
+            )
+
+    @staticmethod
+    def compare_fields_forms(forms: [], user_instance):
+        """
+        Сравнивает старые и новые значения полей форм с использованием changed_data.
+
+        Args:
+            forms (list): Список форм для сравнения.
+            user_instance: Экземпляр пользователя, к которому привязаны формы.
+
+        Returns:
+            tuple: Словари старых и новых значений для изменённых полей.
+        """
+        old_values = {}
+        new_values = {}
+
+        for form in forms:
+            if form.is_valid():
+                for field in form.changed_data:
+                    old_value = getattr(user_instance.userprofile, field, None)
+                    new_value = form.cleaned_data.get(field, None)
+
+                    old_values[field] = old_value
+                    new_values[field] = new_value
+
+        return old_values, new_values
+
+    @staticmethod
+    def field_entry_to_payload(old_values, new_values, payload):
+        """
+        Записывает изменения в payload.
+
+        Args:
+            old_values (dict): Словарь старых значений.
+            new_values (dict): Словарь новых значений.
+            payload (dict): Существующий payload для записи.
+
+        Returns:
+            dict: Обновленный payload с изменениями.
+        """
+        for field in new_values:
+            payload[field] = {'old': old_values.get(field), 'new': new_values[field]}
+        return payload
 
     @staticmethod
     def generate_aggregate_id(user_id: str):
@@ -65,43 +109,3 @@ class EventSourcingService:
         """
         events = Event.objects.filter(aggregate_id=aggregate_id).order_by('timestamp')
         return events
-
-    # def get_aggregate_state(self, aggregate_id):
-    #     """
-    #     Восстанавливает текущее состояние агрегата (объекта) на основе всех событий.
-    #
-    #     Args:
-    #         aggregate_id (str): Идентификатор агрегата, состояние которого нужно восстановить.
-    #
-    #     Returns:
-    #         dict: Текущее состояние агрегата, построенное на основе последовательности событий.
-    #     """
-    #     events = Event.objects.filter(aggregate_id=aggregate_id).order_by('timestamp')
-    #     state = {}
-    #     for event in events:
-    #         state = self.apply_event(state, event)
-    #     return state
-    #
-    # @staticmethod
-    # def apply_event(state, event):
-    #     """
-    #     Применяет событие к состоянию агрегата и обновляет его.
-    #
-    #     Args:
-    #         state (dict): Текущее состояние агрегата.
-    #         event (Event): Событие, которое нужно применить к состоянию.
-    #
-    #     Returns:
-    #         dict: Обновлённое состояние агрегата.
-    #     """
-    #     if event.event_type == 'created':
-    #         state.update(event.payload)
-    #     elif event.event_type == 'updated':
-    #         state.update(event.payload)
-    #     elif event.event_type == 'deleted':
-    #         # Обработка удаления - в зависимости от логики, можно удалять конкретные ключи
-    #         for key in event.payload.keys():
-    #             if key in state:
-    #                 del state[key]
-    #
-    #     return state

@@ -159,7 +159,8 @@ class UserEditView(LoginRequiredMixin, UpdateView):
 
         return super().dispatch(request, *args, **kwargs)
 
-    def permission_denied_response(self, message):
+    @staticmethod
+    def permission_denied_response(message):
         """
         Возвращает JSON-ответ при недостатке прав доступа.
 
@@ -185,17 +186,20 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         user = context['user'] = self.request.user
         user_id = context['user_id'] = self.kwargs['pk']
         user_instance = get_object_or_404(User, pk=self.kwargs['pk'])
+        payload = {}
 
         if self.request.POST:
-            profile_form = ProfileEditForm(self.request.POST, instance=user_instance.userprofile, request=self.request)
-            context['profile_form'] = profile_form
-
-            old_values, old_dealership = self.user_edit_service.save_old_feild(user_instance, profile_form)
+            profile_form = context['profile_form'] = ProfileEditForm(self.request.POST,
+                                                                     instance=user_instance.userprofile,
+                                                                     request=self.request)
+            old_values, new_values = self.event_sourcing_service.compare_fields_forms([profile_form], user_instance)
 
             if profile_form.is_valid():
-                payload = {}
                 payload['target_id'] = user_id
-                payload = self.user_edit_service.compare_fields(profile_form, old_values, payload, old_dealership)
+                payload = self.event_sourcing_service.field_entry_to_payload(old_values, new_values, payload)
+                payload = self.user_edit_service.add_dealership_to_payload(user_instance, profile_form, payload)
+
+                # Запись ивента
                 self.event_sourcing_service.record_event(user.id, 'user_updated', payload, user_id)
         else:
             context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
