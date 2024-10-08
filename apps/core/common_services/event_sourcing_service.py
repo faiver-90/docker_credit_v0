@@ -9,7 +9,7 @@ class EventSourcingService:
     и предоставлять историю событий.
     """
 
-    def record_event(self, user_id, event_type, payload, target_id=None, client_id=None):
+    def record_event(self, user_id, event_type, payload: dict, target_id=None, client_id=None):
         """
         Создаёт новое событие на основе user_id и сохраняет его в базе данных.
 
@@ -32,7 +32,7 @@ class EventSourcingService:
         prefix, reference_id = aggregate_reference
         aggregate_id = self.generate_aggregate_id(f'{prefix}_{reference_id}')
 
-        if len(payload.keys()) > 1:
+        if len(payload.keys()) > 1 or []:
             Event.objects.create(
                 aggregate_id=aggregate_id,
                 event_type=event_type,
@@ -57,8 +57,15 @@ class EventSourcingService:
 
         for form in forms:
             if form.is_valid():
+                form_instance = form.instance  # Экземпляр объекта формы
+                model_instance = form_instance.__class__.objects.get(
+                    pk=form_instance.pk)  # Получаем исходный объект из базы данных
+
                 for field in form.changed_data:
-                    old_value = getattr(user_instance.userprofile, field, None)
+                    # Получаем старое значение из исходного объекта
+                    old_value = getattr(model_instance, field, None)
+
+                    # Новое значение из очищенных данных формы
                     new_value = form.cleaned_data.get(field, None)
 
                     old_values[field] = old_value

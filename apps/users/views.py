@@ -21,7 +21,7 @@ from apps.core.common_services.upload_document_service import BaseUploadDocument
 from apps.core.common_services.event_sourcing_service import EventSourcingService
 from apps.users.forms.users_form import UserEditForm, ProfileEditForm, UserRegistrationForm, ProfileRegistrationForm, \
     CustomAuthenticationForm, UserUploadDocumentForm
-from apps.users.models import UserDocument
+from apps.users.models import UserDocument, UserProfile
 from apps.users.services.reset_pass_service import PasswordResetService
 from apps.users.services.user_edit_service import UserEditService
 from apps.users.services.user_list_view_service import UserViewListService
@@ -46,12 +46,21 @@ class UserListView(LoginRequiredMixin, View):
         Returns:
             HTTP-ответ с рендерингом страницы списка пользователей.
         """
-        ordering = request.GET.get('ordering', 'username')
+        ordering = request.GET.get(
+            'ordering',
+            'username')
         page_number = request.GET.get('page', 1)
 
-        users = UserViewListService.get_filtered_users(user=request.user, ordering=ordering)
+        users = UserViewListService.get_filtered_users(
+            user=request.user,
+            ordering=ordering
+        )
 
-        page_obj = PaginationService.paginate(users, page_number=page_number, per_page=self.per_page)
+        page_obj = PaginationService.paginate(
+            users,
+            page_number=page_number,
+            per_page=self.per_page
+        )
 
         field_labels = {
             'username': 'Username',
@@ -65,10 +74,13 @@ class UserListView(LoginRequiredMixin, View):
             'userprofile__status_manager': 'Статус',
         }
 
-        return render(request, 'users/users.html', {
-            'users': page_obj,
-            'field_labels': field_labels
-        })
+        return render(
+            request,
+            'users/users.html', {
+                'users': page_obj,
+                'field_labels': field_labels
+            }
+        )
 
 
 class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
@@ -87,7 +99,10 @@ class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
         Returns:
             Экземпляр пользователя (User).
         """
-        return get_object_or_404(User, id=self.request.POST.get('user_id'))
+        return get_object_or_404(
+            User,
+            id=self.request.POST.get('user_id')
+        )
 
     def get_context_data(self, **kwargs):
         """
@@ -99,7 +114,10 @@ class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
         Returns:
             Контекст данных для шаблона.
         """
-        user = get_object_or_404(User, id=self.kwargs.get('pk'))
+        user = get_object_or_404(
+            User,
+            id=self.kwargs.get('pk')
+        )
         documents = self.document_model.objects.filter(user=user)
         form = self.form_class(initial={'user_id': user.id})
         context = {
@@ -121,7 +139,10 @@ class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
         """
         try:
             document_id = json.loads(request.body).get('document_id')
-            response = self.doc_service.delete_document(self.document_model, document_id)
+            response = self.doc_service.delete_document(
+                self.document_model,
+                document_id
+            )
             return response
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
@@ -129,7 +150,7 @@ class UserUploadDocumentView(BaseUploadDocumentView, LoginRequiredMixin):
 
 class UserEditView(LoginRequiredMixin, UpdateView):
     """
-    Представление для редактирования существующего пользователя.
+    Представление для редактирования существующего пользователя и удаления пользователя.
     """
     model = User
     form_class = UserEditForm
@@ -154,7 +175,10 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         user = request.user
         user_profile = user.userprofile
 
-        if not self.access_control_service.has_access(user_profile, user_instance, is_superuser=user.is_superuser):
+        if not self.access_control_service.has_access(
+                user_profile,
+                user_instance,
+                is_superuser=user.is_superuser):
             return self.permission_denied_response("У вас нет доступа для редактирования этого пользователя.")
 
         return super().dispatch(request, *args, **kwargs)
@@ -170,7 +194,14 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         Returns:
             JsonResponse с сообщением об ошибке.
         """
-        return JsonResponse({'success': False, 'error': message}, status=403, json_dumps_params={'ensure_ascii': False})
+        return JsonResponse(
+            {
+                'success': False,
+                'error': message
+            },
+            status=403,
+            json_dumps_params={'ensure_ascii': False}
+        )
 
     def get_context_data(self, **kwargs):
         """
@@ -183,36 +214,112 @@ class UserEditView(LoginRequiredMixin, UpdateView):
             Контекст данных для шаблона.
         """
         context = super().get_context_data(**kwargs)
-        user_instance = self.get_object()
-        target_id = context['user_id'] = user_instance.id
+        target_user_instance = self.get_object()
+        context['user_id'] = target_user_instance.id
         user = context['user'] = self.request.user
 
         if self.request.POST:
-            profile_form = context['profile_form'] = ProfileEditForm(self.request.POST,
-                                                                     instance=user_instance.userprofile,
-                                                                     request=self.request)
+            user_form = context['user_form'] = UserEditForm(
+                self.request.POST,
+                instance=target_user_instance
+            )
 
-            self.handle_event_sourcing(profile_form, user, target_id)
+            profile_form = context['profile_form'] = ProfileEditForm(
+                self.request.POST,
+                instance=target_user_instance.userprofile,
+                request=self.request
+            )
+            self.handle_event_sourcing(
+                [profile_form, user_form],
+                user
+                )
         else:
-            context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
+            context['profile_form'] = ProfileEditForm(instance=target_user_instance.userprofile,
+                                                      request=self.request)
 
-        context['next'] = self.request.GET.get('next', self.request.POST.get('next', ''))
+        context['next'] = self.request.GET.get(
+            'next',
+            self.request.POST.get('next', '')
+        )
 
         return context
 
-    def handle_event_sourcing(self, profile_form, user, user_id):
-        user_instance = self.get_object()
+    def handle_event_sourcing(self, form_list, user):
+        target_user_instance = self.get_object()
+        target_user_id = target_user_instance.id
+
         if self.request.method == 'POST':
-            old_values, new_values = self.event_sourcing_service.compare_fields_forms([profile_form], user_instance)
+            all_forms_valid = all([form.is_valid() for form in form_list])
 
-            payload = {}
-            if profile_form.is_valid():
-                payload['target_id'] = user_id
-                payload = self.event_sourcing_service.field_entry_to_payload(old_values, new_values, payload)
-                payload = self.user_edit_service.add_dealership_to_payload(user_instance, profile_form, payload)
+            if all_forms_valid:
+                profile_form = next((form for form in form_list if isinstance(form.instance, UserProfile)), None)
 
-                # Запись ивента
-                self.event_sourcing_service.record_event(user.id, 'user_updated', payload, user_id)
+                old_values, new_values = self.event_sourcing_service.compare_fields_forms(
+                    form_list,
+                    target_user_instance
+                )
+
+                payload = {'target_id': target_user_id}
+                payload = self.event_sourcing_service.field_entry_to_payload(
+                    old_values,
+                    new_values,
+                    payload
+                )
+                payload = self.user_edit_service.add_dealership_to_payload(
+                    target_user_instance,
+                    profile_form,
+                    payload
+                )
+                # Запись ивента об обновлении пользователя
+                self.event_sourcing_service.record_event(
+                    user.id,  # ID текущего авторизованного пользователя
+                    'user_updated',
+                    payload,
+                    target_user_id
+                )
+
+        # Обработка DELETE-запроса (удаление пользователя)
+        elif self.request.method == 'DELETE':
+            current_user = self.request.user  # Текущий авторизованный пользователь
+            payload = {
+                'target_id': target_user_instance.id,
+                'username': target_user_instance.username,  # Удаляемый пользователь
+                'date': datetime.now().isoformat()
+            }
+            # Запись ивента об удалении пользователя
+            self.event_sourcing_service.record_event(
+                current_user.id,  # ID текущего авторизованного пользователя
+                'user_deleted',
+                payload,
+                target_user_instance.id  # ID удаляемого пользователя
+            )
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Обрабатывает удаление пользователя и создание события в системе событий.
+
+        Args:
+            request: HTTP-запрос.
+
+        Returns:
+            JsonResponse или редирект на success_url.
+        """
+        user = self.get_object()
+
+        payload = {
+            'user_id': user.id,
+            'username': user.username,
+            'date': datetime.now().isoformat()
+        }
+
+        self.event_sourcing_service.record_event(user.id, 'user_deleted', payload)
+        user.delete()
+
+        success_url = self.get_success_url()
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': True, 'redirect_url': success_url})
+        return redirect(success_url)
 
     def form_valid(self, form):
         """
@@ -257,33 +364,6 @@ class UserEditView(LoginRequiredMixin, UpdateView):
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({'success': False, 'error': form.errors}, status=400)
         return super().form_invalid(form)
-
-    def delete(self, request, *args, **kwargs):
-        """
-        Обрабатывает удаление пользователя и создание события в системе событий.
-
-        Args:
-            request: HTTP-запрос.
-
-        Returns:
-            JsonResponse или редирект на success_url.
-        """
-        user = self.get_object()
-
-        payload = {
-            'user_id': user.id,
-            'username': user.username,
-            'date': datetime.now().isoformat()
-        }
-
-        self.event_sourcing_service.record_event(user.id, 'user_deleted', payload)
-        user.delete()
-
-        success_url = self.get_success_url()
-
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'success': True, 'redirect_url': success_url})
-        return redirect(success_url)
 
     def get_success_url(self):
         """
