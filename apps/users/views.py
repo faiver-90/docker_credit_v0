@@ -183,17 +183,29 @@ class UserEditView(LoginRequiredMixin, UpdateView):
             Контекст данных для шаблона.
         """
         context = super().get_context_data(**kwargs)
+        user_instance = self.get_object()
+        target_id = context['user_id'] = user_instance.id
         user = context['user'] = self.request.user
-        user_id = context['user_id'] = self.kwargs['pk']
-        user_instance = get_object_or_404(User, pk=self.kwargs['pk'])
-        payload = {}
 
         if self.request.POST:
             profile_form = context['profile_form'] = ProfileEditForm(self.request.POST,
                                                                      instance=user_instance.userprofile,
                                                                      request=self.request)
+
+            self.handle_event_sourcing(profile_form, user, target_id)
+        else:
+            context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
+
+        context['next'] = self.request.GET.get('next', self.request.POST.get('next', ''))
+
+        return context
+
+    def handle_event_sourcing(self, profile_form, user, user_id):
+        user_instance = self.get_object()
+        if self.request.method == 'POST':
             old_values, new_values = self.event_sourcing_service.compare_fields_forms([profile_form], user_instance)
 
+            payload = {}
             if profile_form.is_valid():
                 payload['target_id'] = user_id
                 payload = self.event_sourcing_service.field_entry_to_payload(old_values, new_values, payload)
@@ -201,12 +213,6 @@ class UserEditView(LoginRequiredMixin, UpdateView):
 
                 # Запись ивента
                 self.event_sourcing_service.record_event(user.id, 'user_updated', payload, user_id)
-        else:
-            context['profile_form'] = ProfileEditForm(instance=user_instance.userprofile, request=self.request)
-
-        context['next'] = self.request.GET.get('next', self.request.POST.get('next', ''))
-
-        return context
 
     def form_valid(self, form):
         """
