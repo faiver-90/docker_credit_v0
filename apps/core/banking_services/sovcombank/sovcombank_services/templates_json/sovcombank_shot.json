@@ -1,0 +1,241 @@
+{
+  "applicationInfo": {
+    "id": "",
+    "partnerId": "",
+    "type": "",
+    "entryDateTime": "",
+    "dateSendWeb": "",
+    "dateReceiveWeb": "",
+    "secretWord": "",
+    "visualRating": "",
+    "gos": null,
+    "fz": null
+  },
+  "partnerInfo": {
+    "merchantID": "",
+    "terminalID": "",
+    "officeName": "",
+    "entryCity": "",
+    "entryRegion": ""
+  },
+  "sourceSystemInfo": {
+    "idSystem": "",
+    "operator": {
+      "name": "",
+      "login": ""
+    }
+  },
+  "creditInfo": {
+    "product": "",
+    "target": "",
+    "period": "",
+    "limit": "",
+    "yearPercent": "",
+    "shopInfo": "",
+    "tradeInPayment": 0.0,
+    "creditPayment": 0.0,
+    "downPayment": 0.0
+  },
+  "goods": [
+    {
+      "goodCost": 0.0,
+      "goodModel": "",
+      "goodsDescription": "",
+      "goodType": ""
+    }
+  ],
+  "person": {
+    "firstName": "",
+    "lastName": "",
+    "middleName": "",
+    "sex": "",
+    "citezenship": "",
+    "birthplace": "",
+    "dob": "",
+    "factAddressSameAsRegistration": null,
+    "socialStatus": "",
+    "maritalStatus": "",
+    "lastNameChangeDeny": null,
+    "previousLastName": "",
+    "lastNameChangeReason": "",
+    "lastNameChangeYear": "",
+    "education": "",
+    "institution": "",
+    "disability": "",
+    "livingType": "",
+    "dependentCount": 0,
+    "dependentCountChild": 0,
+    "dependentChildOldYears": "",
+    "spouse": {
+      "firstName": "",
+      "lastName": "",
+      "middleName": "",
+      "sex": "",
+      "citezenship": "",
+      "birthplace": "",
+      "dob": "",
+      "factAddressSameAsRegistration": null,
+      "socialStatus": "",
+      "maritalStatus": "",
+      "lastNameChangeDeny": null,
+      "previousLastName": "",
+      "lastNameChangeReason": "",
+      "lastNameChangeYear": "",
+      "education": "",
+      "institution": "",
+      "disability": "",
+      "livingType": "",
+      "dependentCount": 0,
+      "dependentCountChild": 0,
+      "dependentChildOldYears": ""
+    },
+    "primaryDocument": {
+      "noPreviousPassport": null,
+      "docType": "",
+      "docNumber": "",
+      "docSeries": "",
+      "issueOrg": "",
+      "issueDate": "",
+      "issueCode": ""
+    },
+    "documents": [
+      {
+        "noPreviousPassport": null,
+        "docType": "",
+        "docNumber": "",
+        "docSeries": "",
+        "issueOrg": "",
+        "issueDate": "",
+        "issueCode": ""
+      }
+    ],
+    "registrationAddress": {
+      "countryName": "",
+      "region": "",
+      "regionType": "",
+      "regionCode": "",
+      "cityType": "",
+      "city": "",
+      "streetType": "",
+      "street": "",
+      "house": "",
+      "houseExt": "",
+      "flat": "",
+      "postCode": "",
+      "timeReg": "",
+      "classifierDisabled": null
+    },
+    "actualAddress": {
+      "countryName": "",
+      "region": "",
+      "regionType": "",
+      "regionCode": "",
+      "cityType": "",
+      "city": "",
+      "streetType": "",
+      "street": "",
+      "house": "",
+      "houseExt": "",
+      "flat": "",
+      "postCode": "",
+      "timeReg": "",
+      "classifierDisabled": null
+    },
+    "incomes": [
+      {
+        "incomeType": "",
+        "incomeSource": "",
+        "incomeAmount": 0.0,
+        "incomeFrequency": "",
+        "incomeDay": "",
+        "incomeDay2": "",
+        "incomeChange": null,
+        "incomeChangeReason": ""
+      }
+    ],
+    "mandatoryPayments": [
+      {
+        "paymentType": "",
+        "paymentAmount": 0.0,
+        "paymentDate": ""
+      }
+    ],
+    "passportScans": [
+      {
+        "number": 0,
+        "image": "",
+        "fileName": "",
+        "type": "",
+        "fileLastChangeDate": ""
+      }
+    ],
+    "applicationScans": [
+      {
+        "number": 0,
+        "image": "",
+        "fileName": "",
+        "type": "",
+        "fileLastChangeDate": ""
+      }
+    ],
+    "confirmations": {
+      "receiveCalls": null,
+      "personalData": null,
+      "bureauHandlingt": null
+    },
+    "contactList": [
+      {
+        "contactType": "",
+        "primary": null,
+        "verified": null,
+        "comment": "",
+        "phoneInfo": [
+          {
+            "phoneType": "",
+            "number": "",
+            "status": "",
+            "operator": "",
+            "countryCode": 0,
+            "cityCode": "",
+            "extCode": "",
+            "timeZone": "",
+            "device": "",
+            "value": ""
+          }
+        ],
+        "emailAdress": ""
+      }
+    ]
+  },
+  "job": {
+    "employerName": "",
+    "employerAge": 0,
+    "countEmployee": "",
+    "workPeriod": {
+      "year": "",
+      "month": ""
+    },
+    "employerType": "",
+    "employerOwnership": "",
+    "workSector": "",
+    "workPosition": "",
+    "workOccupation": "",
+    "workManagerName": "",
+    "workAddress": {
+      "countryName": "",
+      "region": "",
+      "regionType": "",
+      "regionCode": "",
+      "cityType": "",
+      "city": "",
+      "streetType": "",
+      "street": "",
+      "house": "",
+      "houseExt": "",
+      "flat": "",
+      "postCode": "",
+      "timeReg": "",
+      "classifierDisabled": null
+    }
+  }
+}
