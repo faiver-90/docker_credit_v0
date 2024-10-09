@@ -4,7 +4,7 @@ from pathlib import Path
 
 from apps.core.banking_services.sovcombank.sovcombank_services.banking_requests_service import BankingRequestsService
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
-    required_fields, field_types, field_ranges, field_enums
+    FIELD_TYPES, FIELD_RANGES, FIELD_ENUMS, REQUIRED_FIELDS
 
 project_root = Path(__file__).resolve().parent.parent.parent
 
@@ -74,7 +74,9 @@ filled_data = {
             "issueCode": "123-002"
         },
         "registrationAddress": {
-            "countryName": "Россия"
+            "countryName": "Россия",
+            "region": "gde to",
+            "postCode": "123456"
         },
         "incomes": [
             {
@@ -98,8 +100,9 @@ goods = {
         {"goodCost": 50.0, "goodModel": "Model2", "goodsDescription": "Description2", "goodType": "Type2"}
     ]
 }
+
 data_request = sovcombank_connect_api_service.fill_templates_request(data, **filled_data, **goods)
 
-if sovcombank_connect_api_service.validate_fields(data_request, required_fields, field_types, field_ranges, field_enums) and validate_goods_list(
+if sovcombank_connect_api_service.validate_fields(data_request, REQUIRED_FIELDS, FIELD_TYPES, FIELD_RANGES, FIELD_ENUMS) and validate_goods_list(
         data_request):
     print(json.dumps(data_request, indent=4, ensure_ascii=False))

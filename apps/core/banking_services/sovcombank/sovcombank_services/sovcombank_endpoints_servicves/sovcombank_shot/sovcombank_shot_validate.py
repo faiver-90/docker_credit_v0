@@ -1,4 +1,36 @@
-required_fields = [
+# REQUIRED_FIELDS = [
+#     "applicationInfo.partnerId",
+#     "sourceSystemInfo.idSystem",
+#     "creditInfo.product",
+#     "creditInfo.period",
+#     "creditInfo.limit",
+#     "person.firstName",
+#     "person.lastName",
+#     "person.sex",
+#     "person.birthplace",
+#     "person.dob",
+#     "person.factAddressSameAsRegistration",
+#     "person.primaryDocument.docType",
+#     "person.primaryDocument.docNumber",
+#     "person.primaryDocument.docSeries",
+#     "person.primaryDocument.issueOrg",
+#     "person.primaryDocument.issueDate",
+#     "person.primaryDocument.issueCode",
+#     "person.registrationAddress.countryName"
+# ]
+# FIELD_TYPES = {
+#     "person.firstName": str,
+#     "person.dob": str,
+#     "creditInfo.limit": float,
+#     "person.factAddressSameAsRegistration": bool
+# }
+# FIELD_RANGES = {
+#     "creditInfo.limit": (1, float('inf'))
+# }
+# FIELD_ENUMS = {
+#     "person.sex": ["m", "f"]
+# }
+REQUIRED_FIELDS = [
     "applicationInfo.partnerId",
     "sourceSystemInfo.idSystem",
     "creditInfo.product",
@@ -16,17 +48,54 @@ required_fields = [
     "person.primaryDocument.issueOrg",
     "person.primaryDocument.issueDate",
     "person.primaryDocument.issueCode",
-    "person.registrationAddress.countryName"
+    "person.registrationAddress.countryName",
+    "person.registrationAddress.region",
+    "person.registrationAddress.postCode",
+    # "goods[].goodCost",
+    # "person.incomes[].incomeType",
+    # "person.incomes[].incomeAmount"
 ]
-field_types = {
-    "person.firstName": str,
-    "person.dob": str,
+
+FIELD_TYPES = {
+    "applicationInfo.partnerId": str,
+    "sourceSystemInfo.idSystem": str,
+    "creditInfo.product": str,
+    "creditInfo.period": str,
     "creditInfo.limit": float,
-    "person.factAddressSameAsRegistration": bool
+    "person.firstName": str,
+    "person.lastName": str,
+    "person.sex": str,
+    "person.birthplace": str,
+    "person.dob": str,
+    "person.factAddressSameAsRegistration": bool,
+    "person.primaryDocument.docType": str,
+    "person.primaryDocument.docNumber": str,
+    "person.primaryDocument.docSeries": str,
+    "person.primaryDocument.issueOrg": str,
+    "person.primaryDocument.issueDate": str,
+    "person.primaryDocument.issueCode": str,
+    "person.registrationAddress.countryName": str,
+    "person.registrationAddress.region": str,
+    "person.registrationAddress.postCode": str,
+    # "goods[].goodCost": float,
+    # "person.incomes[].incomeType": str,
+    # "person.incomes[].incomeAmount": float
 }
-field_ranges = {
-    "creditInfo.limit": (1, float('inf'))
+
+# Диапазоны значений для полей
+FIELD_RANGES = {
+    "creditInfo.limit": (1, float('inf')),
+    # "person.incomes[].incomeAmount": (0, float('inf'))
 }
-field_enums = {
-    "person.sex": ["m", "f"]
+
+# Допустимые значения (enumerations)
+FIELD_ENUMS = {
+    "person.sex": ["m", "f"],
+    "person.primaryDocument.docType": [
+        "Паспорт", "Старый паспорт", "Водительское удостоверение", "Военный билет",
+        "Свидетельство ИНН", "Загранпаспорт", "Новое Водительское удостоверение",
+        "Пенсионное страховое свидетельство", "Полис ОМС единого образца",
+        "Удостоверение личности офицера"
+    ],
+    # "goods[].goodType": ["Новый", "Подержанный"]
 }
