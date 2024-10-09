@@ -3,6 +3,8 @@ import sys
 from pathlib import Path
 
 from apps.core.banking_services.sovcombank.sovcombank_services.banking_requests_service import BankingRequestsService
+from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
+    required_fields, field_types, field_ranges, field_enums
 
 project_root = Path(__file__).resolve().parent.parent.parent
 
@@ -39,30 +41,10 @@ def validate_goods_list(data_request):
 
 
 sovcombank_connect_api_service = BankingRequestsService(
-    f'{project_root}/sovcombank_services/templates_json/sovcombank_shot.json')
+    f'{project_root}/templates_json/sovcombank_shot.json')
 
 data = sovcombank_connect_api_service.template_data
 
-required_fields = [
-    "applicationInfo.partnerId",
-    "sourceSystemInfo.idSystem",
-    "creditInfo.product",
-    "creditInfo.period",
-    "creditInfo.limit",
-    "person.firstName",
-    "person.lastName",
-    "person.sex",
-    "person.birthplace",
-    "person.dob",
-    "person.factAddressSameAsRegistration",
-    "person.primaryDocument.docType",
-    "person.primaryDocument.docNumber",
-    "person.primaryDocument.docSeries",
-    "person.primaryDocument.issueOrg",
-    "person.primaryDocument.issueDate",
-    "person.primaryDocument.issueCode",
-    "person.registrationAddress.countryName"
-]
 
 filled_data = {
     "applicationInfo": {
@@ -118,6 +100,6 @@ goods = {
 }
 data_request = sovcombank_connect_api_service.fill_templates_request(data, **filled_data, **goods)
 
-if sovcombank_connect_api_service.validate_required_fields(data_request, required_fields) and validate_goods_list(
+if sovcombank_connect_api_service.validate_fields(data_request, required_fields, field_types, field_ranges, field_enums) and validate_goods_list(
         data_request):
     print(json.dumps(data_request, indent=4, ensure_ascii=False))

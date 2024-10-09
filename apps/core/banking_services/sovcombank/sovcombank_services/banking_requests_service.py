@@ -48,11 +48,116 @@ class BankingRequestsService:
 
         return combined_data
 
-    @staticmethod
-    def validate_required_fields(data, required_fields):
+    def validate_fields(self, data, required_fields, field_types=None, field_ranges=None, field_enums=None):
         """
-        Функция для валидации обязательных полей.
-        Проверяет, что все обязательные поля присутствуют и не пусты (значения не пустые строки, нулевые или None).
+        Универсальная функция для полной валидации данных.
+        Проверяет обязательные поля, типы данных, диапазоны и допустимые значения.
+        """
+        errors = []
+
+        # Проверка обязательных полей
+        missing_fields = self.check_required_fields(data, required_fields)
+        if missing_fields:
+            errors.append(f"Следующие обязательные поля отсутствуют или пусты: {', '.join(missing_fields)}")
+
+        # Проверка типов данных
+        if field_types:
+            incorrect_types = self.check_field_types(data, field_types)
+            if incorrect_types:
+                errors.append(f"Следующие поля имеют некорректные типы данных: {', '.join(incorrect_types)}")
+
+        # Проверка диапазонов значений
+        if field_ranges:
+            out_of_range = self.check_field_ranges(data, field_ranges)
+            if out_of_range:
+                errors.append(f"Следующие поля вне допустимого диапазона: {', '.join(out_of_range)}")
+
+        # Проверка допустимых значений
+        if field_enums:
+            invalid_values = self.check_enumerations(data, field_enums)
+            if invalid_values:
+                errors.append(f"Следующие поля содержат недопустимые значения: {', '.join(invalid_values)}")
+
+        if errors:
+            print(errors)
+            raise Exception("\n".join(errors))
+
+        return True
+
+    @staticmethod
+    def check_enumerations(data, field_enums):
+        """
+        Проверяет, что поля содержат допустимые значения (enumeration).
+        """
+        invalid_values = []
+
+        def check_enumerations(d, field_enums):
+            for field, allowed_values in field_enums.items():
+                keys = field.split('.')
+                temp = d
+                for key in keys:
+                    if isinstance(temp, dict) and key in temp:
+                        temp = temp[key]
+                    else:
+                        invalid_values.append(f"{field} (отсутствует)")
+                        break
+                if temp not in allowed_values:
+                    invalid_values.append(f"{field} (недопустимое значение: {temp})")
+
+        check_enumerations(data, field_enums)
+        return invalid_values
+
+    @staticmethod
+    def check_field_ranges(data, field_ranges):
+        """
+        Проверяет, что числовые поля находятся в заданном диапазоне.
+        """
+        out_of_range = []
+
+        def check_ranges(d, field_ranges):
+            for field, (min_value, max_value) in field_ranges.items():
+                keys = field.split('.')
+                temp = d
+                for key in keys:
+                    if isinstance(temp, dict) and key in temp:
+                        temp = temp[key]
+                    else:
+                        out_of_range.append(f"{field} (отсутствует)")
+                        break
+                if not (min_value <= temp <= max_value):
+                    out_of_range.append(f"{field} (ожидалось в диапазоне {min_value}-{max_value}, получено {temp})")
+
+        check_ranges(data, field_ranges)
+        return out_of_range
+
+    @staticmethod
+    def check_field_types(data, field_types):
+        """
+        Проверяет, что поля имеют правильные типы данных.
+        """
+        incorrect_types = []
+
+        def check_types(d, field_types):
+            for field, expected_type in field_types.items():
+                keys = field.split('.')
+                temp = d
+                for key in keys:
+                    if isinstance(temp, dict) and key in temp:
+                        temp = temp[key]
+                    else:
+                        incorrect_types.append(f"{field} (отсутствует)")
+                        break
+                if not isinstance(temp, expected_type):
+                    incorrect_types.append(
+                        f"{field} (ожидалось {expected_type.__name__}, получено {type(temp).__name__})")
+
+        check_types(data, field_types)
+        return incorrect_types
+
+    @staticmethod
+    def check_required_fields(data, required_fields):
+        """
+        Проверяет, что все обязательные поля присутствуют и не пусты.
         """
         missing_fields = []
 
@@ -71,8 +176,4 @@ class BankingRequestsService:
                     missing_fields.append(field)
 
         check_fields(data, required_fields)
-
-        if missing_fields:
-            raise Exception(f"Следующие обязательные поля отсутствуют или пусты: {', '.join(missing_fields)}")
-
-        return True
+        return missing_fields
