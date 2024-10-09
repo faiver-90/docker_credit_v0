@@ -84,7 +84,7 @@ FIELD_TYPES = {
 
 # Диапазоны значений для полей
 FIELD_RANGES = {
-    "creditInfo.limit": (1, float('inf')),
+    "creditInfo.limit": (10, float('inf')),
     # "person.incomes[].incomeAmount": (0, float('inf'))
 }
 
