@@ -1,14 +1,14 @@
 from app_v0.settings import BASE_DIR
-from apps.core.banking_services.sovcombank.sovcombank_services.building_bank_requests_service import \
-    BankingBuildingRequestsService, ValidateFieldService
+from apps.core.banking_services.building_bank_requests_service import \
+    CommonBankBuildingRequestsService, CommonValidateFieldService
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_connect_api_service import \
     SovcombankRequestService
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_service import endpoint_processor
 
-validate_service = ValidateFieldService()
+validate_service = CommonValidateFieldService()
 sovcombank_request_service = SovcombankRequestService()
 
-sovcombank_build_request_service = BankingBuildingRequestsService(
+sovcombank_build_request_service = CommonBankBuildingRequestsService(
     f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/templates_json/sovcombank_get_status.json')
 
 application_id_from_db = '2' * 64  # приходит из бд, после отправки в shot

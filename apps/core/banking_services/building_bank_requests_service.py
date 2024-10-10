@@ -3,7 +3,7 @@ import json
 import sys
 
 
-class BankingBuildingRequestsService:
+class CommonBankBuildingRequestsService:
     """
     Класс для работы с шаблонами запросов к банковским системам.
 
@@ -119,7 +119,7 @@ class BankingBuildingRequestsService:
         return combined_data
 
 
-class ValidateFieldService:
+class CommonValidateFieldService:
     """
     Сервис для валидации полей данных.
 
