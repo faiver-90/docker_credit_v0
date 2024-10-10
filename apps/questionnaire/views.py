@@ -122,15 +122,33 @@ class RequestOffersView(LoginRequiredMixin, ListView):
         return context
 
 
+# class SendToBankView(LoginRequiredMixin, View):
+#     def post(self, request, *args, **kwargs):
+#         # Выводим сообщение в консоль после нажатия на кнопку
+#         print("Кнопка нажата! Сообщение записано в консоль.")
+#         client_id = request.POST.get('client_id')
+#         user = request.user
+#         response_data = DataPreparationService().prepare_data(user, client_id)
+#         ValidationService().validate(response_data)
+#         return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
 class SendToBankView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
-        # Выводим сообщение в консоль после нажатия на кнопку
-        print("Кнопка нажата! Сообщение записано в консоль.")
-        client_id = request.POST.get('client_id')
-        user = request.user
-        response_data = DataPreparationService().prepare_data(user, client_id)
-        ValidationService().validate(response_data)
-        return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+        try:
+            # Логика обработки запроса
+            print("Кнопка нажата! Сообщение записано в консоль.")
+            client_id = request.POST.get('client_id')
+            user = request.user
+            response_data = DataPreparationService().prepare_data(user, client_id)
+
+            # Валидация данных
+            ValidationService().validate(response_data)
+
+            # Возвращаем успешный ответ
+            return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+
+        except Exception as e:
+            # В случае ошибки возвращаем JSON с информацией об ошибке
+            return JsonResponse({'error': str(e)}, status=400, json_dumps_params={'ensure_ascii': False, 'indent': 4})
     # """Отправка заявки в банк"""
     # topic = 'database'
     # kafka_service = KafkaProducerService()
