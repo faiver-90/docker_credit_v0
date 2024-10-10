@@ -1,3 +1,6 @@
+import json
+
+
 class SovcombankConnectionsService:
     def connect_api(self):
         connect = ''
@@ -11,8 +14,8 @@ class SovcombankRequestService:
 
     def send_request(self, request):
         connect_api = self.sovcombank_connections_service.connect_api()
-        print('send request', request)
+        print('send request', json.dumps(request, indent=4, ensure_ascii=False))
         response = {'status': 'ok', 'status_code': 200, 'id': 1234}
-        print('response', response)
+        print('response', json.dumps(response, indent=4, ensure_ascii=False))
 
         return response

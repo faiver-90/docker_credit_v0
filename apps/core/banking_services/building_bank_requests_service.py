@@ -272,8 +272,14 @@ class CommonValidateFieldService:
                     else:
                         out_of_range.append(f"{field} (отсутствует)")
                         break
-                if not (min_value <= temp <= max_value):
-                    out_of_range.append(f"{field} (ожидалось в диапазоне {min_value}-{max_value}, получено {temp})")
+
+                # Добавляем проверку типа данных и выводим отладочную информацию
+                if isinstance(temp, (int, float)):
+                    if not (min_value <= temp <= max_value):
+                        out_of_range.append(f"{field} (ожидалось в диапазоне {min_value}-{max_value}, получено {temp})")
+                else:
+                    print(f"Ошибка типа данных в поле {field}: {temp} (тип {type(temp)})")
+                    out_of_range.append(f"{field} (ошибка типа данных: ожидалось число, получено {temp})")
 
         check_ranges(data, field_ranges)
         return out_of_range

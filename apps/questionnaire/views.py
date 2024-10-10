@@ -25,7 +25,8 @@ from .services.questionnaire.questionnaire_view_services import QuestionnairePos
 from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import BaseUploadDocumentView
 from apps.core.common_services.paginator_service import PaginationService
-
+from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot import \
+    SovcombankHandler, DataPreparationService, ValidationService
 import logging
 
 logger = logging.getLogger(__name__)
@@ -122,7 +123,14 @@ class RequestOffersView(LoginRequiredMixin, ListView):
 
 
 class SendToBankView(LoginRequiredMixin, View):
-    pass
+    def post(self, request, *args, **kwargs):
+        # Выводим сообщение в консоль после нажатия на кнопку
+        print("Кнопка нажата! Сообщение записано в консоль.")
+        client_id = request.POST.get('client_id')
+        user = request.user
+        response_data = DataPreparationService().prepare_data(user, client_id)
+        ValidationService().validate(response_data)
+        return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
     # """Отправка заявки в банк"""
     # topic = 'database'
     # kafka_service = KafkaProducerService()
