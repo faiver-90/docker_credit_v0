@@ -47,11 +47,11 @@ class SovcombankResponseHandlerFactory:
 
 
 class SovcombankEndpointResponseProcessor:
-    def __init__(self, factory):
+    def __init__(self):
         """
         Инициализация с фабрикой, которая будет возвращать обработчики для разных эндпоинтов.
         """
-        self.factory = factory
+        self.factory = SovcombankResponseHandlerFactory()
 
     def handle_endpoint_response(self, endpoint, response):
         """

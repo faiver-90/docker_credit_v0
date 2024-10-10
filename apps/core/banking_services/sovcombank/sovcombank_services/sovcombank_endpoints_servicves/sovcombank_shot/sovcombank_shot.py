@@ -9,6 +9,7 @@ from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_connec
 from apps.core.banking_services.sovcombank.sovcombank_services. \
     sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
     FIELD_TYPES, FIELD_RANGES, FIELD_ENUMS, REQUIRED_FIELDS
+from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_service import endpoint_processor
 
 sovcombank_request_service = SovcombankRequestService()
 validate_service = ValidateFieldService()
@@ -94,8 +95,6 @@ if validate_service.validate_fields(
 ):
     # print(json.dumps(data_request, indent=4, ensure_ascii=False))
     response = sovcombank_request_service.send_request(data_request)
-    factory = SovcombankResponseHandlerFactory()
-    endpoint_processor = SovcombankEndpointResponseProcessor(factory)
 
     if response.get('status_code') == 200:
         result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
