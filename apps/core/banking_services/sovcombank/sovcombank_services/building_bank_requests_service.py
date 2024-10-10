@@ -3,7 +3,7 @@ import json
 import sys
 
 
-class BankingRequestsService:
+class BankingBuildingRequestsService:
     def __init__(self, path_to_template):
         self.path_to_template = path_to_template
         self.template_data = self.load_json_template()
@@ -48,6 +48,8 @@ class BankingRequestsService:
 
         return combined_data
 
+
+class ValidateFieldService:
     def validate_fields(self, data, required_fields, field_types=None, field_ranges=None, field_enums=None):
         """
         Универсальная функция для полной валидации данных.

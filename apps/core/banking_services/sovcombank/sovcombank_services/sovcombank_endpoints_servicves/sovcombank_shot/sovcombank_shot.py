@@ -1,47 +1,22 @@
-import json
-import sys
-
 from app_v0.settings import BASE_DIR
-from apps.core.banking_services.sovcombank.sovcombank_services.banking_requests_service import BankingRequestsService
-from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
+from apps.core.banking_services.sovcombank.response_handler_factory import (
+    SovcombankResponseHandlerFactory, SovcombankEndpointResponseProcessor)
+from apps.core.banking_services.sovcombank.sovcombank_services.building_bank_requests_service import (
+    BankingBuildingRequestsService,
+    ValidateFieldService)
+from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_connect_api_service import \
+    SovcombankRequestService
+from apps.core.banking_services.sovcombank.sovcombank_services. \
+    sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
     FIELD_TYPES, FIELD_RANGES, FIELD_ENUMS, REQUIRED_FIELDS
 
+sovcombank_request_service = SovcombankRequestService()
+validate_service = ValidateFieldService()
 
-def validate_goods_list(data_request):
-    """
-    Функция проверяет, что в каждом элементе списка goods значение поля goodCost больше 0.0.
-    Если поле goodCost равно 0, пустое или None, оно выводится с причиной ошибки.
-    Если все поля корректны (больше 0.0), возвращается True.
-    """
-    goods_list = data_request.get('goods', [])
-
-    # Если список товаров пуст, выводим причину ошибки и возвращаем False
-    if not goods_list:
-        print("Ошибка: Список товаров 'goods' отсутствует или пуст.")
-        return False
-
-    for index, good in enumerate(goods_list):
-        good_cost = good.get('goodCost', None)
-
-        # Если goodCost пуст, равен 0 или меньше, выводим причину ошибки
-        if good_cost is None:
-            print(f"Ошибка в товаре на позиции {index + 1}: Поле 'goodCost' отсутствует.")
-            sys.exit(1)
-        elif good_cost == 0.0:
-            print(f"Ошибка в товаре на позиции {index + 1}: Поле 'goodCost' равно 0.")
-            sys.exit(1)
-        elif good_cost < 0.0:
-            print(f"Ошибка в товаре на позиции {index + 1}: Поле 'goodCost' меньше 0.")
-            sys.exit(1)
-
-    # Если все проверки прошли успешно, возвращаем True
-    return True
-
-
-sovcombank_connect_api_service = BankingRequestsService(
+sovcombank_build_request_service = BankingBuildingRequestsService(
     f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/templates_json/sovcombank_shot.json')
 
-data = sovcombank_connect_api_service.template_data
+data = sovcombank_build_request_service.template_data
 
 application_info = {
     "applicationInfo": {
@@ -101,7 +76,7 @@ goods = {
     ]
 }
 
-data_request = sovcombank_connect_api_service.fill_templates_request(
+data_request = sovcombank_build_request_service.fill_templates_request(
     data,
     **goods,
     **application_info,
@@ -110,6 +85,19 @@ data_request = sovcombank_connect_api_service.fill_templates_request(
     **person_info
 )
 
-if sovcombank_connect_api_service.validate_fields(data_request, REQUIRED_FIELDS, FIELD_TYPES, FIELD_RANGES,
-                                                  FIELD_ENUMS) and validate_goods_list(data_request):
-    print(json.dumps(data_request, indent=4, ensure_ascii=False))
+if validate_service.validate_fields(
+        data_request,
+        REQUIRED_FIELDS,
+        FIELD_TYPES,
+        FIELD_RANGES,
+        FIELD_ENUMS
+):
+    # print(json.dumps(data_request, indent=4, ensure_ascii=False))
+    response = sovcombank_request_service.send_request(data_request)
+    factory = SovcombankResponseHandlerFactory()
+    endpoint_processor = SovcombankEndpointResponseProcessor(factory)
+
+    if response.get('status_code') == 200:
+        result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
+    else:
+        raise ValueError(f"Ошибка при отправке запроса: {response.status_code}")
