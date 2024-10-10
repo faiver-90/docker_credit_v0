@@ -171,8 +171,9 @@ class BankingRequestsService:
                     else:
                         missing_fields.append(field)
                         break
-                # Проверка на пустые значения
-                if temp is None or temp == "" or temp == 0:
+                # Проверка на пустые, нулевые или неположительные значения
+                if temp is None or temp == "" or temp == 0 or temp == 0.0 or (
+                        isinstance(temp, (int, float)) and temp <= 0):
                     missing_fields.append(field)
 
         check_fields(data, required_fields)

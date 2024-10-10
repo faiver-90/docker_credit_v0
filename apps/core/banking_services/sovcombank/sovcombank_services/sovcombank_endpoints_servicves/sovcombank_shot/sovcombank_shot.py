@@ -1,12 +1,10 @@
 import json
 import sys
-from pathlib import Path
 
+from app_v0.settings import BASE_DIR
 from apps.core.banking_services.sovcombank.sovcombank_services.banking_requests_service import BankingRequestsService
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
     FIELD_TYPES, FIELD_RANGES, FIELD_ENUMS, REQUIRED_FIELDS
-
-project_root = Path(__file__).resolve().parent.parent.parent
 
 
 def validate_goods_list(data_request):
@@ -41,23 +39,31 @@ def validate_goods_list(data_request):
 
 
 sovcombank_connect_api_service = BankingRequestsService(
-    f'{project_root}/templates_json/sovcombank_shot.json')
+    f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/templates_json/sovcombank_shot.json')
 
 data = sovcombank_connect_api_service.template_data
 
-
-filled_data = {
+application_info = {
     "applicationInfo": {
         "partnerId": "НАШ ДИЛЕРСКИЙ ЦЕНТР#г Москва#Москва#29276#Воронова Елена Юрьевна"
-    },
+    }
+}
+
+source_system_info = {
     "sourceSystemInfo": {
         "idSystem": "Кредитная программа 1"
-    },
+    }
+}
+
+credit_info = {
     "creditInfo": {
         "product": "Кредит на автомобиль",
         "period": "36",
         "limit": 974387.53
-    },
+    }
+}
+
+person_info = {
     "person": {
         "firstName": "Павел",
         "lastName": "ТЕСТОВ",
@@ -78,31 +84,32 @@ filled_data = {
             "region": "gde to",
             "postCode": "123456"
         },
-        "incomes": [
-            {
-                "incomeType": "",
-                "incomeSource": "",
-                "incomeAmount": 0.0,
-                "incomeFrequency": "",
-                "incomeDay": "",
-                "incomeDay2": "",
-                "incomeChange": None,
-                "incomeChangeReason": ""
-            }
-        ],
-    },
-
+        "incomes": [{
+            "incomeType": "",
+            "incomeAmount": 0.0,
+        }]
+    }
 }
 
 goods = {
     "goods": [
-        {"goodCost": 100.0, "goodModel": "Model1", "goodsDescription": "Description1", "goodType": "Type1"},
-        {"goodCost": 50.0, "goodModel": "Model2", "goodsDescription": "Description2", "goodType": "Type2"}
+        {
+            "goodCost": 100.0},
+        {
+            "goodCost": 50.0
+        }
     ]
 }
 
-data_request = sovcombank_connect_api_service.fill_templates_request(data, **filled_data, **goods)
+data_request = sovcombank_connect_api_service.fill_templates_request(
+    data,
+    **goods,
+    **application_info,
+    **source_system_info,
+    **credit_info,
+    **person_info
+)
 
-if sovcombank_connect_api_service.validate_fields(data_request, REQUIRED_FIELDS, FIELD_TYPES, FIELD_RANGES, FIELD_ENUMS) and validate_goods_list(
-        data_request):
+if sovcombank_connect_api_service.validate_fields(data_request, REQUIRED_FIELDS, FIELD_TYPES, FIELD_RANGES,
+                                                  FIELD_ENUMS) and validate_goods_list(data_request):
     print(json.dumps(data_request, indent=4, ensure_ascii=False))

@@ -1,35 +1,3 @@
-# REQUIRED_FIELDS = [
-#     "applicationInfo.partnerId",
-#     "sourceSystemInfo.idSystem",
-#     "creditInfo.product",
-#     "creditInfo.period",
-#     "creditInfo.limit",
-#     "person.firstName",
-#     "person.lastName",
-#     "person.sex",
-#     "person.birthplace",
-#     "person.dob",
-#     "person.factAddressSameAsRegistration",
-#     "person.primaryDocument.docType",
-#     "person.primaryDocument.docNumber",
-#     "person.primaryDocument.docSeries",
-#     "person.primaryDocument.issueOrg",
-#     "person.primaryDocument.issueDate",
-#     "person.primaryDocument.issueCode",
-#     "person.registrationAddress.countryName"
-# ]
-# FIELD_TYPES = {
-#     "person.firstName": str,
-#     "person.dob": str,
-#     "creditInfo.limit": float,
-#     "person.factAddressSameAsRegistration": bool
-# }
-# FIELD_RANGES = {
-#     "creditInfo.limit": (1, float('inf'))
-# }
-# FIELD_ENUMS = {
-#     "person.sex": ["m", "f"]
-# }
 REQUIRED_FIELDS = [
     "applicationInfo.partnerId",
     "sourceSystemInfo.idSystem",
