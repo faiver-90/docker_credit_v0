@@ -1,6 +1,6 @@
+import json
+
 from app_v0.settings import BASE_DIR
-from apps.core.banking_services.sovcombank.response_handler_factory import (
-    SovcombankResponseHandlerFactory, SovcombankEndpointResponseProcessor)
 from apps.core.banking_services.sovcombank.sovcombank_services.building_bank_requests_service import (
     BankingBuildingRequestsService,
     ValidateFieldService)
@@ -67,7 +67,7 @@ person_info = {
     }
 }
 
-goods = {
+goods_info = {
     "goods": [
         {
             "goodCost": 100.0},
@@ -79,7 +79,7 @@ goods = {
 
 data_request = sovcombank_build_request_service.fill_templates_request(
     data,
-    **goods,
+    **goods_info,
     **application_info,
     **source_system_info,
     **credit_info,
@@ -98,5 +98,6 @@ if validate_service.validate_fields(
 
     if response.get('status_code') == 200:
         result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
+        print(result_shot)
     else:
         raise ValueError(f"Ошибка при отправке запроса: {response.status_code}")
