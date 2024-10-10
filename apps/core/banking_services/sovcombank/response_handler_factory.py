@@ -1,5 +1,12 @@
-from apps.core.banking_services.sovcombank.sovcombank_factory_handlers import SovcombankShotHandler, \
-    SovcombankAgreementHandler, SovcombankCalculationHandler
+from apps.core.banking_services.sovcombank.sovcombank_factory_handlers import (SovcombankShotHandler, \
+                                                                               SovcombankAgreementHandler,
+                                                                               SovcombankCalculationHandler,
+                                                                               SovcombankAssetHandler,
+                                                                               SovcombankDocumentsHandler,
+                                                                               SovcombankFullHandler,
+                                                                               SovcombankGetStatusHandler,
+                                                                               SovcombankInsuranceHandler,
+                                                                               SovcombankPostStatusHandler)
 
 
 class SovcombankResponseHandlerFactory:
@@ -21,6 +28,13 @@ class SovcombankResponseHandlerFactory:
         "sovcombank_shot": SovcombankShotHandler,
         "sovcombank_agreement": SovcombankAgreementHandler,
         "sovcombank_calculation": SovcombankCalculationHandler,
+        "sovcombank_asset": SovcombankAssetHandler,
+        "sovcombank_documents": SovcombankDocumentsHandler,
+        "sovcombank_full": SovcombankFullHandler,
+        "sovcombank_post_status": SovcombankPostStatusHandler,
+        "sovcombank_get_status": SovcombankGetStatusHandler,
+        "sovcombank_insurance": SovcombankInsuranceHandler,
+
     }
 
     @staticmethod
