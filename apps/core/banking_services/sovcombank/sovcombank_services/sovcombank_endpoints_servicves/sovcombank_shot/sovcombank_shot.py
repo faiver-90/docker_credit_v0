@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import get_object_or_404
 
 from app_v0.settings import BASE_DIR
@@ -31,22 +33,29 @@ class ShotDataPreparationService:
         car_info = client.car_info.first()
         citizenship = client.citizenship.first()
         financing_conditions = client.financing_conditions.first()
+        passport_series_from_db = passport_data.series_number_passport.split(" ")[0]
+        passport_series = passport_series_from_db[:2] + " " + passport_series_from_db[2:]
+        passport_number = passport_data.series_number_passport.split(" ")[1]
+        region_registration = person_data.registration_address_client.split(",")[0]
+        current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         application_info = {
             "applicationInfo": {
-                "partnerId": "НАШ ДИЛЕРСКИЙ ЦЕНТР#г Москва#Москва#29276#Воронова Елена Юрьевна"
+                "partnerId": "ООО Обухов Автоцентр#Москва#Москва#15703#testalfa_Sovcom testalfa_Sovcom#6470",
+                "type": "short",
+                "dateSendWeb": convert_value(current_date, str)
             }
         }
 
         source_system_info = {
             "sourceSystemInfo": {
-                "idSystem": "Некий id системы"
+                "idSystem": "astPlatform"
             }
         }
 
         credit_info = {
             "creditInfo": {
-                "product": convert_value(client.product_pre_client, str),
+                "product": "номер продукта в системе банка",
                 "period": convert_value(financing_conditions.financing_term, str),
                 "limit": convert_value(client.total_loan_amount, float)
             }
@@ -56,23 +65,22 @@ class ShotDataPreparationService:
             "person": {
                 "firstName": convert_value(person_data.first_name_client, str),
                 "lastName": convert_value(person_data.last_name_client, str),
+                "middleName": convert_value(person_data.middle_name_client, str),
                 "sex": convert_value(person_data.gender_choice_client, str),
-                "birthplace": convert_value(citizenship.birth_place_citizenship if citizenship else "", str),
+                "birthplace": convert_value(citizenship.birth_place_citizenship, str),
                 "dob": convert_value(person_data.birth_date_client, str),
                 "factAddressSameAsRegistration": True,
                 "primaryDocument": {
                     "docType": convert_value("Паспорт", str),
-                    "docNumber": convert_value(
-                        passport_data.series_number_passport.split(" ")[1], str),
-                    "docSeries": convert_value(
-                        passport_data.series_number_passport.split(" ")[0], str),
+                    "docNumber": convert_value(passport_number, str),
+                    "docSeries": convert_value(passport_series, str),
                     "issueOrg": convert_value(passport_data.issued_by_passport, str),
                     "issueDate": convert_value(passport_data.issue_date_passport, str),
                     "issueCode": convert_value(passport_data.division_code_passport, str)
                 },
                 "registrationAddress": {
                     "countryName": convert_value(person_data.country_name_pre_client, str),
-                    "region": convert_value(person_data.registration_address_client.split(",")[0], str),
+                    "region": convert_value(region_registration, str),
                     "postCode": convert_value(person_data.post_code, str)
                 },
                 "incomes": [{
@@ -85,7 +93,10 @@ class ShotDataPreparationService:
         goods_info = {
             "goods": [
                 {
-                    "goodCost": convert_value(car_info.car_price_car_info, float)
+                    "goodCost": convert_value(car_info.car_price_car_info, float),
+                    "goodModel": "",
+                    "goodsDescription": "",
+                    "goodType": ""
                 }
             ]
         }
@@ -103,7 +114,6 @@ class ShotDataPreparationService:
         result = ValidationService().validate(data_not_validate)
         if result:
             return self.sovcombank_build_request_service.fill_templates_request(
-
                 self.data,
                 **application_info,
                 **source_system_info,
