@@ -19,11 +19,9 @@ class ShotDataPreparationService:
             f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/templates_json/sovcombank_shot.json')
         self.data = self.sovcombank_build_request_service.template_data
 
-    def prepare_data(self, user, client_id):
+    def prepare_data(self, client_id):
         # Получаем клиента и сразу выбираем связанные данные
-        client = get_object_or_404(ClientPreData.objects.prefetch_related(
-            'client_person_data', 'passport_data', 'financial_info', 'car_info'
-        ), pk=client_id)
+        client = get_object_or_404(ClientPreData, pk=client_id)
 
         # Получаем первую запись из связанных данных (если они есть)
         person_data = client.client_person_data.first()
@@ -75,7 +73,7 @@ class ShotDataPreparationService:
                     "postCode": str(f"{person_data.post_code}" if person_data else "")
                 },
                 "incomes": [{
-                    "incomeType": str(f"{financial_info.income_type}"  if financial_info else ""),
+                    "incomeType": str(f"{financial_info.income_type}" if financial_info else ""),
                     "incomeAmount": float(financial_info.income_amount) if person_data else 0,
                 }]
             }
@@ -145,7 +143,7 @@ class SovcombankShotSendHandler:
         self.sovcombank_request_service = SovcombankRequestService("base_url", "api_key")
 
     def handle(self, user, client_id):
-        data_request = self.data_preparation_service.prepare_data(user, client_id)
+        data_request = self.data_preparation_service.prepare_data(client_id)
 
         if self.validation_service.validate(data_request):
             self.event_sourcing_service.record_event(user.id,

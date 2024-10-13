@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import connection
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
@@ -137,8 +138,9 @@ class SendToBankView(LoginRequiredMixin, View):
             # Логика обработки запроса
             print("Кнопка нажата! Сообщение записано в консоль.")
             client_id = request.POST.get('client_id')
-            user = request.user
-            response_data = ShotDataPreparationService().prepare_data(user, client_id)
+            response_data = ShotDataPreparationService().prepare_data(client_id)
+            print(f"Количество SQL-запросов: {len(connection.queries)}")
+
             # Возвращаем успешный ответ
             return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
 
