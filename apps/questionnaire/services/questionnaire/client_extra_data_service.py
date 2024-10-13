@@ -15,10 +15,6 @@ class ClientExtraDataService:
     """
     forms_map = {
         'client_person_data': ClientInfoPersonalForm,
-        'financing_conditions': FinancingConditionsForm,
-        'car_info': CarInfoForm,
-        'documents': DocumentAutoForm,
-        'extra_insurance': ExtraForm,
         'passport_data': PassportClientForm,
         'contact_data': ContactClientForm,
         'driver_license_data': DriverLicenseForm,
