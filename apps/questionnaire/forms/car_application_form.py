@@ -9,7 +9,7 @@ from apps.questionnaire.models import (
     ClientInternationalPassport, ClientEducation, ClientEmployment, EducationLevel,
     OrganizationType, ActivityCode, PositionType, ClientCitizenship, Country,
     ClientFamilyInfo, MaritalStatus, ClientFinancialInfo, ClientExpenses,
-    ClientVehicle, PurchaseMethod, ClientRealEstate, RealEstateType
+    ClientVehicle, PurchaseMethod, ClientRealEstate, RealEstateType, IncomeType
 )
 
 
@@ -163,11 +163,12 @@ class FinancingConditionsForm(BaseForm):
 class ClientInfoPersonalForm(BaseForm):
     class Meta:
         model = ClientPersonalInfo
+
         fields = [
             'first_name_to_contact_client', 'first_name_client', 'last_name_client', 'middle_name_client',
-            'type_client', 'product_client', 'birth_date_client',
-            'registration_address_client', 'housing_type_client', 'registration_date_client', 'gender_choice_client',
-            'social_status_client'
+            'type_client', 'product_client', 'birth_date_client', 'registration_address_client', 'housing_type_client',
+            'registration_date_client', 'gender_choice_client',
+            'social_status_client', 'country_name_pre_client', 'post_code'
         ]
         widgets = {
             'first_name_to_contact_client': forms.TextInput(attrs={'class': 'form-control'}),
@@ -183,6 +184,8 @@ class ClientInfoPersonalForm(BaseForm):
             'registration_date_client': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'gender_choice_client': forms.Select(attrs={'class': 'form-select'}),
             'social_status_client': forms.Select(attrs={'class': 'form-select'}),
+            'country_name_pre_client': forms.TextInput(attrs={'class': 'form-control'}),
+            'post_code': forms.TextInput(attrs={'class': 'form-control'})
         }
 
     def __init__(self, *args, **kwargs):
@@ -359,7 +362,7 @@ class FamilyInfoForm(BaseForm):
 class FinancialInfoForm(BaseForm):
     class Meta:
         model = ClientFinancialInfo
-        fields = ['income_amount', 'confirmed_income_amount', 'income_proof_document', 'income_source',
+        fields = ['income_type', 'income_amount', 'confirmed_income_amount', 'income_proof_document', 'income_source',
                   'disposable_income', 'spouse_income']
         widgets = {
             'income_amount': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -368,7 +371,12 @@ class FinancialInfoForm(BaseForm):
             'income_source': forms.TextInput(attrs={'class': 'form-control'}),
             'disposable_income': forms.NumberInput(attrs={'class': 'form-control'}),
             'spouse_income': forms.NumberInput(attrs={'class': 'form-control'}),
+            'income_type': forms.Select(attrs={'class': 'form-select'})
         }
+
+    def __init__(self, *args, **kwargs):
+        super(FinancialInfoForm, self).__init__(*args, **kwargs)
+        self.fields['income_type'].queryset = IncomeType.objects.order_by('type')
 
 
 class ExpensesForm(BaseForm):

@@ -20,7 +20,7 @@ class ClientPreData(models.Model):
     first_name_to_contact_pre_client = models.CharField(max_length=255, null=True, blank=True, verbose_name="Обращение")
     type_pre_client = models.CharField(max_length=255, null=True, blank=True, default='Физическое лицо',
                                        verbose_name="Тип клиента")
-    product_pre_client = models.CharField(max_length=255, null=True, blank=True, default='Кредит',
+    product_pre_client = models.CharField(max_length=255, null=True, blank=True, default='Кредит на автомобиль',
                                           verbose_name="Продукт")
     phone_number_pre_client = models.CharField(max_length=20, null=True, blank=True, verbose_name="Номер телефона")
     type_phone_pre_client = models.ForeignKey(PhoneType, on_delete=models.CASCADE, null=True, blank=True,
@@ -334,7 +334,8 @@ class SelectedClientOffer(models.Model):
     id_app_bank = models.CharField(max_length=255, blank=True, null=True)
     id_app_in_system = models.IntegerField(default=0, blank=True, null=True)
     link_to_detail_from_bank = models.CharField(max_length=255, blank=True, null=True)
-    # status_selected_card = models.BooleanField()
+
+    # status_selected_card = models.BooleanField(default=False, verbose_name="Выбранное предложение")  # Добавлено
 
     class Meta:
         verbose_name = "Выбранное предложение клиента"
@@ -396,6 +397,8 @@ class ClientPersonalInfo(models.Model):
                                              null=True)
     social_status_client = models.ForeignKey(SocialStatus, on_delete=models.SET_NULL, verbose_name="Социальный статус",
                                              blank=True, null=True)
+    country_name_pre_client = models.CharField(max_length=255, blank=True, null=True, verbose_name="Страна регистрации")
+    post_code = models.CharField(max_length=255, blank=True, null=True, verbose_name="Почтовый индекс")
 
     class Meta:
         verbose_name = "Личная информация клиента"
@@ -669,6 +672,17 @@ class ClientFamilyInfo(models.Model):
         return f"Семейная информация для {self.client}"
 
 
+class IncomeType(models.Model):
+    type = models.CharField(max_length=255, unique=True, verbose_name="Тип дохода")
+
+    class Meta:
+        verbose_name = "Тип дохода"
+        verbose_name_plural = "Типы доходов"
+
+    def __str__(self):
+        return self.type
+
+
 class ClientFinancialInfo(models.Model):
     client = models.ForeignKey(ClientPreData, on_delete=models.CASCADE, related_name='financial_info')
     income_amount = models.CharField(max_length=255, verbose_name="Сумма дохода", blank=True, null=True)
@@ -680,6 +694,8 @@ class ClientFinancialInfo(models.Model):
     disposable_income = models.CharField(max_length=255, verbose_name="Сумма которую вы можете выделять", blank=True,
                                          null=True)
     spouse_income = models.CharField(max_length=255, verbose_name="Сумма доходов супруга", blank=True, null=True)
+    income_type = models.ForeignKey(IncomeType, on_delete=models.SET_NULL, verbose_name="Тип дохода", blank=True,
+                                    null=True)
 
     class Meta:
         verbose_name = "Финансовая информация клиента"

@@ -1,11 +1,11 @@
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.conf import settings
 
-from apps.questionnaire.views import ChangeActiveDealershipView, ContinueDocsView, SendToBankView, RequestOffersView, \
-    get_address_suggestions, UploadDocumentView, LoadAllDataClientView, ManageSelectOffersView, \
-    CreateUpdateOffersInDbView, ShowSelectCardOfferView, QuestionnaireView, IndexView
+from apps.questionnaire.views import (ChangeActiveDealershipView, ContinueDocsView, SendToBankView, RequestOffersView,
+                                      get_address_suggestions, UploadDocumentView, LoadAllDataClientView,
+                                      ManageSelectOffersView,
+                                      CreateUpdateOffersInDbView, ShowSelectCardOfferView, QuestionnaireView, IndexView)
 
 urlpatterns = [
     path('change_active_dealership/', ChangeActiveDealershipView.as_view(), name='change_active_dealership'),

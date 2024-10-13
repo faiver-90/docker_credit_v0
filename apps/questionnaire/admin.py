@@ -19,6 +19,12 @@ class PhoneTypeAdmin(admin.ModelAdmin):
     search_fields = ('phone_type',)
 
 
+@admin.register(IncomeType)
+class IncomeTypeAdmin(admin.ModelAdmin):
+    list_display = ('type',)
+    search_fields = ('type',)
+
+
 @admin.register(ClientPreData)
 class PreDataClientAdmin(admin.ModelAdmin):
     list_display = (

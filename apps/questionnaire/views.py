@@ -26,7 +26,7 @@ from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import BaseUploadDocumentView
 from apps.core.common_services.paginator_service import PaginationService
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot import \
-    SovcombankHandler, DataPreparationService, ValidationService
+    ShotDataPreparationService, ValidationService
 import logging
 
 logger = logging.getLogger(__name__)
@@ -138,11 +138,7 @@ class SendToBankView(LoginRequiredMixin, View):
             print("Кнопка нажата! Сообщение записано в консоль.")
             client_id = request.POST.get('client_id')
             user = request.user
-            response_data = DataPreparationService().prepare_data(user, client_id)
-
-            # Валидация данных
-            ValidationService().validate(response_data)
-
+            response_data = ShotDataPreparationService().prepare_data(user, client_id)
             # Возвращаем успешный ответ
             return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
 

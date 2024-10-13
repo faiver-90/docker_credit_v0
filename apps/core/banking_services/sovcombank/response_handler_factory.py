@@ -1,12 +1,12 @@
-from apps.core.banking_services.sovcombank.sovcombank_factory_handlers import (SovcombankShotHandler, \
-                                                                               SovcombankAgreementHandler,
-                                                                               SovcombankCalculationHandler,
-                                                                               SovcombankAssetHandler,
-                                                                               SovcombankDocumentsHandler,
-                                                                               SovcombankFullHandler,
-                                                                               SovcombankGetStatusHandler,
-                                                                               SovcombankInsuranceHandler,
-                                                                               SovcombankPostStatusHandler)
+from apps.core.banking_services.sovcombank.sovcombank_factory_response_handlers import (SovcombankShotHandler,
+                                                                                        SovcombankAgreementHandler,
+                                                                                        SovcombankCalculationHandler,
+                                                                                        SovcombankAssetHandler,
+                                                                                        SovcombankDocumentsHandler,
+                                                                                        SovcombankFullHandler,
+                                                                                        SovcombankGetStatusHandler,
+                                                                                        SovcombankInsuranceHandler,
+                                                                                        SovcombankPostStatusHandler)
 
 
 class SovcombankResponseHandlerFactory:
@@ -34,7 +34,6 @@ class SovcombankResponseHandlerFactory:
         "sovcombank_post_status": SovcombankPostStatusHandler,
         "sovcombank_get_status": SovcombankGetStatusHandler,
         "sovcombank_insurance": SovcombankInsuranceHandler,
-
     }
 
     @staticmethod

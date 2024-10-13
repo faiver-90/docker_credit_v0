@@ -37,7 +37,7 @@
         </ul>
         {% if not hide_all_button %}
             {% if not hide_controls %}
-                <input type="checkbox" class="form-check-input" data-offer-id="{{ offer.offer_id }}"> Выбрать
+                <input type="checkbox" checked class="form-check-input" data-offer-id="{{ offer.offer_id }}"> Выбрать
                 <button type="button" class="btn btn-danger mt-2 remove-card" data-offer-id="{{ offer.offer_id }}">
                     Удалить
                 </button>

@@ -2,8 +2,33 @@ import copy
 import json
 import sys
 
+import requests
 
-class CommonBankBuildingRequestsService:
+
+class SovcombankRequestService:
+    def __init__(self, base_url, api_key):
+        self.base_url = base_url
+        self.api_key = api_key
+        self.url = None
+        self.headers = None
+
+    def building_request(self, endpoint):
+        self.url = f"{self.base_url}/{endpoint}"
+        self.headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+    def send_request(self, method, data):
+        response = requests.request(method, self.url, headers=self.headers, json=data)
+        response.raise_for_status()
+
+        # print('response', json.dumps(response.json(), indent=4, ensure_ascii=False))
+
+        return response.json()
+
+
+class CommonBankBuildingDataRequestsService:
     """
     Класс для работы с шаблонами запросов к банковским системам.
 
@@ -352,7 +377,7 @@ class CommonValidateFieldService:
                         missing_fields.append(field)
                         break
                 # Проверка на пустые, нулевые или неположительные значения
-                if temp is None or temp == "" or temp == 0 or temp == 0.0 or (
+                if temp is None or temp == "None" or temp == "" or temp == 0 or temp == 0.0 or (
                         isinstance(temp, (int, float)) and temp <= 0):
                     missing_fields.append(field)
 
