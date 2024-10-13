@@ -7,8 +7,9 @@ from apps.core.banking_services.building_bank_requests_service import (
 
 from apps.core.banking_services.sovcombank.sovcombank_services. \
     sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
-    FIELD_TYPES, FIELD_RANGES, FIELD_ENUMS, REQUIRED_FIELDS
+    FIELD_TYPES_SHOT, FIELD_RANGES_SHOT, FIELD_ENUMS_SHOT, REQUIRED_FIELDS_SHOT
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_service import endpoint_processor
+from apps.core.common_services.common_simple_servive import convert_value
 from apps.core.common_services.event_sourcing_service import EventSourcingService
 from apps.questionnaire.models import ClientPreData
 
@@ -45,36 +46,38 @@ class ShotDataPreparationService:
 
         credit_info = {
             "creditInfo": {
-                "product": str(f"{client.product_pre_client}"),
-                "period": str(f"{financing_conditions.financing_term}"),
-                "limit": float(client.total_loan_amount)
+                "product": convert_value(client.product_pre_client, str),
+                "period": convert_value(financing_conditions.financing_term, str),
+                "limit": convert_value(client.total_loan_amount, float)
             }
         }
 
         person_info = {
             "person": {
-                "firstName": str(person_data.first_name_client if person_data else ""),
-                "lastName": str(person_data.last_name_client if person_data else ""),
-                "sex": str(person_data.gender_choice_client if person_data else ""),
-                "birthplace": str(f"{citizenship.birth_place_citizenship}" if citizenship else ""),
-                "dob": str(person_data.birth_date_client if person_data else ""),
+                "firstName": convert_value(person_data.first_name_client, str),
+                "lastName": convert_value(person_data.last_name_client, str),
+                "sex": convert_value(person_data.gender_choice_client, str),
+                "birthplace": convert_value(citizenship.birth_place_citizenship if citizenship else "", str),
+                "dob": convert_value(person_data.birth_date_client, str),
                 "factAddressSameAsRegistration": True,
                 "primaryDocument": {
-                    "docType": "Паспорт",
-                    "docNumber": str(passport_data.series_number_passport.split(" ")[1] if passport_data else ""),
-                    "docSeries": str(passport_data.series_number_passport.split(" ")[0] if passport_data else ""),
-                    "issueOrg": str(passport_data.issued_by_passport if passport_data else ""),
-                    "issueDate": str(passport_data.issue_date_passport if passport_data else ""),
-                    "issueCode": str(passport_data.division_code_passport if passport_data else "")
+                    "docType": convert_value("Паспорт", str),
+                    "docNumber": convert_value(
+                        passport_data.series_number_passport.split(" ")[1], str),
+                    "docSeries": convert_value(
+                        passport_data.series_number_passport.split(" ")[0], str),
+                    "issueOrg": convert_value(passport_data.issued_by_passport, str),
+                    "issueDate": convert_value(passport_data.issue_date_passport, str),
+                    "issueCode": convert_value(passport_data.division_code_passport, str)
                 },
                 "registrationAddress": {
-                    "countryName": str(f"{person_data.country_name_pre_client}" if citizenship else ""),
-                    "region": str(person_data.registration_address_client.split(",")[0] if person_data else ""),
-                    "postCode": str(f"{person_data.post_code}" if person_data else "")
+                    "countryName": convert_value(person_data.country_name_pre_client, str),
+                    "region": convert_value(person_data.registration_address_client.split(",")[0], str),
+                    "postCode": convert_value(person_data.post_code, str)
                 },
                 "incomes": [{
-                    "incomeType": str(f"{financial_info.income_type}" if financial_info else ""),
-                    "incomeAmount": float(financial_info.income_amount) if person_data else 0,
+                    "incomeType": convert_value(financial_info.income_type, str),
+                    "incomeAmount": convert_value(financial_info.income_amount, float)
                 }]
             }
         }
@@ -82,8 +85,9 @@ class ShotDataPreparationService:
         goods_info = {
             "goods": [
                 {
-                    "goodCost": car_info.car_price_car_info if car_info else 0
-                }]
+                    "goodCost": convert_value(car_info.car_price_car_info, float)
+                }
+            ]
         }
 
         # ====== Удалить после конца формирования ========
@@ -99,7 +103,8 @@ class ShotDataPreparationService:
         result = ValidationService().validate(data_not_validate)
         if result:
             return self.sovcombank_build_request_service.fill_templates_request(
-                {},
+
+                self.data,
                 **application_info,
                 **source_system_info,
                 **credit_info,
@@ -110,7 +115,7 @@ class ShotDataPreparationService:
             return 'Не прошло валидацию'
         # ======================================
 
-            # Возвращаем результат объединения данных с шаблоном
+        # Возвращаем результат объединения данных с шаблоном
         # return self.sovcombank_build_request_service.fill_templates_request(
         #     self.data,
         #     **application_info,
@@ -128,10 +133,10 @@ class ValidationService:
     def validate(self, data_request):
         return self.validate_service.validate_fields(
             data_request,
-            REQUIRED_FIELDS,
-            FIELD_TYPES,
-            FIELD_RANGES,
-            FIELD_ENUMS
+            REQUIRED_FIELDS_SHOT,
+            FIELD_TYPES_SHOT,
+            FIELD_RANGES_SHOT,
+            FIELD_ENUMS_SHOT
         )
 
 

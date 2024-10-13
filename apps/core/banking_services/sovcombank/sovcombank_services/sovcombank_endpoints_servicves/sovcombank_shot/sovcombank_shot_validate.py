@@ -1,4 +1,4 @@
-REQUIRED_FIELDS = [
+REQUIRED_FIELDS_SHOT = [
     "applicationInfo.partnerId",
     "sourceSystemInfo.idSystem",
     "creditInfo.product",
@@ -24,7 +24,7 @@ REQUIRED_FIELDS = [
     # "person.incomes[].incomeAmount"
 ]
 
-FIELD_TYPES = {
+FIELD_TYPES_SHOT = {
     "applicationInfo.partnerId": str,
     "sourceSystemInfo.idSystem": str,
     "creditInfo.product": str,
@@ -51,13 +51,13 @@ FIELD_TYPES = {
 }
 
 # Диапазоны значений для полей
-FIELD_RANGES = {
+FIELD_RANGES_SHOT = {
     "creditInfo.limit": (10, float('inf')),
     # "person.incomes[].incomeAmount": (0, float('inf'))
 }
 
 # Допустимые значения (enumerations)
-FIELD_ENUMS = {
+FIELD_ENUMS_SHOT = {
     "person.sex": ["m", "f"],
     "person.primaryDocument.docType": [
         "Паспорт", "Старый паспорт", "Водительское удостоверение", "Военный билет",
