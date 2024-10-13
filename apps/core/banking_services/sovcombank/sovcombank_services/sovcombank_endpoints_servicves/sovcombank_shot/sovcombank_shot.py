@@ -88,6 +88,7 @@ class ShotDataPreparationService:
                 }]
         }
 
+        # ====== Удалить после конца формирования ========
         data_not_validate = self.sovcombank_build_request_service.fill_templates_request(
             self.data,
             **application_info,
@@ -97,7 +98,6 @@ class ShotDataPreparationService:
             **goods_info
         )
 
-        # ====== Удалить после конца формирования ========
         result = ValidationService().validate(data_not_validate)
         if result:
             return self.sovcombank_build_request_service.fill_templates_request(
