@@ -13,7 +13,7 @@ class ShowOfferService:
 
         # Получаем офер и проверяем, существует ли выбранное предложение
         offer = get_object_or_404(Offers, id=offer_id)
-        select_offer = get_object_or_404(SelectedClientOffer, offer_id=offer_id)
+        select_offer = SelectedClientOffer.objects.filter(offer_id=offer_id).first()
 
         if not select_offer:
             raise Http404("SelectedClientOffer does not exist")
