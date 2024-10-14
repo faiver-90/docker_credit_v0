@@ -6,6 +6,12 @@ import requests
 
 
 class SovcombankRequestService:
+    """
+    Сервис для отправки запросов в Sovcombank.
+
+    Этот класс формирует запросы к API Sovcombank, добавляет заголовки
+    и отправляет данные.
+    """
     def __init__(self, base_url, api_key):
         self.base_url = base_url
         self.api_key = api_key
@@ -13,6 +19,14 @@ class SovcombankRequestService:
         self.headers = None
 
     def building_request(self, endpoint):
+        """
+        Формирует URL и заголовки для запроса на указанный эндпоинт.
+
+        Параметры:
+        -----------
+        endpoint : str
+            URL-эндпоинт для запроса.
+        """
         self.url = f"{self.base_url}/{endpoint}"
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -20,6 +34,22 @@ class SovcombankRequestService:
         }
 
     def send_request(self, method, data):
+        """
+        Отправляет запрос в Sovcombank с заданными данными.
+
+        Параметры:
+        -----------
+        method : str
+        HTTP-метод запроса (например, 'POST').
+
+        data : dict
+        Данные, которые нужно отправить в запросе.
+
+        Возвращает:
+        -----------
+        dict
+        Ответ от Sovcombank.
+        """
         response = requests.request(method, self.url, headers=self.headers, json=data)
         response.raise_for_status()
 

@@ -18,12 +18,36 @@ from apps.questionnaire.models import ClientPreData
 
 
 class ShotDataPreparationService:
+    """
+    Сервис для подготовки данных перед отправкой запроса в Sovcombank.
+
+    Этот класс собирает данные клиента из БД и формирует их в нужном формате,
+    а также выполняет конвертацию типов данных и полей.
+    """
+
     def __init__(self):
         self.sovcombank_build_request_service = CommonBankBuildingDataRequestsService(
             f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/templates_json/sovcombank_shot.json')
         self.data = self.sovcombank_build_request_service.template_data
 
     def convert_fields(self, data, field_types):
+        """
+        Конвертирует поля данных в указанные типы.
+
+        Параметры:
+        -----------
+        data : dict
+            Данные для конвертации.
+
+        field_types : dict
+            Ожидаемые типы полей для конвертации.
+
+        Возвращает:
+        -----------
+        dict
+            Обновленные данные с конвертированными полями.
+        """
+
         for field, expected_type in field_types.items():
             keys = field.split('.')
             temp = data
@@ -39,6 +63,19 @@ class ShotDataPreparationService:
         return data
 
     def convert_gender(self, gender):
+        """
+        Конвертирует пол клиента из текстового значения в сокращенное буквенное представление.
+
+        Параметры:
+        -----------
+        gender : str
+            Пол клиента ('Муж' или 'Жен').
+
+        Возвращает:
+        -----------
+        str
+            Сокращенное представление пола ('m' или 'f').
+        """
         if gender == 'Муж':
             return 'm'
         elif gender == 'Жен':
@@ -47,6 +84,20 @@ class ShotDataPreparationService:
             return 'Недопустимое значение'
 
     def prepare_data(self, client_id):
+        """
+        Подготавливает данные клиента для отправки в банк, включая информацию о кредите,
+        персональные данные и данные о товаре.
+
+        Параметры:
+        -----------
+        client_id : int
+            ID клиента, чьи данные нужно подготовить.
+
+        Возвращает:
+        -----------
+        dict
+            Подготовленные данные клиента для отправки.
+        """
         # Получаем клиента и сразу выбираем связанные данные
         client = get_object_or_404(ClientPreData, pk=client_id)
 
@@ -158,10 +209,29 @@ class ShotDataPreparationService:
 
 
 class ValidationService:
+    """
+    Сервис для валидации данных перед отправкой запроса в Sovcombank.
+
+    Этот класс проверяет наличие обязательных полей, корректные типы данных,
+    а также диапазоны и допустимые значения для полей.
+    """
     def __init__(self):
         self.validate_service = CommonValidateFieldService()
 
     def validate(self, data_request):
+        """
+        Валидирует данные запроса, проверяя обязательные поля, типы данных и диапазоны.
+
+        Параметры:
+        -----------
+        data_request : dict
+           Данные для валидации.
+
+        Возвращает:
+        -----------
+        bool
+           True, если данные прошли валидацию, иначе выбрасывается исключение.
+        """
         return self.validate_service.validate_fields(
             data_request,
             REQUIRED_FIELDS_SHOT,
@@ -172,6 +242,11 @@ class ValidationService:
 
 
 class SovcombankShotSendHandler:
+    """
+    Обработчик для отправки данных в Sovcombank по заявкам клиентов.
+
+    Этот класс собирает, валидирует и отправляет данные клиента в банк, а также записывает ивенты.
+    """
     def __init__(self):
         self.data_preparation_service = ShotDataPreparationService()
         self.validation_service = ValidationService()
@@ -179,6 +254,22 @@ class SovcombankShotSendHandler:
         self.sovcombank_request_service = SovcombankRequestService("base_url", "api_key")
 
     def handle(self, user, client_id):
+        """
+        Выполняет полный цикл отправки данных в Sovcombank.
+
+        Параметры:
+        -----------
+        user : User
+            Пользователь, выполняющий действие.
+
+        client_id : int
+            ID клиента, чьи данные нужно отправить.
+
+        Возвращает:
+        -----------
+        dict
+            Результат обработки ответа от банка.
+        """
         data_request_not_converted = self.data_preparation_service.prepare_data(client_id)
         data_request_converted = self.data_preparation_service.convert_fields(data_request_not_converted,
                                                                               FIELD_TYPES_SHOT)

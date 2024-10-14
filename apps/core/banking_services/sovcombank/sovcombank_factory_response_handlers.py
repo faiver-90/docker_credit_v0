@@ -1,5 +1,24 @@
 class SovcombankShotHandler:
+    """
+    Обработчик для ответа от Sovcombank по заявке (shot).
+
+    Этот класс отвечает за обработку данных, полученных от API Sovcombank,
+    для запроса 'shot'.
+    """
     def process_response(self, response):
+        """
+        Обрабатывает ответ на запрос 'sovcombank_shot'.
+
+        Параметры:
+        -----------
+        response : dict
+            Ответ от API Sovcombank.
+
+        Возвращает:
+        -----------
+        str
+            Результат обработки ответа.
+        """
         print("Обрабатываем ответ для 'sovcombank_shot'")
         return f"Результат обработки SovcombankShot: {response}"
 

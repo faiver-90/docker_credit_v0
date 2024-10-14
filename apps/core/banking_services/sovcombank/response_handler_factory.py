@@ -60,6 +60,13 @@ class SovcombankResponseHandlerFactory:
 
 
 class SovcombankEndpointResponseProcessor:
+    """
+    Процессор для обработки ответов от различных эндпоинтов Sovcombank.
+
+    Этот класс использует фабрику для получения нужного обработчика,
+    который будет заниматься обработкой ответа.
+    """
+
     def __init__(self):
         """
         Инициализация с фабрикой, которая будет возвращать обработчики для разных эндпоинтов.
@@ -68,7 +75,20 @@ class SovcombankEndpointResponseProcessor:
 
     def handle_endpoint_response(self, endpoint, response):
         """
-        Метод обработки ответов от разных эндпоинтов.
+        Обрабатывает ответ от указанного эндпоинта.
+
+        Параметры:
+        -----------
+        endpoint : str
+            Название эндпоинта, от которого пришел ответ.
+
+        response : dict
+            Ответ от API Sovcombank.
+
+        Возвращает:
+        -----------
+        str
+            Результат обработки ответа.
         """
         handler = self.factory.get_handler(endpoint)
         return handler.process_response(response)
