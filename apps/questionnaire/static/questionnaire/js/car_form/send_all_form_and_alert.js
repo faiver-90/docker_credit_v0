@@ -53,22 +53,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Add event listeners to all input fields for auto-save
-    function addAutoSaveListeners(form) {
-        form.querySelectorAll('input, select, textarea').forEach(field => {
-            if (field.type === 'checkbox' || field.type === 'radio') {
-                field.addEventListener('change', () => saveField(field));
-            } else {
-                field.addEventListener('blur', () => {
-                    clearTimeout(blurTimeout);
-                    blurTimeout = setTimeout(() => saveField(field), 1000);
-                });
-            }
-        });
-    }
-
-    // Initially add listeners to InitialForm
-    addAutoSaveListeners(document);
+    // // Add event listeners to all input fields for auto-save
+    // function addAutoSaveListeners(form) {
+    //     form.querySelectorAll('input, select, textarea').forEach(field => {
+    //         if (field.type === 'checkbox' || field.type === 'radio') {
+    //             field.addEventListener('change', () => saveField(field));
+    //         } else {
+    //             field.addEventListener('blur', () => {
+    //                 clearTimeout(blurTimeout);
+    //                 blurTimeout = setTimeout(() => saveField(field), 1000);
+    //             });
+    //         }
+    //     });
+    // }
+    //
+    // // Initially add listeners to InitialForm
+    // addAutoSaveListeners(document);
 
     saveButton.addEventListener('click', async function (event) {
         event.preventDefault(); // предотвращаем отправку формы
@@ -85,14 +85,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     const label = form.querySelector(`label[for=${field.id}]`);
                     const labelText = label ? label.innerText : field.name;
                     missingFields.push(labelText);
-                    enqueueAlert(`Поле ${labelText} не заполнено`);
+                    console.log(`Поле ${labelText} не заполнено`);
                 }
             });
         });
 
         if (missingFields.length > 0) {
             enqueueAlert('Пожалуйста, заполните следующие поля: ' + missingFields.join(', '));
-            enqueueAlert('Незаполненные поля: ' + missingFields.join(', '));
+            console.log('Незаполненные поля: ' + missingFields.join(', '));
             return;
         }
 
