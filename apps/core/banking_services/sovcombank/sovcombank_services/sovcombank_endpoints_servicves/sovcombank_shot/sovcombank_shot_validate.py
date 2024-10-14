@@ -9,7 +9,7 @@ REQUIRED_FIELDS_SHOT = [
     "person.sex",
     "person.birthplace",
     "person.dob",
-    "person.factAddressSameAsRegistration",
+    # "person.factAddressSameAsRegistration",
     "person.primaryDocument.docType",
     "person.primaryDocument.docNumber",
     "person.primaryDocument.docSeries",

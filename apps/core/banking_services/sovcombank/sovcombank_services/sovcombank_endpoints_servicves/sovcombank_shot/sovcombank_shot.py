@@ -95,7 +95,7 @@ class ShotDataPreparationService:
                 "sex": gender,
                 "birthplace": citizenship.birth_place_citizenship,
                 "dob": person_data.birth_date_client,
-                "factAddressSameAsRegistration": True,
+                "factAddressSameAsRegistration": person_data.fact_address_same_registration,
                 "primaryDocument": {
                     "docType": "Паспорт",
                     "docNumber": passport_number,
@@ -110,8 +110,8 @@ class ShotDataPreparationService:
                     "postCode": person_data.post_code
                 },
                 "incomes": [{
-                    "incomeType": financial_info.income_type,
-                    "incomeAmount": financial_info.income_amount
+                    "incomeType": str(financial_info.income_type),
+                    "incomeAmount": float(financial_info.income_amount)
                 }]
             }
         }

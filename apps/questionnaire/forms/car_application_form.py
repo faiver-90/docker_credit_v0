@@ -55,7 +55,13 @@ class CarInfoForm(BaseForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(CarInfoForm, self).__init__(*args, **kwargs)
-        self.fields['model_car_info'].required = False
+        self.fields['model_car_info'].required = True
+        self.fields['car_price_car_info'].required = True
+        self.fields['brand_car_info'].required = True
+        self.fields['condition_car_info'].required = True
+        self.fields['year_car_info'].required = True
+        self.fields['engine_volume_car_info'].required = True
+        self.fields['power_car_info'].required = True
         self.fields['price_date_car_info'] = forms.DateTimeField(
             required=False,
             widget=forms.DateTimeInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
@@ -156,7 +162,8 @@ class FinancingConditionsForm(BaseForm):
         super(FinancingConditionsForm, self).__init__(*args, **kwargs)
         self.fields['financing_term'].queryset = FinancingTerm.objects.annotate(
             numeric_value=Cast('term', IntegerField())).order_by('numeric_value')
-        self.fields['financing_term'].required = False
+        self.fields['financing_term'].required = True
+        self.fields['initial_payment'].required = True
 
 
 # Start additional form
@@ -168,7 +175,7 @@ class ClientInfoPersonalForm(BaseForm):
             'first_name_to_contact_client', 'first_name_client', 'last_name_client', 'middle_name_client',
             'type_client', 'product_client', 'birth_date_client', 'registration_address_client', 'housing_type_client',
             'registration_date_client', 'gender_choice_client',
-            'social_status_client', 'country_name_pre_client', 'post_code'
+            'social_status_client', 'country_name_pre_client', 'post_code', 'fact_address_same_registration'
         ]
         widgets = {
             'first_name_to_contact_client': forms.TextInput(attrs={'class': 'form-control'}),
@@ -185,15 +192,19 @@ class ClientInfoPersonalForm(BaseForm):
             'gender_choice_client': forms.Select(attrs={'class': 'form-select'}),
             'social_status_client': forms.Select(attrs={'class': 'form-select'}),
             'country_name_pre_client': forms.TextInput(attrs={'class': 'form-control'}),
-            'post_code': forms.TextInput(attrs={'class': 'form-control'})
+            'post_code': forms.TextInput(attrs={'class': 'form-control'}),
+            'fact_address_same_registration': forms.CheckboxInput(attrs={'class': 'form-check-input'})
         }
 
     def __init__(self, *args, **kwargs):
         super(ClientInfoPersonalForm, self).__init__(*args, **kwargs)
         self.fields['first_name_client'].required = True
         self.fields['last_name_client'].required = True
-        # self.fields['type_client'].initial = 'Физическое лицо'
-        # self.fields['product_client'].initial = 'Кредит'
+        self.fields['middle_name_client'].required = True
+        self.fields['gender_choice_client'].required = True
+        self.fields['birth_date_client'].required = True
+        self.fields['country_name_pre_client'].required = True
+        self.fields['post_code'].required = True
 
 
 class ContactClientForm(BaseForm):
@@ -224,6 +235,13 @@ class PassportClientForm(BaseForm):
             'division_code_passport': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '___-___'}),
             'issued_by_passport': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(PassportClientForm, self).__init__(*args, **kwargs)
+        self.fields['series_number_passport'].required = True
+        self.fields['issue_date_passport'].required = True
+        self.fields['division_code_passport'].required = True
+        self.fields['issued_by_passport'].required = True
 
 
 class DriverLicenseForm(BaseForm):
@@ -337,6 +355,7 @@ class CitizenshipForm(BaseForm):
     def __init__(self, *args, **kwargs):
         super(CitizenshipForm, self).__init__(*args, **kwargs)
         self.fields['birth_country_client'].queryset = Country.objects.order_by('name')
+        self.fields['birth_place_citizenship'].required = True
 
 
 class FamilyInfoForm(BaseForm):
@@ -377,6 +396,8 @@ class FinancialInfoForm(BaseForm):
     def __init__(self, *args, **kwargs):
         super(FinancialInfoForm, self).__init__(*args, **kwargs)
         self.fields['income_type'].queryset = IncomeType.objects.order_by('type')
+        self.fields['income_type'].required = True
+        self.fields['income_amount'].required = True
 
 
 class ExpensesForm(BaseForm):

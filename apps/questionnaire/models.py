@@ -385,7 +385,8 @@ class ClientPersonalInfo(models.Model):
     last_name_client = models.CharField(max_length=255, verbose_name="Фамилия", blank=True, null=True)
     middle_name_client = models.CharField(max_length=255, verbose_name="Отчество", blank=True, null=True)
     type_client = models.CharField(max_length=255, default='Физическое лицо', verbose_name="Тип", blank=True, null=True)
-    product_client = models.CharField(max_length=255, default='Кредит', verbose_name="Продукт", blank=True, null=True)
+    product_client = models.CharField(max_length=255, default='Кредит на автомобиль', verbose_name="Продукт",
+                                      blank=True, null=True)
     birth_date_client = models.DateField(verbose_name="Дата рождения", blank=True, null=True)
     registration_address_client = models.CharField(max_length=255, verbose_name="Адрес регистрации", blank=True,
                                                    null=True)
@@ -399,6 +400,8 @@ class ClientPersonalInfo(models.Model):
                                              blank=True, null=True)
     country_name_pre_client = models.CharField(max_length=255, blank=True, null=True, verbose_name="Страна регистрации")
     post_code = models.CharField(max_length=255, blank=True, null=True, verbose_name="Почтовый индекс")
+    fact_address_same_registration = models.BooleanField(verbose_name="Место проживания совпадает с местом регистрации",
+                                                         default=False)
 
     class Meta:
         verbose_name = "Личная информация клиента"
