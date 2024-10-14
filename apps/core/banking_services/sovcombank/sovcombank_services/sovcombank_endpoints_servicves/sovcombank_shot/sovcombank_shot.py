@@ -57,7 +57,6 @@ class ShotDataPreparationService:
         car_info = client.car_info.first()
         citizenship = client.citizenship.first()
         financing_conditions = client.financing_conditions.first()
-        print(f"Количество SQL-запросов: {len(connection.queries)}")
 
         passport_series_from_db = passport_data.series_number_passport.split(" ")[0]
         passport_series = passport_series_from_db[:2] + " " + passport_series_from_db[2:]
@@ -70,7 +69,7 @@ class ShotDataPreparationService:
             "applicationInfo": {
                 "partnerId": "ООО Обухов Автоцентр#Москва#Москва#15703#testalfa_Sovcom testalfa_Sovcom#6470",
                 "type": "short",
-                "dateSendWeb": convert_value(current_date, str)
+                "dateSendWeb": current_date
             }
         }
 
