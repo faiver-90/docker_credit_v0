@@ -23,6 +23,21 @@ class ShotDataPreparationService:
             f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/templates_json/sovcombank_shot.json')
         self.data = self.sovcombank_build_request_service.template_data
 
+    def convert_fields(self, data, field_types):
+        for field, expected_type in field_types.items():
+            keys = field.split('.')
+            temp = data
+            for key in keys[:-1]:
+                if isinstance(temp, dict) and key in temp:
+                    temp = temp[key]
+                else:
+                    break
+            else:
+                if isinstance(temp.get(keys[-1]), expected_type):
+                    continue
+                temp[keys[-1]] = convert_value(temp.get(keys[-1]), expected_type)
+        return data
+
     def convert_gender(self, gender):
         if gender == 'Муж':
             return 'm'
@@ -68,36 +83,36 @@ class ShotDataPreparationService:
         credit_info = {
             "creditInfo": {
                 "product": "номер продукта в системе банка",
-                "period": convert_value(financing_conditions.financing_term, str),
-                "limit": convert_value(client.total_loan_amount, float)
+                "period": 34,
+                "limit": client.total_loan_amount,
             }
         }
 
         person_info = {
             "person": {
-                "firstName": convert_value(person_data.first_name_client, str),
-                "lastName": convert_value(person_data.last_name_client, str),
-                "middleName": convert_value(person_data.middle_name_client, str),
-                "sex": convert_value(gender, str),
-                "birthplace": convert_value(citizenship.birth_place_citizenship, str),
-                "dob": convert_value(person_data.birth_date_client, str),
+                "firstName": person_data.first_name_client,
+                "lastName": person_data.last_name_client,
+                "middleName": person_data.middle_name_client,
+                "sex": gender,
+                "birthplace": citizenship.birth_place_citizenship,
+                "dob": person_data.birth_date_client,
                 "factAddressSameAsRegistration": True,
                 "primaryDocument": {
-                    "docType": convert_value("Паспорт", str),
-                    "docNumber": convert_value(passport_number, str),
-                    "docSeries": convert_value(passport_series, str),
-                    "issueOrg": convert_value(passport_data.issued_by_passport, str),
-                    "issueDate": convert_value(passport_data.issue_date_passport, str),
-                    "issueCode": convert_value(passport_data.division_code_passport, str)
+                    "docType": "Паспорт",
+                    "docNumber": passport_number,
+                    "docSeries": passport_series,
+                    "issueOrg": passport_data.issued_by_passport,
+                    "issueDate": passport_data.issue_date_passport,
+                    "issueCode": passport_data.division_code_passport
                 },
                 "registrationAddress": {
-                    "countryName": convert_value(person_data.country_name_pre_client, str),
-                    "region": convert_value(region_registration, str),
-                    "postCode": convert_value(person_data.post_code, str)
+                    "countryName": person_data.country_name_pre_client,
+                    "region": region_registration,
+                    "postCode": person_data.post_code
                 },
                 "incomes": [{
-                    "incomeType": convert_value(financial_info.income_type, str),
-                    "incomeAmount": convert_value(financial_info.income_amount, float)
+                    "incomeType": financial_info.income_type,
+                    "incomeAmount": financial_info.income_amount
                 }]
             }
         }
@@ -105,7 +120,7 @@ class ShotDataPreparationService:
         goods_info = {
             "goods": [
                 {
-                    "goodCost": convert_value(car_info.car_price_car_info, float),
+                    "goodCost": car_info.car_price_car_info,
                     "goodModel": "",
                     "goodsDescription": "",
                     "goodType": ""
@@ -122,17 +137,12 @@ class ShotDataPreparationService:
             **person_info,
             **goods_info
         )
+        converted_data = self.convert_fields(data_not_validate, FIELD_TYPES_SHOT)
 
-        result = ValidationService().validate(data_not_validate)
+        result = ValidationService().validate(converted_data)
+
         if result:
-            return self.sovcombank_build_request_service.fill_templates_request(
-                self.data,
-                **application_info,
-                **source_system_info,
-                **credit_info,
-                **person_info,
-                **goods_info
-            )
+            return converted_data
         else:
             return 'Не прошло валидацию'
         # ======================================
@@ -170,18 +180,20 @@ class SovcombankShotSendHandler:
         self.sovcombank_request_service = SovcombankRequestService("base_url", "api_key")
 
     def handle(self, user, client_id):
-        data_request = self.data_preparation_service.prepare_data(client_id)
+        data_request_not_converted = self.data_preparation_service.prepare_data(client_id)
+        data_request_converted = self.data_preparation_service.convert_fields(data_request_not_converted,
+                                                                              FIELD_TYPES_SHOT)
 
-        if self.validation_service.validate(data_request):
+        if self.validation_service.validate(data_request_converted):
             self.event_sourcing_service.record_event(user.id,
                                                      'send_request_to_sovcombank_shot',
-                                                     data_request,
+                                                     data_request_converted,
                                                      client_id=client_id)
 
             self.sovcombank_request_service.building_request("api/v3/credit/application/auto/short")
             response = self.sovcombank_request_service.send_request(
                 "POST",
-                data_request
+                data_request_converted
             )
 
             if response.get('status_code') == 200:
