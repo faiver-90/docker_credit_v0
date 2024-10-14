@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.db import connection
 from django.shortcuts import get_object_or_404
 
 from app_v0.settings import BASE_DIR
@@ -22,6 +23,14 @@ class ShotDataPreparationService:
             f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/templates_json/sovcombank_shot.json')
         self.data = self.sovcombank_build_request_service.template_data
 
+    def convert_gender(self, gender):
+        if gender == 'Муж':
+            return 'm'
+        elif gender == 'Жен':
+            return 'f'
+        else:
+            return 'Недопустимое значение'
+
     def prepare_data(self, client_id):
         # Получаем клиента и сразу выбираем связанные данные
         client = get_object_or_404(ClientPreData, pk=client_id)
@@ -33,11 +42,14 @@ class ShotDataPreparationService:
         car_info = client.car_info.first()
         citizenship = client.citizenship.first()
         financing_conditions = client.financing_conditions.first()
+        print(f"Количество SQL-запросов: {len(connection.queries)}")
+
         passport_series_from_db = passport_data.series_number_passport.split(" ")[0]
         passport_series = passport_series_from_db[:2] + " " + passport_series_from_db[2:]
         passport_number = passport_data.series_number_passport.split(" ")[1]
         region_registration = person_data.registration_address_client.split(",")[0]
         current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        gender = self.convert_gender(str(person_data.gender_choice_client))
 
         application_info = {
             "applicationInfo": {
@@ -66,7 +78,7 @@ class ShotDataPreparationService:
                 "firstName": convert_value(person_data.first_name_client, str),
                 "lastName": convert_value(person_data.last_name_client, str),
                 "middleName": convert_value(person_data.middle_name_client, str),
-                "sex": convert_value(person_data.gender_choice_client, str),
+                "sex": convert_value(gender, str),
                 "birthplace": convert_value(citizenship.birth_place_citizenship, str),
                 "dob": convert_value(person_data.birth_date_client, str),
                 "factAddressSameAsRegistration": True,
