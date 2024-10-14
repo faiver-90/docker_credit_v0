@@ -301,14 +301,15 @@ class ShowSelectCardOfferView(LoginRequiredMixin, View):
     """Отрисовка выбираемых оферов в предварительных расчетах после нажатия Выбрать"""
 
     @staticmethod
-    def get(request, offer_id):
+    def get(request, offer_id, **kwargs):
         try:
             car_price = request.GET.get('car_price')
             initial_payment = request.GET.get('initial_payment')
             total_loan_amount = request.GET.get('total_loan_amount')
-
+            client_id = request.GET.get('client_id')
             context = ShowOfferService.get_offer_data(
                 offer_id=offer_id,
+                client_id=client_id,
                 car_price=car_price,
                 initial_payment=initial_payment,
                 total_loan_amount=total_loan_amount

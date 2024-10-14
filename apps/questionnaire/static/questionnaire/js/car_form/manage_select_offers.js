@@ -112,7 +112,7 @@ function addOfferSelectEventListeners() {
 
             await saveSelectedOffer(offerId, csrfToken, clientId, totalLoanAmount);
 
-            fetch(`/questionnaire/get_card_offer/${offerId}/?car_price=${carPrice}&initial_payment=${initialPayment}&total_loan_amount=${totalLoanAmount}`)
+            fetch(`/questionnaire/get_card_offer/${offerId}/?client_id=${clientId}&car_price=${carPrice}&initial_payment=${initialPayment}&total_loan_amount=${totalLoanAmount}`)
                 .then(response => response.text())
                 .then(html => {
                     const offersList = document.getElementById('offers_card_list');

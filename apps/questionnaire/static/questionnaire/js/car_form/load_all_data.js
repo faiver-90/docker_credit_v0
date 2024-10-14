@@ -1,7 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
     const clientId = document.querySelector('input[name="client_id"]').value;
     console.log(`Client ID: ${clientId}`);
-    loadAllDataClient(clientId);
+
+    // Загрузка данных при клике по аккордиону "Дополнительная информация"
+    const additionalInfoAccordion = document.getElementById('collapseAllOtherDataClient');
+    additionalInfoAccordion.addEventListener('show.bs.collapse', function () {
+        const contentContainer = document.getElementById('all_other_data_client');
+        if (!contentContainer.getAttribute('data-loaded')) {
+            loadAllDataClient(clientId);
+            contentContainer.setAttribute('data-loaded', 'true'); // Помечаем, что данные загружены
+        }
+    });
 });
 
 function loadAllDataClient(clientId) {
