@@ -1,6 +1,6 @@
 from django import forms
 from django.db.models import IntegerField
-from django.db.models.functions import Cast
+from django.db.models.functions import Cast, datetime
 
 from apps.questionnaire.models import (
     ClientCarInfo, ClientExtraInsurance, AutoSaleDocument, ClientPreData,
@@ -12,6 +12,7 @@ from apps.questionnaire.models import (
     ClientVehicle, PurchaseMethod, ClientRealEstate, RealEstateType, IncomeType
 )
 
+current_year = str(datetime.datetime.now().year)
 
 class BaseForm(forms.ModelForm):
     def save_or_update(self, **lookup):
@@ -41,11 +42,16 @@ class CarInfoForm(BaseForm):
             'condition_car_info': forms.Select(attrs={'class': 'form-select'}),
             'configuration_car_info': forms.TextInput(attrs={'class': 'form-control'}),
             'eco_class_car_info': forms.Select(attrs={'class': 'form-select'}),
-            'year_car_info': forms.TextInput(attrs={'class': 'form-control'}),
+            'year_car_info': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '1900',  # Минимально допустимый год
+                'max': current_year,  # Максимально допустимый год
+                'placeholder': 'Введите год'
+            }),
             'engine_volume_car_info': forms.TextInput(attrs={'class': 'form-control'}),
             'power_car_info': forms.TextInput(attrs={'class': 'form-control'}),
             'color_car_info': forms.TextInput(attrs={'class': 'form-control'}),
-            'mileage_car_info': forms.NumberInput(attrs={'class': 'form-control'}),
+            'mileage_car_info': forms.TextInput(attrs={'class': 'form-control'}),
             'engine_type_car_info': forms.Select(attrs={'class': 'form-select'}),
             'vin_car_info': forms.TextInput(attrs={'class': 'form-control'}),
             'car_price_car_info': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -367,7 +373,12 @@ class FamilyInfoForm(BaseForm):
             'marital_status': forms.Select(attrs={'class': 'form-select'}),
             'children_under_18': forms.NumberInput(attrs={'class': 'form-control'}),
             'dependents': forms.NumberInput(attrs={'class': 'form-control'}),
-            'years_married': forms.NumberInput(attrs={'class': 'form-control'}),
+            'years_married': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '1900',  # Минимально допустимый год
+                'max': current_year,  # Максимально допустимый год
+                'placeholder': 'Введите год'
+            }),
             'official_position_relative': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'degree_of_kinship': forms.TextInput(attrs={'class': 'form-control'}),
             'relative_position': forms.TextInput(attrs={'class': 'form-control'}),
@@ -417,9 +428,19 @@ class VehicleForm(BaseForm):
         fields = ['brand_vehicle', 'year_vehicle', 'model_vehicle', 'purchase_year', 'purchase_method_vehicle']
         widgets = {
             'brand_vehicle': forms.TextInput(attrs={'class': 'form-control'}),
-            'year_vehicle': forms.TextInput(attrs={'class': 'form-control'}),
+            'year_vehicle': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '1900',
+                'max': current_year,
+                'placeholder': 'Введите год'
+            }),
             'model_vehicle': forms.TextInput(attrs={'class': 'form-control'}),
-            'purchase_year': forms.TextInput(attrs={'class': 'form-control'}),
+            'purchase_year': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': '1900',
+                'max': current_year,
+                'placeholder': 'Введите год'
+            }),
             'purchase_method_vehicle': forms.Select(attrs={'class': 'form-select'}),
         }
 

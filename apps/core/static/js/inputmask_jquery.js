@@ -111,34 +111,36 @@ $(document).ready(function () {
     });
 
     applyMask(["#id_phone_number_pre_client", "#id_phone_number_contact", "#id_phone_number_organization", "#id_phone_number_manager"], "+7 (999) 999-99-99");
+    //
+    //
+    //  let currentYear = new Date().getFullYear();
+    //
+    // function checkYearInput(selectors) {
+    //     if (typeof selectors === 'string') {
+    //         selectors = [selectors];
+    //     }
+    //     selectors.forEach(function (selector) {
+    //         // Ограничиваем ввод года
+    //         $(selector).attr('min', 1900);
+    //         $(selector).attr('max', currentYear);
+    //
+    //         // Добавляем обработчик события для дополнительной проверки
+    //         $(selector).on('input', function () {
+    //              let value = $(this).val();
+    //             if (value < 1900 || value > currentYear) {
+    //                 alert("Пожалуйста, введите год в диапазоне от 1900 до " + currentYear);
+    //                 $(this).val('');
+    //             }
+    //         });
+    //     });
+    // }
+    //
+    //  let yearSelectors = ["#id_year_car_info", "#id_year_vehicle", "#id_purchase_year"];
+    //
+    // applyMask(yearSelectors, {mask: "9999", placeholder: "____"});
 
 
-    var currentYear = new Date().getFullYear();
-
-    function checkYearInput(selectors) {
-        if (typeof selectors === 'string') {
-            selectors = [selectors];
-        }
-        selectors.forEach(function (selector) {
-            // Ограничиваем ввод года
-            $(selector).attr('min', 1900);
-            $(selector).attr('max', currentYear);
-
-            // Добавляем обработчик события для дополнительной проверки
-            $(selector).on('input', function () {
-                var value = $(this).val();
-                if (value < 1900 || value > currentYear) {
-                    alert("Пожалуйста, введите год в диапазоне от 1900 до " + currentYear);
-                    $(this).val('');
-                }
-            });
-        });
-    }
-
-    var yearSelectors = ["#id_year_car_info", "#id_year_vehicle", "#id_purchase_year"];
-
-    applyMask(yearSelectors, {mask: "9999", placeholder: "____"});
-    checkYearInput(yearSelectors);
+    // checkYearInput(yearSelectors);
     //
     //
     // // Применяем маски к полям примеры
