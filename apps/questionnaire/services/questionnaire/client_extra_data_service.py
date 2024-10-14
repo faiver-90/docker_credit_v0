@@ -52,11 +52,11 @@ class ClientExtraDataService:
             forms[attr] = form_class(data=data.get(attr, {}), instance=instance)
         return forms
 
-    @staticmethod
-    def set_fields_not_required(forms: Dict[str, BaseForm]) -> None:
-        for form in forms.values():
-            for field in form.fields.values():
-                field.required = False
+    # @staticmethod
+    # def set_fields_not_required(forms: Dict[str, BaseForm]) -> None:
+    #     for form in forms.values():
+    #         for field in form.fields.values():
+    #             field.required = False
 
     def save_forms(self, forms) -> None:
         for form in forms.values():

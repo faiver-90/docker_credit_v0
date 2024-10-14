@@ -201,8 +201,8 @@ class LoadAllDataClientView(LoginRequiredMixin, View):
         forms = service.prepare_forms(form_data)
 
         ignore_required = request.POST.get('ignore_required', 'false') == 'true'
-        if ignore_required:
-            service.set_fields_not_required(forms)
+        # if ignore_required:
+        #     service.set_fields_not_required(forms)
 
         if all(form.is_valid() for form in forms.values()):
             service.save_forms(forms)

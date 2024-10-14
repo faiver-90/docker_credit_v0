@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = await response.json();
             console.log(`Field ${field.name} saved successfully`, data);
         } catch (error) {
-            console.error(`Error saving field ${field.name}:`, error);
+            console.log(`Error saving field ${field.name}:`, error);
         }
     }
 
@@ -85,14 +85,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     const label = form.querySelector(`label[for=${field.id}]`);
                     const labelText = label ? label.innerText : field.name;
                     missingFields.push(labelText);
-                    console.log(`Поле ${labelText} не заполнено`);
+                    enqueueAlert(`Поле ${labelText} не заполнено`);
                 }
             });
         });
 
         if (missingFields.length > 0) {
             enqueueAlert('Пожалуйста, заполните следующие поля: ' + missingFields.join(', '));
-            console.log('Незаполненные поля: ' + missingFields.join(', '));
+            enqueueAlert('Незаполненные поля: ' + missingFields.join(', '));
             return;
         }
 

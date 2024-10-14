@@ -190,8 +190,8 @@ class ClientInfoPersonalForm(BaseForm):
 
     def __init__(self, *args, **kwargs):
         super(ClientInfoPersonalForm, self).__init__(*args, **kwargs)
-        self.fields['first_name_client'].required = False
-        self.fields['last_name_client'].required = False
+        self.fields['first_name_client'].required = True
+        self.fields['last_name_client'].required = True
         # self.fields['type_client'].initial = 'Физическое лицо'
         # self.fields['product_client'].initial = 'Кредит'
 
