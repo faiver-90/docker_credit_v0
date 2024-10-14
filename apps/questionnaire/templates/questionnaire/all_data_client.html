@@ -1,13 +1,14 @@
 <style>
-/* Дополнительные стили для предотвращения появления полос */
-.form-group {
-    position: relative;
-    margin-bottom: 1rem; /* Промежуток между полями формы */
-    background-color: white; /* Убедитесь, что фон белый */
-}
-ul.dropdown-menu {
-    z-index: 1050;
-}
+    /* Дополнительные стили для предотвращения появления полос */
+    .form-group {
+        position: relative;
+        margin-bottom: 1rem; /* Промежуток между полями формы */
+        background-color: white; /* Убедитесь, что фон белый */
+    }
+
+    ul.dropdown-menu {
+        z-index: 1050;
+    }
 </style>
 <form method="post" class="w-100 rounded bg-light p-3" id="additional_information">
     {% csrf_token %}
@@ -49,6 +50,20 @@ ul.dropdown-menu {
         <legend>Паспортные данные</legend>
         <div class="row">
             {% for field in passport_data_form %}
+                <div class="col-md-4">
+                    <div class="form-group bg-light">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend>Финансовая информация</legend>
+        <div class="row">
+            {% for field in financial_info_form %}
                 <div class="col-md-4">
                     <div class="form-group bg-light">
                         {{ field.label_tag }}
@@ -164,20 +179,6 @@ ul.dropdown-menu {
         <legend>Семейное положение</legend>
         <div class="row">
             {% for field in family_info_form %}
-                <div class="col-md-4">
-                    <div class="form-group bg-light">
-                        {{ field.label_tag }}
-                        {{ field }}
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </fieldset>
-    <hr>
-    <fieldset>
-        <legend>Финансовая информация</legend>
-        <div class="row">
-            {% for field in financial_info_form %}
                 <div class="col-md-4">
                     <div class="form-group bg-light">
                         {{ field.label_tag }}

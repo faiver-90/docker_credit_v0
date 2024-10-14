@@ -194,12 +194,13 @@ class SocialStatusAdmin(admin.ModelAdmin):
 class ClientInfoPersonalAdmin(admin.ModelAdmin):
     list_display = (
         'client', 'first_name_to_contact_client', 'first_name_client', 'last_name_client', 'middle_name_client',
-        'type_client', 'product_client', 'birth_date_client', 'registration_address_client', 'housing_type_client',
-        'registration_date_client', 'gender_choice_client', 'social_status_client', get_client_id)
+        'type_client', 'product_client', 'birth_date_client', 'birth_place_citizenship', 'registration_address_client',
+        'housing_type_client', 'registration_date_client', 'gender_choice_client', 'social_status_client',
+        get_client_id)
     search_fields = (
         'client', 'first_name_to_contact_client', 'first_name_client', 'last_name_client', 'middle_name_client',
-        'type_client', 'product_client', 'birth_date_client', 'registration_address_client', 'housing_type_client',
-        'registration_date_client', 'gender_choice_client', 'social_status_client')
+        'type_client', 'product_client', 'birth_date_client', 'birth_place_citizenship', 'registration_address_client',
+        'housing_type_client', 'registration_date_client', 'gender_choice_client', 'social_status_client')
 
 
 @admin.register(ClientContact)
@@ -300,10 +301,10 @@ class CountryAdmin(admin.ModelAdmin):
 @admin.register(ClientCitizenship)
 class CitizenshipAdmin(admin.ModelAdmin):
     list_display = ('client', 'birth_country_client', 'russian_citizenship', 'residence_permit', 'us_citizenship',
-                    'birth_place_citizenship', 'tax_resident_foreign', 'tax_residence_countries', 'foreign_inn',
+                    'tax_resident_foreign', 'tax_residence_countries', 'foreign_inn',
                     get_client_id)
     search_fields = ('client', 'birth_country_client', 'russian_citizenship', 'residence_permit', 'us_citizenship',
-                     'birth_place_citizenship', 'tax_resident_foreign', 'tax_residence_countries', 'foreign_inn')
+                     'tax_resident_foreign', 'tax_residence_countries', 'foreign_inn')
 
 
 @admin.register(MaritalStatus)
@@ -361,7 +362,5 @@ class VehicleAdmin(admin.ModelAdmin):
 
 @admin.register(ClientRealEstate)
 class RealEstateAdmin(admin.ModelAdmin):
-    list_display = ('client', 'real_estate_type', 'purchase_method_real_estate', 'address_real_estate',
-                    'matches_registration_address_real_estate', get_client_id)
-    search_fields = ('client', 'real_estate_type', 'purchase_method_real_estate', 'address_real_estate',
-                     'matches_registration_address_real_estate')
+    list_display = ('client', 'real_estate_type', 'purchase_method_real_estate', 'address_real_estate', get_client_id)
+    search_fields = ('client', 'real_estate_type', 'purchase_method_real_estate', 'address_real_estate')

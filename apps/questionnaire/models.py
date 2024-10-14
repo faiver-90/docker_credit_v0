@@ -388,6 +388,7 @@ class ClientPersonalInfo(models.Model):
     product_client = models.CharField(max_length=255, default='Кредит на автомобиль', verbose_name="Продукт",
                                       blank=True, null=True)
     birth_date_client = models.DateField(verbose_name="Дата рождения", blank=True, null=True)
+    birth_place_citizenship = models.CharField(max_length=255, verbose_name="Место рождения", blank=True, null=True)
     registration_address_client = models.CharField(max_length=255, verbose_name="Адрес регистрации", blank=True,
                                                    null=True)
 
@@ -608,7 +609,6 @@ class ClientCitizenship(models.Model):
     residence_permit = models.BooleanField(verbose_name="Вид на жительство в другой стране", default=False, blank=True,
                                            null=True)
     us_citizenship = models.BooleanField(verbose_name="Гражданство США", default=False, blank=True, null=True)
-    birth_place_citizenship = models.CharField(max_length=255, verbose_name="Место рождения", blank=True, null=True)
     tax_resident_foreign = models.BooleanField(verbose_name="Налоговый резидент иностранного государства",
                                                default=False, blank=True, null=True)
     tax_residence_countries = models.CharField(max_length=255, verbose_name="Страны налогового резиденства", blank=True,
@@ -747,8 +747,7 @@ class ClientRealEstate(models.Model):
     purchase_method_real_estate = models.ForeignKey(PurchaseMethod, on_delete=models.SET_NULL,
                                                     verbose_name="Способ приобретения", blank=True, null=True)
     address_real_estate = models.CharField(max_length=255, verbose_name="Адрес", blank=True, null=True)
-    matches_registration_address_real_estate = models.BooleanField(verbose_name="Совпадает с местом регистрации",
-                                                                   default=False)
+
 
     class Meta:
         verbose_name = "Недвижимость клиента"

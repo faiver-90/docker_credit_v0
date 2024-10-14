@@ -179,7 +179,7 @@ class ClientInfoPersonalForm(BaseForm):
 
         fields = [
             'first_name_to_contact_client', 'first_name_client', 'last_name_client', 'middle_name_client',
-            'type_client', 'product_client', 'birth_date_client', 'registration_address_client', 'housing_type_client',
+            'type_client', 'product_client', 'birth_date_client','birth_place_citizenship', 'registration_address_client', 'housing_type_client',
             'registration_date_client', 'gender_choice_client',
             'social_status_client', 'country_name_pre_client', 'post_code', 'fact_address_same_registration'
         ]
@@ -191,6 +191,7 @@ class ClientInfoPersonalForm(BaseForm):
             'type_client': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'product_client': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'birth_date_client': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'birth_place_citizenship': forms.TextInput(attrs={'class': 'form-control'}),
             'registration_address_client': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Введите адрес'}),
             'housing_type_client': forms.Select(attrs={'class': 'form-select'}),
@@ -211,6 +212,7 @@ class ClientInfoPersonalForm(BaseForm):
         self.fields['birth_date_client'].required = True
         self.fields['country_name_pre_client'].required = True
         self.fields['post_code'].required = True
+        self.fields['birth_place_citizenship'].required = True
 
 
 class ContactClientForm(BaseForm):
@@ -345,14 +347,13 @@ class CitizenshipForm(BaseForm):
     class Meta:
         model = ClientCitizenship
         fields = ['birth_country_client', 'russian_citizenship', 'residence_permit', 'us_citizenship',
-                  'birth_place_citizenship',
+
                   'tax_resident_foreign', 'tax_residence_countries', 'foreign_inn']
         widgets = {
             'birth_country_client': forms.Select(attrs={'class': 'form-select'}),
             'russian_citizenship': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'residence_permit': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'us_citizenship': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'birth_place_citizenship': forms.TextInput(attrs={'class': 'form-control'}),
             'tax_resident_foreign': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'tax_residence_countries': forms.TextInput(attrs={'class': 'form-control'}),
             'foreign_inn': forms.TextInput(attrs={'class': 'form-control'}),
@@ -361,7 +362,6 @@ class CitizenshipForm(BaseForm):
     def __init__(self, *args, **kwargs):
         super(CitizenshipForm, self).__init__(*args, **kwargs)
         self.fields['birth_country_client'].queryset = Country.objects.order_by('name')
-        self.fields['birth_place_citizenship'].required = True
 
 
 class FamilyInfoForm(BaseForm):
@@ -452,13 +452,11 @@ class VehicleForm(BaseForm):
 class RealEstateForm(BaseForm):
     class Meta:
         model = ClientRealEstate
-        fields = ['real_estate_type', 'purchase_method_real_estate', 'address_real_estate',
-                  'matches_registration_address_real_estate']
+        fields = ['real_estate_type', 'purchase_method_real_estate', 'address_real_estate']
         widgets = {
             'real_estate_type': forms.Select(attrs={'class': 'form-select'}),
             'purchase_method_real_estate': forms.Select(attrs={'class': 'form-select'}),
             'address_real_estate': forms.TextInput(attrs={'class': 'form-control'}),
-            'matches_registration_address_real_estate': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
     def __init__(self, *args, **kwargs):
