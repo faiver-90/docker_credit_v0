@@ -30,7 +30,8 @@ class ShotDataPreparationService:
             f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/templates_json/sovcombank_shot.json')
         self.data = self.sovcombank_build_request_service.template_data
 
-    def convert_fields(self, data, field_types):
+    @staticmethod
+    def convert_fields(data, field_types):
         """
         Конвертирует поля данных в указанные типы.
 
@@ -62,7 +63,8 @@ class ShotDataPreparationService:
                 temp[keys[-1]] = convert_value(temp.get(keys[-1]), expected_type)
         return data
 
-    def convert_gender(self, gender):
+    @staticmethod
+    def convert_gender(gender):
         """
         Конвертирует пол клиента из текстового значения в сокращенное буквенное представление.
 
