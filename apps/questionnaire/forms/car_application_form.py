@@ -169,7 +169,6 @@ class FinancingConditionsForm(BaseForm):
         self.fields['financing_term'].queryset = FinancingTerm.objects.annotate(
             numeric_value=Cast('term', IntegerField())).order_by('numeric_value')
         self.fields['financing_term'].required = True
-        self.fields['initial_payment'].required = True
 
 
 # Start additional form
@@ -213,6 +212,7 @@ class ClientInfoPersonalForm(BaseForm):
         self.fields['country_name_pre_client'].required = True
         self.fields['post_code'].required = True
         self.fields['birth_place_citizenship'].required = True
+        self.fields['registration_address_client'].required = True
 
 
 class ContactClientForm(BaseForm):
@@ -347,7 +347,6 @@ class CitizenshipForm(BaseForm):
     class Meta:
         model = ClientCitizenship
         fields = ['birth_country_client', 'russian_citizenship', 'residence_permit', 'us_citizenship',
-
                   'tax_resident_foreign', 'tax_residence_countries', 'foreign_inn']
         widgets = {
             'birth_country_client': forms.Select(attrs={'class': 'form-select'}),

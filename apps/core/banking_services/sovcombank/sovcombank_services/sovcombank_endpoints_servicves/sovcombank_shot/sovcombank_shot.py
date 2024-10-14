@@ -1,6 +1,8 @@
+import logging
 from datetime import datetime
 
 from django.db import connection
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
 from app_v0.settings import BASE_DIR
@@ -15,6 +17,8 @@ from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_servic
 from apps.core.common_services.common_simple_servive import convert_value
 from apps.core.common_services.event_sourcing_service import EventSourcingService
 from apps.questionnaire.models import ClientPreData
+
+logger = logging.getLogger(__name__)
 
 
 class ShotDataPreparationService:
@@ -100,103 +104,132 @@ class ShotDataPreparationService:
         dict
             Подготовленные данные клиента для отправки.
         """
-        # Получаем клиента и сразу выбираем связанные данные
-        client = get_object_or_404(ClientPreData, pk=client_id)
+        try:
+            # Получаем клиента и связанные данные
+            client = get_object_or_404(ClientPreData, pk=client_id)
+            person_data = client.client_person_data.first()
+            passport_data = client.passport_data.first()
+            financial_info = client.financial_info.first()
+            car_info = client.car_info.first()
+            financing_conditions = client.financing_conditions.first()
+            try:
+                passport_series_from_db = passport_data.series_number_passport.split(" ")[0]
+                passport_series = passport_series_from_db[:2] + " " + passport_series_from_db[2:]
+                passport_number = passport_data.series_number_passport.split(" ")[1]
+            except AttributeError as e:
+                logger.error(f"Ошибка при обработке паспортных данных для клиента {client_id}: {str(e)}")
+                raise ValueError(f"Ошибка в паспортных данных для клиента {client_id}: {str(e)}")
+            except IndexError as e:
+                logger.error(f"Ошибка в формате паспортных данных для клиента {client_id}: {str(e)}")
+                raise ValueError(f"Неправильный формат паспортных данных для клиента {client_id}: {str(e)}")
 
-        # Получаем первую запись из связанных данных (если они есть)
-        person_data = client.client_person_data.first()
-        passport_data = client.passport_data.first()
-        financial_info = client.financial_info.first()
-        car_info = client.car_info.first()
-        citizenship = client.citizenship.first()
-        financing_conditions = client.financing_conditions.first()
+            # Обрабатываем данные регистрации
+            try:
+                region_registration = person_data.registration_address_client.split(",")[0]
+            except AttributeError as e:
+                logger.error(f"Ошибка при обработке адреса регистрации для клиента {client_id}: {str(e)}")
+                raise ValueError(f"Ошибка в данных регистрации клиента {client_id}: {str(e)}")
 
-        passport_series_from_db = passport_data.series_number_passport.split(" ")[0]
-        passport_series = passport_series_from_db[:2] + " " + passport_series_from_db[2:]
-        passport_number = passport_data.series_number_passport.split(" ")[1]
-        region_registration = person_data.registration_address_client.split(",")[0]
-        current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        gender = self.convert_gender(str(person_data.gender_choice_client))
+            # Конвертируем пол
+            try:
+                gender = self.convert_gender(str(person_data.gender_choice_client))
+            except Exception as e:
+                logger.error(f"Ошибка при конвертации пола для клиента {client_id}: {str(e)}")
+                raise ValueError(f"Ошибка при обработке данных о поле клиента {client_id}: {str(e)}")
 
-        application_info = {
-            "applicationInfo": {
-                "partnerId": "ООО Обухов Автоцентр#Москва#Москва#15703#testalfa_Sovcom testalfa_Sovcom#6470",
-                "type": "short",
-                "dateSendWeb": current_date
-            }
-        }
+            current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        source_system_info = {
-            "sourceSystemInfo": {
-                "idSystem": "astPlatform"
-            }
-        }
-
-        credit_info = {
-            "creditInfo": {
-                "product": "номер продукта в системе банка",
-                "period": financing_conditions.financing_term,
-                "limit": client.total_loan_amount,
-            }
-        }
-
-        person_info = {
-            "person": {
-                "firstName": person_data.first_name_client,
-                "lastName": person_data.last_name_client,
-                "middleName": person_data.middle_name_client,
-                "sex": gender,
-                "birthplace": citizenship.birth_place_citizenship,
-                "dob": person_data.birth_date_client,
-                "factAddressSameAsRegistration": person_data.fact_address_same_registration,
-                "primaryDocument": {
-                    "docType": "Паспорт",
-                    "docNumber": passport_number,
-                    "docSeries": passport_series,
-                    "issueOrg": passport_data.issued_by_passport,
-                    "issueDate": passport_data.issue_date_passport,
-                    "issueCode": passport_data.division_code_passport
-                },
-                "registrationAddress": {
-                    "countryName": person_data.country_name_pre_client,
-                    "region": region_registration,
-                    "postCode": person_data.post_code
-                },
-                "incomes": [{
-                    "incomeType": str(financial_info.income_type),
-                    "incomeAmount": float(financial_info.income_amount)
-                }]
-            }
-        }
-
-        goods_info = {
-            "goods": [
-                {
-                    "goodCost": car_info.car_price_car_info,
-                    "goodModel": "",
-                    "goodsDescription": "",
-                    "goodType": ""
+            # Формируем данные для запроса
+            application_info = {
+                "applicationInfo": {
+                    "partnerId": "ООО Обухов Автоцентр#Москва#Москва#15703#testalfa_Sovcom testalfa_Sovcom#6470",
+                    "type": "short",
+                    "dateSendWeb": current_date
                 }
-            ]
-        }
+            }
 
-        # ====== Удалить после конца формирования ========
-        data_not_validate = self.sovcombank_build_request_service.fill_templates_request(
-            self.data,
-            **application_info,
-            **source_system_info,
-            **credit_info,
-            **person_info,
-            **goods_info
-        )
-        converted_data = self.convert_fields(data_not_validate, FIELD_TYPES_SHOT)
+            source_system_info = {
+                "sourceSystemInfo": {
+                    "idSystem": "astPlatform"
+                }
+            }
 
-        result = ValidationService().validate(converted_data)
+            credit_info = {
+                "creditInfo": {
+                    "product": "номер продукта в системе банка",
+                    "period": financing_conditions.financing_term,
+                    "limit": client.total_loan_amount,
+                }
+            }
 
-        if result:
-            return converted_data
-        else:
-            return 'Не прошло валидацию'
+            person_info = {
+                "person": {
+                    "firstName": person_data.first_name_client,
+                    "lastName": person_data.last_name_client,
+                    "middleName": person_data.middle_name_client,
+                    "sex": gender,
+                    "birthplace": person_data.birth_place_citizenship,
+                    "dob": person_data.birth_date_client,
+                    "factAddressSameAsRegistration": person_data.fact_address_same_registration,
+                    "primaryDocument": {
+                        "docType": "Паспорт",
+                        "docNumber": passport_number,
+                        "docSeries": passport_series,
+                        "issueOrg": passport_data.issued_by_passport,
+                        "issueDate": passport_data.issue_date_passport,
+                        "issueCode": passport_data.division_code_passport
+                    },
+                    "registrationAddress": {
+                        "countryName": person_data.country_name_pre_client,
+                        "region": region_registration,
+                        "postCode": person_data.post_code
+                    },
+                    "incomes": [{
+                        "incomeType": str(financial_info.income_type),
+                        "incomeAmount": float(financial_info.income_amount)
+                    }]
+                }
+            }
+
+            goods_info = {
+                "goods": [
+                    {
+                        "goodCost": car_info.car_price_car_info,
+                        "goodModel": "",
+                        "goodsDescription": "",
+                        "goodType": ""
+                    }
+                ]
+            }
+
+            # Сборка данных для валидации
+            data_not_validate = self.sovcombank_build_request_service.fill_templates_request(
+                self.data,
+                **application_info,
+                **source_system_info,
+                **credit_info,
+                **person_info,
+                **goods_info
+            )
+
+            converted_data = self.convert_fields(data_not_validate, FIELD_TYPES_SHOT)
+
+            # Валидация данных
+            result = ValidationService().validate(converted_data)
+
+            if result:
+                return converted_data
+            else:
+                raise ValueError("Validation failed")
+
+
+        except AttributeError as e:
+            logger.error(f"Ошибка данных для клиента {client_id}: {str(e)}")
+            raise ValueError(f"Ошибка данных для клиента {client_id}: {str(e)}")
+
+        except Exception as e:
+            logger.error(f"Неизвестная ошибка при подготовке данных для клиента {client_id}: {str(e)}")
+            raise ValueError(f"Неизвестная ошибка при подготовке данных для клиента {client_id}: {str(e)}")
         # ======================================
 
         # Возвращаем результат объединения данных с шаблоном
@@ -217,6 +250,7 @@ class ValidationService:
     Этот класс проверяет наличие обязательных полей, корректные типы данных,
     а также диапазоны и допустимые значения для полей.
     """
+
     def __init__(self):
         self.validate_service = CommonValidateFieldService()
 
@@ -249,6 +283,7 @@ class SovcombankShotSendHandler:
 
     Этот класс собирает, валидирует и отправляет данные клиента в банк, а также записывает ивенты.
     """
+
     def __init__(self):
         self.data_preparation_service = ShotDataPreparationService()
         self.validation_service = ValidationService()

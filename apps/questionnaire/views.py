@@ -38,6 +38,7 @@ class IndexView(LoginRequiredMixin, View):
     per_page = 10
 
     def get(self, request):
+        logger.debug(f'massage from index, {__name__}')
         # Получение параметров из запроса
         ordering = request.GET.get('ordering', '-date_create_all_app')
         dealership_filter = request.GET.get('dealership', '')
