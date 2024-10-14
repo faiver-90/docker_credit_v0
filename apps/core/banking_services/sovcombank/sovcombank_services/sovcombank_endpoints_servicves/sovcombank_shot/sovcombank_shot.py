@@ -83,7 +83,7 @@ class ShotDataPreparationService:
         credit_info = {
             "creditInfo": {
                 "product": "номер продукта в системе банка",
-                "period": 34,
+                "period": financing_conditions.financing_term,
                 "limit": client.total_loan_amount,
             }
         }
