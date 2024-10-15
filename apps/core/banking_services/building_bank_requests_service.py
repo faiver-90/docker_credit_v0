@@ -5,6 +5,8 @@ import sys
 
 import requests
 
+from apps.core.common_services.common_simple_servive import get_operation_id
+
 logger = logging.getLogger(__name__)
 
 
@@ -202,8 +204,11 @@ class CommonValidateFieldService:
     check_enumerations(data, field_enums):
         Проверяет, что поля содержат допустимые значения (enumeration).
     """
+    def __init__(self):
+        self.operation_id = None
 
-    def validate_fields(self, data, required_fields, field_types=None, field_ranges=None, field_enums=None):
+    def validate_fields(self, data, required_fields, field_types=None, field_ranges=None, field_enums=None,
+                        operation_id=None):
         """
         Выполняет полную проверку данных на наличие обязательных полей, корректных типов, диапазонов и допустимых значений.
 
@@ -234,43 +239,48 @@ class CommonValidateFieldService:
         Exception:
             Если одна из проверок не пройдена, выбрасывается исключение с описанием ошибок.
         """
-        errors = []
+        # errors = []
 
         try:
             # Проверка обязательных полей
             missing_fields = self.check_required_fields(data, required_fields)
             if missing_fields:
-                errors.append(f"Следующие обязательные поля отсутствуют или пусты: {', '.join(missing_fields)}")
-                logger.debug(f"Следующие обязательные поля отсутствуют или пусты: {', '.join(missing_fields)}")
+                logger.error(f"Следующие обязательные поля отсутствуют или пусты, операция {operation_id}: {', '.join(missing_fields)}")
+                raise ValueError(
+                    f"Некоторые обязательные поля пусты или отсутствуют. "
+                    f"Поверьте заполненность обязательных полей и сохраните их. Операция {operation_id}")
 
             # Проверка типов данных
             if field_types:
                 incorrect_types = self.check_field_types(data, field_types)
                 if incorrect_types:
-                    errors.append(f"Следующие поля имеют некорректные типы данных: {', '.join(incorrect_types)}")
-                    logger.debug(f"Следующие поля имеют некорректные типы данных: {', '.join(incorrect_types)}")
+                    logger.error(f"Следующие поля имеют некорректные типы данных, операция {operation_id}: {', '.join(incorrect_types)}")
+                    raise ValueError(f"Некоторые поля имеют некорректные типы данных. Проверьте корректность данных. "
+                                     f"Проверьте корректность данных и сохраните их. Операция {operation_id}")
 
             # Проверка диапазонов значений
             if field_ranges:
                 out_of_range = self.check_field_ranges(data, field_ranges)
                 if out_of_range:
-                    errors.append(f"Следующие поля вне допустимого диапазона: {', '.join(out_of_range)}")
-                    logger.debug(f"Следующие поля вне допустимого диапазона: {', '.join(out_of_range)}")
+                    logger.error(f"Следующие поля вне допустимого диапазона, операция {operation_id}: {', '.join(out_of_range)}")
+                    raise ValueError(f"Некоторые поля вне допустимого диапазона. Проверьте корректность данных. "
+                                     f"Проверьте корректность данных и сохраните их. Операция {operation_id}")
 
             # Проверка допустимых значений
             if field_enums:
                 invalid_values = self.check_enumerations(data, field_enums)
                 if invalid_values:
-                    errors.append(f"Следующие поля содержат недопустимые значения: {', '.join(invalid_values)}")
-                    logger.debug(f"Следующие поля содержат недопустимые значения: {', '.join(invalid_values)}")
+                    logger.error(f"Следующие поля содержат недопустимые значения, операция {operation_id}: {', '.join(invalid_values)}")
+                    raise ValueError(f"Некоторые поля содержат недопустимые значения. "
+                                     f"Проверьте корректность данных и сохраните их. Операция {operation_id}")
 
-            if errors:
-                raise ValueError("\n".join(errors))
+            # if errors:
+            #     raise ValueError("\n".join(errors))
 
             return True
 
         except Exception as e:
-            logger.error(f"Ошибка валидации полей: {str(e)}")
+            logger.error(f"Ошибка валидации полей. Операция {operation_id}: {str(e)}")
             raise
 
     @staticmethod
@@ -420,6 +430,9 @@ class CommonValidateFieldService:
                     else:
                         missing_fields.append(field)
                         break
+                if isinstance(temp, bool):
+                    continue
+
                 if temp is None or temp == "" or temp == 0:
                     missing_fields.append(field)
         except Exception as e:

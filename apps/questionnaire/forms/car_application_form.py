@@ -14,6 +14,7 @@ from apps.questionnaire.models import (
 
 current_year = str(datetime.datetime.now().year)
 
+
 class BaseForm(forms.ModelForm):
     def save_or_update(self, **lookup):
         try:
@@ -178,8 +179,8 @@ class ClientInfoPersonalForm(BaseForm):
 
         fields = [
             'first_name_to_contact_client', 'first_name_client', 'last_name_client', 'middle_name_client',
-            'type_client', 'product_client', 'birth_date_client','birth_place_citizenship', 'registration_address_client', 'housing_type_client',
-            'registration_date_client', 'gender_choice_client',
+            'type_client', 'product_client', 'birth_date_client', 'birth_place_citizenship',
+            'registration_address_client', 'housing_type_client', 'registration_date_client', 'gender_choice_client',
             'social_status_client', 'country_name_pre_client', 'post_code', 'fact_address_same_registration'
         ]
         widgets = {
@@ -212,7 +213,6 @@ class ClientInfoPersonalForm(BaseForm):
         self.fields['country_name_pre_client'].required = True
         self.fields['post_code'].required = True
         self.fields['birth_place_citizenship'].required = True
-        self.fields['registration_address_client'].required = True
 
 
 class ContactClientForm(BaseForm):

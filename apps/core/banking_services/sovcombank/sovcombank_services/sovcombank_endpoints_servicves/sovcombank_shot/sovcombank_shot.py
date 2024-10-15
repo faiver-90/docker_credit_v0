@@ -1,4 +1,5 @@
 import logging
+import uuid
 from datetime import datetime
 
 from django.db import connection
@@ -14,7 +15,7 @@ from apps.core.banking_services.sovcombank.sovcombank_services. \
     sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
     FIELD_TYPES_SHOT, FIELD_RANGES_SHOT, FIELD_ENUMS_SHOT, REQUIRED_FIELDS_SHOT
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_service import endpoint_processor
-from apps.core.common_services.common_simple_servive import convert_value
+from apps.core.common_services.common_simple_servive import convert_value, get_operation_id
 from apps.core.common_services.event_sourcing_service import EventSourcingService
 from apps.questionnaire.models import ClientPreData
 
@@ -89,7 +90,7 @@ class ShotDataPreparationService:
         else:
             return 'Недопустимое значение'
 
-    def prepare_data(self, client_id):
+    def prepare_data(self, client_id, operation_id=None):
         """
         Подготавливает данные клиента для отправки в банк, включая информацию о кредите,
         персональные данные и данные о товаре.
@@ -105,37 +106,41 @@ class ShotDataPreparationService:
             Подготовленные данные клиента для отправки.
         """
         try:
-            # Получаем клиента и связанные данные
             client = get_object_or_404(ClientPreData, pk=client_id)
             person_data = client.client_person_data.first()
             passport_data = client.passport_data.first()
             financial_info = client.financial_info.first()
             car_info = client.car_info.first()
             financing_conditions = client.financing_conditions.first()
+
             try:
                 passport_series_from_db = passport_data.series_number_passport.split(" ")[0]
                 passport_series = passport_series_from_db[:2] + " " + passport_series_from_db[2:]
                 passport_number = passport_data.series_number_passport.split(" ")[1]
             except AttributeError as e:
-                logger.error(f"Ошибка при обработке паспортных данных для клиента {client_id}: {str(e)}")
-                raise ValueError(f"Ошибка в паспортных данных для клиента {client_id}: {str(e)}")
+                logger.error(f"Ошибка при обработке паспортных данных для клиента, "
+                             f"операция {operation_id}, {client_id}: {str(e)}")
+                raise ValueError(f"Ошибка в паспортных данных для клиента, "
+                                 f"операция {operation_id} {client_id}: {str(e)}")
             except IndexError as e:
-                logger.error(f"Ошибка в формате паспортных данных для клиента {client_id}: {str(e)}")
-                raise ValueError(f"Неправильный формат паспортных данных для клиента {client_id}: {str(e)}")
+                logger.error(f"Ошибка в формате паспортных данных для клиента, "
+                             f"операция {operation_id} {client_id}: {str(e)}")
+                raise ValueError(f"Неправильный формат паспортных данных для клиента, "
+                                 f"операция {operation_id} {client_id}: {str(e)}")
 
-            # Обрабатываем данные регистрации
             try:
                 region_registration = person_data.registration_address_client.split(",")[0]
             except AttributeError as e:
-                logger.error(f"Ошибка при обработке адреса регистрации для клиента {client_id}: {str(e)}")
-                raise ValueError(f"Ошибка в данных регистрации клиента {client_id}: {str(e)}")
+                logger.error(f"Ошибка при обработке адреса регистрации для клиента, "
+                             f"операция {operation_id} {client_id}: {str(e)}")
+                raise ValueError(f"Ошибка в данных регистрации клиента, операция {operation_id} {client_id}: {str(e)}")
 
-            # Конвертируем пол
             try:
                 gender = self.convert_gender(str(person_data.gender_choice_client))
             except Exception as e:
-                logger.error(f"Ошибка при конвертации пола для клиента {client_id}: {str(e)}")
-                raise ValueError(f"Ошибка при обработке данных о поле клиента {client_id}: {str(e)}")
+                logger.error(f"Ошибка при конвертации пола для клиента, операция {operation_id} {client_id}: {str(e)}")
+                raise ValueError(f"Ошибка при обработке данных о поле клиента, "
+                                 f"операция {operation_id} {client_id}: {str(e)}")
 
             current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -202,8 +207,27 @@ class ShotDataPreparationService:
                 ]
             }
 
-            # Сборка данных для валидации
-            data_not_validate = self.sovcombank_build_request_service.fill_templates_request(
+            # # Сборка данных для валидации
+            # data_not_validate = self.sovcombank_build_request_service.fill_templates_request(
+            #     self.data,
+            #     **application_info,
+            #     **source_system_info,
+            #     **credit_info,
+            #     **person_info,
+            #     **goods_info
+            # )
+            #
+            # converted_data = self.convert_fields(data_not_validate, FIELD_TYPES_SHOT)
+            #
+            # # Валидация данных
+            # result = ValidationService().validate(converted_data)
+            #
+            # if result:
+            #     return converted_data
+            # else:
+            #     raise ValueError(f"Validation failed , операция {operation_id}")
+            # Возвращаем результат объединения данных с шаблоном
+            return self.sovcombank_build_request_service.fill_templates_request(
                 self.data,
                 **application_info,
                 **source_system_info,
@@ -211,70 +235,15 @@ class ShotDataPreparationService:
                 **person_info,
                 **goods_info
             )
-
-            converted_data = self.convert_fields(data_not_validate, FIELD_TYPES_SHOT)
-
-            # Валидация данных
-            result = ValidationService().validate(converted_data)
-
-            if result:
-                return converted_data
-            else:
-                raise ValueError("Validation failed")
-
-
         except AttributeError as e:
-            logger.error(f"Ошибка данных для клиента {client_id}: {str(e)}")
-            raise ValueError(f"Ошибка данных для клиента {client_id}: {str(e)}")
+            logger.error(f"Ошибка данных для клиента, операция {operation_id} {client_id}: {str(e)}")
+            raise ValueError(f"Ошибка данных для клиента, операция {operation_id} {client_id}: {str(e)}")
 
         except Exception as e:
-            logger.error(f"Неизвестная ошибка при подготовке данных для клиента {client_id}: {str(e)}")
-            raise ValueError(f"Неизвестная ошибка при подготовке данных для клиента {client_id}: {str(e)}")
-        # ======================================
-
-        # Возвращаем результат объединения данных с шаблоном
-        # return self.sovcombank_build_request_service.fill_templates_request(
-        #     self.data,
-        #     **application_info,
-        #     **source_system_info,
-        #     **credit_info,
-        #     **person_info,
-        #     **goods_info
-        # )
-
-
-class ValidationService:
-    """
-    Сервис для валидации данных перед отправкой запроса в Sovcombank.
-
-    Этот класс проверяет наличие обязательных полей, корректные типы данных,
-    а также диапазоны и допустимые значения для полей.
-    """
-
-    def __init__(self):
-        self.validate_service = CommonValidateFieldService()
-
-    def validate(self, data_request):
-        """
-        Валидирует данные запроса, проверяя обязательные поля, типы данных и диапазоны.
-
-        Параметры:
-        -----------
-        data_request : dict
-           Данные для валидации.
-
-        Возвращает:
-        -----------
-        bool
-           True, если данные прошли валидацию, иначе выбрасывается исключение.
-        """
-        return self.validate_service.validate_fields(
-            data_request,
-            REQUIRED_FIELDS_SHOT,
-            FIELD_TYPES_SHOT,
-            FIELD_RANGES_SHOT,
-            FIELD_ENUMS_SHOT
-        )
+            logger.error(
+                f"Неизвестная ошибка при подготовке данных для клиента, операция {operation_id} {client_id}: {str(e)}")
+            raise ValueError(
+                f"Неизвестная ошибка при подготовке данных для клиента, операция {operation_id} {client_id}: {str(e)}")
 
 
 class SovcombankShotSendHandler:
@@ -284,11 +253,12 @@ class SovcombankShotSendHandler:
     Этот класс собирает, валидирует и отправляет данные клиента в банк, а также записывает ивенты.
     """
 
-    def __init__(self):
+    def __init__(self, operation_id=None):
         self.data_preparation_service = ShotDataPreparationService()
-        self.validation_service = ValidationService()
+        self.validation_service = CommonValidateFieldService()
         self.event_sourcing_service = EventSourcingService()
         self.sovcombank_request_service = SovcombankRequestService("base_url", "api_key")
+        self.operation_id = operation_id
 
     def handle(self, user, client_id):
         """
@@ -307,27 +277,41 @@ class SovcombankShotSendHandler:
         dict
             Результат обработки ответа от банка.
         """
-        data_request_not_converted = self.data_preparation_service.prepare_data(client_id)
-        data_request_converted = self.data_preparation_service.convert_fields(data_request_not_converted,
-                                                                              FIELD_TYPES_SHOT)
 
-        if self.validation_service.validate(data_request_converted):
-            self.event_sourcing_service.record_event(user.id,
-                                                     'send_request_to_sovcombank_shot',
-                                                     data_request_converted,
-                                                     client_id=client_id)
+        try:
+            data_request_not_converted = self.data_preparation_service.prepare_data(client_id, self.operation_id)
+            data_request_converted = self.data_preparation_service.convert_fields(data_request_not_converted,
+                                                                                  FIELD_TYPES_SHOT)
 
-            self.sovcombank_request_service.building_request("api/v3/credit/application/auto/short")
-            response = self.sovcombank_request_service.send_request(
-                "POST",
-                data_request_converted
-            )
+            if self.validation_service.validate_fields(
+                    data_request_converted,
+                    REQUIRED_FIELDS_SHOT,
+                    FIELD_TYPES_SHOT,
+                    FIELD_RANGES_SHOT,
+                    FIELD_ENUMS_SHOT,
+                    operation_id=self.operation_id
+            ):
+                self.event_sourcing_service.record_event(
+                    user.id,
+                    'send_request_to_sovcombank_shot',
+                    data_request_converted,
+                    client_id=client_id)
 
-            if response.get('status_code') == 200:
-                result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
-                return result_shot
-            else:
-                raise ValueError(f"Ошибка при отправке запроса: {response.get('status_code')}")
+                # self.sovcombank_request_service.building_request("api/v3/credit/application/auto/short")
+                # response = self.sovcombank_request_service.send_request(
+                #     "POST",
+                #     data_request_converted
+                # )
+
+                # if response.get('status_code') == 200:
+                #     result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
+                #     return result_shot
+                # else:
+                #     raise ValueError(f"Ошибка при отправке запроса: {response.get('status_code')}")
+                return data_request_converted
+        except Exception as e:
+            logger.error(f'Ошибка валидации или отправки запроса. операция {self.operation_id}: {e}')
+            raise ValueError(f'Ошибка валидации или отправки запроса. операция {self.operation_id}: {e}')
 
 # handler = SovcombankHandler()
 # result = handler.handle()

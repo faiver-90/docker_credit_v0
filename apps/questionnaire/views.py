@@ -27,8 +27,10 @@ from .services.questionnaire.continue_docs_service import ContinueDocsService
 from .services.upload_document_service import BaseUploadDocumentView
 from apps.core.common_services.paginator_service import PaginationService
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot import \
-    ShotDataPreparationService, ValidationService
+    ShotDataPreparationService, SovcombankShotSendHandler
 import logging
+
+from ..core.common_services.common_simple_servive import get_operation_id
 
 logger = logging.getLogger(__name__)
 
@@ -125,12 +127,19 @@ class RequestOffersView(LoginRequiredMixin, ListView):
 
 
 class SendToBankView(LoginRequiredMixin, View):
+    def __init__(self, *args, **kwargs):
+        # Вызов super() для инициализации родительского класса
+        super().__init__(*args, **kwargs)
+        self.operation_id = get_operation_id()
+        self.sovcombank_handler = SovcombankShotSendHandler(operation_id=self.operation_id)
+
     def post(self, request, *args, **kwargs):
         try:
             # Логика обработки запроса
             print("Кнопка нажата! Сообщение записано в консоль.")
             client_id = request.POST.get('client_id')
-            response_data = ShotDataPreparationService().prepare_data(client_id)
+            user = request.user
+            response_data = self.sovcombank_handler.handle(user, client_id)
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
 
             # Возвращаем успешный ответ

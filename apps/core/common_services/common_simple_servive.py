@@ -1,3 +1,6 @@
+import uuid
+
+
 def convert_str_list(li):
     print(f'convert work')
     # return list(map(int, li[0].split(',')))
@@ -50,3 +53,23 @@ def convert_value(value, target_type, default=None):
     except (ValueError, TypeError):
         # Возвращаем дефолтное значение в случае ошибки преобразования
         return default
+
+
+def get_operation_id(existing_operation_id=None):
+    """
+    Возвращает текущий operation_id или создает новый, если он не был передан.
+
+    Параметры:
+    ----------
+    existing_operation_id : str, optional
+        Существующий operation_id, если есть.
+
+    Возвращает:
+    ----------
+    str
+        Новый или существующий operation_id.
+    """
+    if existing_operation_id:
+        return existing_operation_id
+    return str(uuid.uuid4())
+
