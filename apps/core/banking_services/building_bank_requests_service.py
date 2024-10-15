@@ -5,8 +5,6 @@ import sys
 
 import requests
 
-from apps.core.common_services.common_simple_servive import get_operation_id
-
 logger = logging.getLogger(__name__)
 
 
@@ -88,7 +86,7 @@ class CommonBankBuildingDataRequestsService:
         Объединяет шаблон с переданными данными, заменяя значения в шаблоне.
     """
 
-    def __init__(self, path_to_template):
+    def __init__(self, path_to_template, operation_id=None):
         """
         Инициализация сервиса с указанием пути к файлу шаблона.
 
@@ -97,8 +95,8 @@ class CommonBankBuildingDataRequestsService:
         path_to_template : str
             Путь к файлу с JSON-шаблоном.
         """
+        self.operation_id = operation_id
         self.path_to_template = path_to_template
-        self.template_data = self.load_json_template()
 
     def load_json_template(self):
         """
@@ -117,18 +115,20 @@ class CommonBankBuildingDataRequestsService:
         JSONDecodeError:
             Если файл содержит некорректный JSON.
         """
-        try:
-            with open(self.path_to_template, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except FileNotFoundError:
-            print(f"File {self.path_to_template} not found.")
-            sys.exit(1)
-        except json.JSONDecodeError:
-            print(f"Error decoding JSON from {self.path_to_template}.")
-            sys.exit(1)
+        # try:
+        with open(self.path_to_template, 'rhj', encoding='utf-8') as f:
+            return json.load(f)
+        # except FileNotFoundError as e:
+        #     logger.error(f'Файл шаблона не найден FileNotFoundError, {self.operation_id}: {str(e)}')
+        #     raise FileNotFoundError(f'Файл шаблона не найден, {self.operation_id}: {str(e)}')
+        # except ValueError as e:
+        #     logger.exception(f'Ошибка получения данных.ValueError {self.operation_id}: {str(e)}')
+        #     raise ValueError(f'Ошибка получения данных. {self.operation_id}: {str(e)}')
+        # except Exception as e:
+        #     logger.exception(f'Неизвестная ошибка Exception{e}')
+        #     raise Exception(f'Неизвестная ошибка. {self.operation_id}: {str(e)}')
 
-    @staticmethod
-    def fill_templates_request(data, **kwargs):
+    def fill_templates_request(self, data, **kwargs):
         """
         Объединяет данные шаблона с переданными аргументами.
 
@@ -204,6 +204,7 @@ class CommonValidateFieldService:
     check_enumerations(data, field_enums):
         Проверяет, что поля содержат допустимые значения (enumeration).
     """
+
     def __init__(self):
         self.operation_id = None
 
@@ -241,47 +242,51 @@ class CommonValidateFieldService:
         """
         # errors = []
 
-        try:
-            # Проверка обязательных полей
-            missing_fields = self.check_required_fields(data, required_fields)
-            if missing_fields:
-                logger.error(f"Следующие обязательные поля отсутствуют или пусты, операция {operation_id}: {', '.join(missing_fields)}")
-                raise ValueError(
-                    f"Некоторые обязательные поля пусты или отсутствуют. "
-                    f"Поверьте заполненность обязательных полей и сохраните их. Операция {operation_id}")
+        # try:
+        # Проверка обязательных полей
+        missing_fields = self.check_required_fields(data, required_fields)
+        if missing_fields:
+            logger.error(
+                f"Следующие обязательные поля отсутствуют или пусты, {operation_id}: {', '.join(missing_fields)}")
+            raise ValueError(
+                f"Некоторые обязательные поля пусты или отсутствуют. "
+                f"Поверьте заполненность обязательных полей и сохраните их. {operation_id}")
 
-            # Проверка типов данных
-            if field_types:
-                incorrect_types = self.check_field_types(data, field_types)
-                if incorrect_types:
-                    logger.error(f"Следующие поля имеют некорректные типы данных, операция {operation_id}: {', '.join(incorrect_types)}")
-                    raise ValueError(f"Некоторые поля имеют некорректные типы данных. Проверьте корректность данных. "
-                                     f"Проверьте корректность данных и сохраните их. Операция {operation_id}")
+        # Проверка типов данных
+        if field_types:
+            incorrect_types = self.check_field_types(data, field_types)
+            if incorrect_types:
+                logger.error(
+                    f"Следующие поля имеют некорректные типы данных, {operation_id}: {', '.join(incorrect_types)}")
+                raise ValueError(f"Некоторые поля имеют некорректные типы данных. Проверьте корректность данных. "
+                                 f"Проверьте корректность данных и сохраните их. {operation_id}")
 
-            # Проверка диапазонов значений
-            if field_ranges:
-                out_of_range = self.check_field_ranges(data, field_ranges)
-                if out_of_range:
-                    logger.error(f"Следующие поля вне допустимого диапазона, операция {operation_id}: {', '.join(out_of_range)}")
-                    raise ValueError(f"Некоторые поля вне допустимого диапазона. Проверьте корректность данных. "
-                                     f"Проверьте корректность данных и сохраните их. Операция {operation_id}")
+        # Проверка диапазонов значений
+        if field_ranges:
+            out_of_range = self.check_field_ranges(data, field_ranges)
+            if out_of_range:
+                logger.error(
+                    f"Следующие поля вне допустимого диапазона, {operation_id}: {', '.join(out_of_range)}")
+                raise ValueError(f"Некоторые поля вне допустимого диапазона. Проверьте корректность данных. "
+                                 f"Проверьте корректность данных и сохраните их. {operation_id}")
 
-            # Проверка допустимых значений
-            if field_enums:
-                invalid_values = self.check_enumerations(data, field_enums)
-                if invalid_values:
-                    logger.error(f"Следующие поля содержат недопустимые значения, операция {operation_id}: {', '.join(invalid_values)}")
-                    raise ValueError(f"Некоторые поля содержат недопустимые значения. "
-                                     f"Проверьте корректность данных и сохраните их. Операция {operation_id}")
+        # Проверка допустимых значений
+        if field_enums:
+            invalid_values = self.check_enumerations(data, field_enums)
+            if invalid_values:
+                logger.error(
+                    f"Следующие поля содержат недопустимые значения. {operation_id}: {', '.join(invalid_values)}")
+                raise ValueError(f"Некоторые поля содержат недопустимые значения. "
+                                 f"Проверьте корректность данных и сохраните их. {operation_id}")
 
-            # if errors:
-            #     raise ValueError("\n".join(errors))
+        # if errors:
+        #     raise ValueError("\n".join(errors))
 
-            return True
+        return True
 
-        except Exception as e:
-            logger.error(f"Ошибка валидации полей. Операция {operation_id}: {str(e)}")
-            raise
+        # except Exception as e:
+        #     logger.error(f"Ошибка валидации полей. {operation_id}: {str(e)}")
+        #     raise
 
     @staticmethod
     def check_enumerations(data, field_enums):
@@ -302,23 +307,24 @@ class CommonValidateFieldService:
             Список полей, которые содержат недопустимые значения или отсутствуют.
         """
         invalid_values = []
-        try:
-            for field, allowed_values in field_enums.items():
-                keys = field.split('.')
-                temp = data
-                for key in keys:
-                    if isinstance(temp, dict) and key in temp:
-                        temp = temp[key]
-                    else:
-                        invalid_values.append(f"{field} (отсутствует)")
-                        break
-                if temp not in allowed_values:
-                    invalid_values.append(f"{field} (недопустимое значение: {temp})")
-        except Exception as e:
-            logger.error(f"Ошибка проверки перечислений для поля {field}: {str(e)}")
-            raise
-
+        # try:
+        for field, allowed_values in field_enums.items():
+            keys = field.split('.')
+            temp = data
+            for key in keys:
+                if isinstance(temp, dict) and key in temp:
+                    temp = temp[key]
+                else:
+                    invalid_values.append(f"{field} (отсутствует)")
+                    break
+            if temp not in allowed_values:
+                invalid_values.append(f"{field} (недопустимое значение: {temp})")
         return invalid_values
+
+        # except Exception as e:
+        #     logger.error(f"Ошибка проверки перечислений для поля {field}: {str(e)}")
+        #     raise
+
 
     @staticmethod
     def check_field_ranges(data, field_ranges):
@@ -339,29 +345,30 @@ class CommonValidateFieldService:
             Список полей, которые находятся вне допустимого диапазона.
         """
         out_of_range = []
-        try:
-            for field, (min_value, max_value) in field_ranges.items():
-                keys = field.split('.')
-                temp = data
-                for key in keys:
-                    if isinstance(temp, dict) and key in temp:
-                        temp = temp[key]
-                    else:
-                        out_of_range.append(f"{field} (отсутствует)")
-                        break
-
-                # Проверяем тип данных
-                if isinstance(temp, (int, float)):
-                    if not (min_value <= temp <= max_value):
-                        out_of_range.append(f"{field} (ожидалось в диапазоне {min_value}-{max_value}, получено {temp})")
+        # try:
+        for field, (min_value, max_value) in field_ranges.items():
+            keys = field.split('.')
+            temp = data
+            for key in keys:
+                if isinstance(temp, dict) and key in temp:
+                    temp = temp[key]
                 else:
-                    logger.error(f"Ошибка типа данных в поле {field}: ожидалось число, получено {type(temp).__name__}")
-                    out_of_range.append(f"{field} (ошибка типа данных: ожидалось число, получено {temp})")
-        except Exception as e:
-            logger.error(f"Ошибка проверки диапазона для поля {field}: {str(e)}")
-            raise
+                    out_of_range.append(f"{field} (отсутствует)")
+                    break
 
+            # Проверяем тип данных
+            if isinstance(temp, (int, float)):
+                if not (min_value <= temp <= max_value):
+                    out_of_range.append(f"{field} (ожидалось в диапазоне {min_value}-{max_value}, получено {temp})")
+            else:
+                logger.error(f"Ошибка типа данных в поле {field}: ожидалось число, получено {type(temp).__name__}")
+                out_of_range.append(f"{field} (ошибка типа данных: ожидалось число, получено {temp})")
         return out_of_range
+
+        # except Exception as e:
+        #     logger.error(f"Ошибка проверки диапазона для поля {field}: {str(e)}")
+        #     raise
+
 
     @staticmethod
     def check_field_types(data, field_types):
@@ -382,24 +389,25 @@ class CommonValidateFieldService:
             Список полей с некорректными типами данных.
         """
         incorrect_types = []
-        try:
-            for field, expected_type in field_types.items():
-                keys = field.split('.')
-                temp = data
-                for key in keys:
-                    if isinstance(temp, dict) and key in temp:
-                        temp = temp[key]
-                    else:
-                        incorrect_types.append(f"{field} (отсутствует)")
-                        break
-                if not isinstance(temp, expected_type):
-                    incorrect_types.append(
-                        f"{field} (ожидалось {expected_type.__name__}, получено {type(temp).__name__})")
-        except Exception as e:
-            logger.error(f"Ошибка проверки типов для поля {field}: {str(e)}")
-            raise
-
+        # try:
+        for field, expected_type in field_types.items():
+            keys = field.split('.')
+            temp = data
+            for key in keys:
+                if isinstance(temp, dict) and key in temp:
+                    temp = temp[key]
+                else:
+                    incorrect_types.append(f"{field} (отсутствует)")
+                    break
+            if not isinstance(temp, expected_type):
+                incorrect_types.append(
+                    f"{field} (ожидалось {expected_type.__name__}, получено {type(temp).__name__})")
         return incorrect_types
+
+        # except Exception as e:
+        #     logger.error(f"Ошибка проверки типов для поля {field}: {str(e)}")
+        #     raise
+
 
     @staticmethod
     def check_required_fields(data, required_fields):
@@ -420,23 +428,24 @@ class CommonValidateFieldService:
             Список отсутствующих или пустых полей.
         """
         missing_fields = []
-        try:
-            for field in required_fields:
-                keys = field.split('.')
-                temp = data
-                for key in keys:
-                    if isinstance(temp, dict) and key in temp:
-                        temp = temp[key]
-                    else:
-                        missing_fields.append(field)
-                        break
-                if isinstance(temp, bool):
-                    continue
-
-                if temp is None or temp == "" or temp == 0:
+        # try:
+        for field in required_fields:
+            keys = field.split('.')
+            temp = data
+            for key in keys:
+                if isinstance(temp, dict) and key in temp:
+                    temp = temp[key]
+                else:
                     missing_fields.append(field)
-        except Exception as e:
-            logger.error(f"Ошибка проверки обязательных полей: {str(e)}")
-            raise
+                    break
+            if isinstance(temp, bool):
+                continue
 
+            if temp is None or temp == "" or temp == 0:
+                missing_fields.append(field)
         return missing_fields
+
+        # except Exception as e:
+        #     logger.error(f"Ошибка проверки обязательных полей: {str(e)}")
+        #     raise
+

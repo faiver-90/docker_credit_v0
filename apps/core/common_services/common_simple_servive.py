@@ -1,4 +1,7 @@
+import logging
 import uuid
+
+logger = logging.getLogger(__name__)
 
 
 def convert_str_list(li):
@@ -71,5 +74,4 @@ def get_operation_id(existing_operation_id=None):
     """
     if existing_operation_id:
         return existing_operation_id
-    return str(uuid.uuid4())
-
+    return str(f'ID операции: {uuid.uuid4()}')
