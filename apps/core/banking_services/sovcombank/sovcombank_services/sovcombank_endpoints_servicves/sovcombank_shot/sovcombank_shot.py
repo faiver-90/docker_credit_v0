@@ -15,7 +15,7 @@ from apps.core.banking_services.sovcombank.sovcombank_services. \
     sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
     FIELD_TYPES_SHOT, FIELD_RANGES_SHOT, FIELD_ENUMS_SHOT, REQUIRED_FIELDS_SHOT
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_service import endpoint_processor
-from apps.core.common_services.common_simple_servive import convert_value
+from apps.core.common_services.common_simple_servive import convert_value, load_file
 from apps.core.common_services.event_sourcing_service import EventSourcingService
 from apps.questionnaire.models import ClientPreData
 
@@ -32,10 +32,9 @@ class ShotDataPreparationService:
 
     def __init__(self, operation_id):
         self.operation_id = operation_id
-        self.sovcombank_build_request_service = CommonBankBuildingDataRequestsService(
-            f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/templates_json/sovcombank_shot.json',
-            operation_id=self.operation_id)
-        self.data = self.sovcombank_build_request_service.load_json_template()
+        self.sovcombank_build_request_service = CommonBankBuildingDataRequestsService(operation_id=self.operation_id)
+        self.data = load_file(
+            f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/templates_json/sovcombank_shot.json')
 
     @staticmethod
     def convert_fields(data, field_types):

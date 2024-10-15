@@ -86,7 +86,7 @@ class CommonBankBuildingDataRequestsService:
         Объединяет шаблон с переданными данными, заменяя значения в шаблоне.
     """
 
-    def __init__(self, path_to_template, operation_id=None):
+    def __init__(self, operation_id=None):
         """
         Инициализация сервиса с указанием пути к файлу шаблона.
 
@@ -96,37 +96,6 @@ class CommonBankBuildingDataRequestsService:
             Путь к файлу с JSON-шаблоном.
         """
         self.operation_id = operation_id
-        self.path_to_template = path_to_template
-
-    def load_json_template(self):
-        """
-        Загружает JSON-шаблон из указанного файла.
-
-        Возвращает:
-        -----------
-        dict
-            Шаблон в виде словаря.
-
-        Исключения:
-        -----------
-        FileNotFoundError:
-            Если файл не найден.
-
-        JSONDecodeError:
-            Если файл содержит некорректный JSON.
-        """
-        # try:
-        with open(self.path_to_template, 'rhj', encoding='utf-8') as f:
-            return json.load(f)
-        # except FileNotFoundError as e:
-        #     logger.error(f'Файл шаблона не найден FileNotFoundError, {self.operation_id}: {str(e)}')
-        #     raise FileNotFoundError(f'Файл шаблона не найден, {self.operation_id}: {str(e)}')
-        # except ValueError as e:
-        #     logger.exception(f'Ошибка получения данных.ValueError {self.operation_id}: {str(e)}')
-        #     raise ValueError(f'Ошибка получения данных. {self.operation_id}: {str(e)}')
-        # except Exception as e:
-        #     logger.exception(f'Неизвестная ошибка Exception{e}')
-        #     raise Exception(f'Неизвестная ошибка. {self.operation_id}: {str(e)}')
 
     def fill_templates_request(self, data, **kwargs):
         """

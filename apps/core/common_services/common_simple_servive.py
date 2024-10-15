@@ -1,3 +1,4 @@
+import json
 import logging
 import uuid
 
@@ -75,3 +76,34 @@ def get_operation_id(existing_operation_id=None):
     if existing_operation_id:
         return existing_operation_id
     return str(f'ID операции: {uuid.uuid4()}')
+
+
+def load_file(path_to_file, mode='r'):
+    """
+    Загружает JSON-шаблон из указанного файла.
+
+    Возвращает:
+    -----------
+    dict
+        Шаблон в виде словаря.
+
+    Исключения:
+    -----------
+    FileNotFoundError:
+        Если файл не найден.
+
+    JSONDecodeError:
+        Если файл содержит некорректный JSON.
+    """
+    # try:
+    with open(path_to_file, mode, encoding='utf-8') as f:
+        return json.load(f)
+    # except FileNotFoundError as e:
+    #     logger.error(f'Файл шаблона не найден FileNotFoundError, {self.operation_id}: {str(e)}')
+    #     raise FileNotFoundError(f'Файл шаблона не найден, {self.operation_id}: {str(e)}')
+    # except ValueError as e:
+    #     logger.exception(f'Ошибка получения данных.ValueError {self.operation_id}: {str(e)}')
+    #     raise ValueError(f'Ошибка получения данных. {self.operation_id}: {str(e)}')
+    # except Exception as e:
+    #     logger.exception(f'Неизвестная ошибка Exception{e}')
+    #     raise Exception(f'Неизвестная ошибка. {self.operation_id}: {str(e)}')

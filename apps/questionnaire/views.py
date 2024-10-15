@@ -127,33 +127,33 @@ class RequestOffersView(LoginRequiredMixin, ListView):
 
 class SendToBankView(LoginRequiredMixin, View):
     def __init__(self, *args, **kwargs):
-        # Вызов super() для инициализации родительского класса
         super().__init__(*args, **kwargs)
         self.operation_id = get_operation_id()
         self.sovcombank_handler = SovcombankShotSendHandler(operation_id=self.operation_id)
 
     def post(self, request, *args, **kwargs):
-        try:
-            print("Кнопка нажата! Сообщение записано в консоль.")
-            client_id = request.POST.get('client_id')
-            user = request.user
-            print(client_id)
-            response_data = self.sovcombank_handler.handle(user, client_id)
-            print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
+        logger.debug('from view')
+        # try:
+        print("Кнопка нажата! Сообщение записано в консоль.")
+        client_id = request.POST.get('client_id')
+        user = request.user
+        print(client_id)
+        response_data = self.sovcombank_handler.handle(user, client_id)
+        print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
 
-            return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
-        except FileNotFoundError as e:
-            logger.error(f'Файл шаблона не найден, {self.operation_id}: {str(e)}')
-            return JsonResponse(
-                {'error': f'Шаблон для запроса не найден. Обратитесь к администратору. {self.operation_id}'},
-                status=500)
-        except json.JSONDecodeError as e:
-            logger.error(f'Ошибка в шаблоне JSON, {self.operation_id}: {str(e)}')
-            return JsonResponse({'error': f'Ошибка в шаблоне JSON. Обратитесь к администратору. {self.operation_id}'},
-                                status=500)
-        except Exception as e:
-            logger.error(f'Неизвестная ошибка, {self.operation_id}, {client_id}: {str(e)}')
-            return JsonResponse({'error': str(e)}, status=400)
+        return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+        # except FileNotFoundError as e:
+        #     logger.error(f'Файл шаблона не найден, {self.operation_id}: {str(e)}')
+        #     return JsonResponse(
+        #         {'error': f'Шаблон для запроса не найден. Обратитесь к администратору. {self.operation_id}'},
+        #         status=500)
+        # except json.JSONDecodeError as e:
+        #     logger.error(f'Ошибка в шаблоне JSON, {self.operation_id}: {str(e)}')
+        #     return JsonResponse({'error': f'Ошибка в шаблоне JSON. Обратитесь к администратору. {self.operation_id}'},
+        #                         status=500)
+        # except Exception as e:
+        #     logger.error(f'Неизвестная ошибка, {self.operation_id}, {client_id}: {str(e)}')
+        #     return JsonResponse({'error': str(e)}, status=400)
 
     # """Отправка заявки в банк"""
     # topic = 'database'
