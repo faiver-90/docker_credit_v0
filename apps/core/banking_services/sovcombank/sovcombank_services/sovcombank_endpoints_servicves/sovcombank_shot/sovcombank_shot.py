@@ -247,7 +247,7 @@ class SovcombankShotSendHandler:
         self.data_preparation_service = ShotDataPreparationService(self.operation_id)
         self.validation_service = CommonValidateFieldService(self.operation_id)
         self.event_sourcing_service = EventSourcingService()
-        self.sovcombank_request_service = SovcombankRequestService("base_url", "api_key")
+        self.sovcombank_request_service = SovcombankRequestService("https://jsonplaceholder.typicode.com", "api_key")
 
     def handle(self, user, client_id):
         """
@@ -286,18 +286,18 @@ class SovcombankShotSendHandler:
                     data_request_converted,
                     client_id=client_id)
 
-                # self.sovcombank_request_service.building_request("api/v3/credit/application/auto/short")
-                # response = self.sovcombank_request_service.send_request(
-                #     "POST",
-                #     data_request_converted
-                # )
+                self.sovcombank_request_service.building_request("/posts")
+                response = self.sovcombank_request_service.send_request(
+                    "POST",
+                    data_request_converted
+                )
 
-                # if response.get('status_code') == 200:
-                #     result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
-                #     return result_shot
-                # else:
-                #     raise ValueError(f"Ошибка при отправке запроса: {response.get('status_code')}")
-                return data_request_converted
+                if response:
+                    result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
+                    return result_shot
+                else:
+                    print('Ошибка обрабтки хендлера')
+                    # raise ValueError(f"Ошибка при отправке запроса: {response.get('status_code')}")
         except FileNotFoundError:
             raise
         except AttributeError:

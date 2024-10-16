@@ -39,7 +39,7 @@ class SovcombankRequestService:
             "Content-Type": "application/json"
         }
 
-    def send_request(self, method, data):
+    def send_request(self, method, data=None):
         """
         Отправляет запрос в Sovcombank с заданными данными.
 
