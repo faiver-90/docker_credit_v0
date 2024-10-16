@@ -22,9 +22,8 @@ class SovcombankRequestService:
         self.base_url = base_url
         self.api_key = api_key
         self.url = None
-        self.headers = None
 
-    def building_request(self, endpoint):
+    def building_request(self, endpoint, extra_headers=None):
         """
         Формирует URL и заголовки для запроса на указанный эндпоинт.
 
@@ -34,12 +33,16 @@ class SovcombankRequestService:
             URL-эндпоинт для запроса.
         """
         self.url = f"{self.base_url}/{endpoint}"
-        self.headers = {
+        headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"
         }
 
-    def send_request(self, method, data=None):
+        if extra_headers:
+            headers.update(extra_headers)
+        return headers
+
+    def send_request(self, method, headers, data=None):
         """
         Отправляет запрос в Sovcombank с заданными данными.
 
@@ -58,7 +61,7 @@ class SovcombankRequestService:
         """
         response = requests.request(method,
                                     self.url,
-                                    headers=self.headers,
+                                    headers=headers,
                                     json=data)
         response.raise_for_status()
 

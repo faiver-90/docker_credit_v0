@@ -27,9 +27,9 @@ REQUIRED_FIELDS_SHOT = [
 FIELD_TYPES_SHOT = {
     "applicationInfo.partnerId": str,
     "applicationInfo.type": str,
-    "applicationInfo.entryDateTime": str,
-    "applicationInfo.dateSendWeb": str,
-    "applicationInfo.dateReceiveWeb": str,
+    "applicationInfo.entryDateTime": str,  # YYYY-MM-DD
+    "applicationInfo.dateSendWeb": str,  # yyyy-MM-dd HH:mm:ss
+    "applicationInfo.dateReceiveWeb": str,  # yyyy-MM-dd HH:mm:ss
     "applicationInfo.secretWord": str,
     "applicationInfo.visualRating": str,
     "applicationInfo.gos": bool,
@@ -63,10 +63,10 @@ FIELD_TYPES_SHOT = {
     "person.firstName": str,
     "person.lastName": str,
     "person.middleName": str,
-    "person.sex": str,
+    "person.sex": str,  # Enum (m, f)
     "person.citezenship": str,
     "person.birthplace": str,
-    "person.dob": str,
+    "person.dob": str,  # YYYY-MM-DD
     "person.factAddressSameAsRegistration": bool,
     "person.socialStatus": str,
     "person.maritalStatus": str,
@@ -85,11 +85,11 @@ FIELD_TYPES_SHOT = {
     "person.spouse.firstName": str,
     "person.spouse.lastName": str,
     "person.spouse.middleName": str,
-    "person.spouse.sex": str,
+    "person.spouse.sex": str,  # Enum (m, f)
     "person.spouse.citezenship": str,
     "person.spouse.birthplace": str,
-    "person.spouse.dob": str,
-    "person.spouse.factAddressSameAsRegistration": str,
+    "person.spouse.dob": str,  # YYYY-MM-DD
+    "person.spouse.factAddressSameAsRegistration": bool,
     "person.spouse.socialStatus": str,
     "person.spouse.maritalStatus": str,
     "person.spouse.lastNameChangeDeny": str,
@@ -100,15 +100,15 @@ FIELD_TYPES_SHOT = {
     "person.spouse.institution": str,
     "person.spouse.disability": str,
     "person.spouse.livingType": str,
-    "person.spouse.dependentCount": str,
-    "person.spouse.dependentCountChild": str,
+    "person.spouse.dependentCount": int,
+    "person.spouse.dependentCountChild": int,
     "person.spouse.dependentChildOldYears": str,
 
     "person.primaryDocument.docType": str,
     "person.primaryDocument.docNumber": str,
     "person.primaryDocument.docSeries": str,
     "person.primaryDocument.issueOrg": str,
-    "person.primaryDocument.issueDate": str,
+    "person.primaryDocument.issueDate": str,  # YYYY-MM-DD
     "person.primaryDocument.issueCode": str,
 
     "person.registrationAddress.countryName": str,

@@ -247,7 +247,8 @@ class SovcombankShotSendHandler:
         self.data_preparation_service = ShotDataPreparationService(self.operation_id)
         self.validation_service = CommonValidateFieldService(self.operation_id)
         self.event_sourcing_service = EventSourcingService()
-        self.sovcombank_request_service = SovcombankRequestService("https://jsonplaceholder.typicode.com", "api_key")
+        self.sovcombank_request_service = SovcombankRequestService("http://host.docker.internal:8080",
+                                                                   "1234-5678-9101-1213")
 
     def handle(self, user, client_id):
         """
@@ -285,13 +286,17 @@ class SovcombankShotSendHandler:
                     'send_request_to_sovcombank_shot',
                     data_request_converted,
                     client_id=client_id)
-
-                self.sovcombank_request_service.building_request("/posts")
+                additional_headers = {
+                    "Expected-Result": "success",
+                }
+                headers = self.sovcombank_request_service.building_request("/api/v3/credit/application/auto/short",
+                                                                           extra_headers=additional_headers)
                 response = self.sovcombank_request_service.send_request(
                     "POST",
+                    headers,
                     data_request_converted
                 )
-
+                print(data_request_converted)
                 if response:
                     result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
                     return result_shot
