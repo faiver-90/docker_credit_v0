@@ -10,6 +10,8 @@ from app_v0.settings import BASE_DIR
 from apps.core.banking_services.building_bank_requests_service import (
     CommonBankBuildingDataRequestsService,
     CommonValidateFieldService, SovcombankRequestService)
+from apps.core.banking_services.sovcombank.response_handler_factory import SovcombankEndpointResponseProcessor
+from apps.core.banking_services.sovcombank.sovcombank_factory_response_handlers import SovcombankShotHandler
 
 from apps.core.banking_services.sovcombank.sovcombank_services. \
     sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
@@ -44,7 +46,7 @@ class ShotDataPreparationService:
         except FileNotFoundError as e:
             massage = 'Файл не найден'
             formatted_massage = error_message_formatter(massage,
-                                                        e,
+                                                        e=e,
                                                         module=self.name_modul,
                                                         path_to_template=path_to_template)
             raise FileNotFoundError(formatted_massage)
@@ -248,7 +250,7 @@ class SovcombankShotSendHandler:
         self.validation_service = CommonValidateFieldService(self.operation_id)
         self.event_sourcing_service = EventSourcingService()
         self.sovcombank_request_service = SovcombankRequestService("http://host.docker.internal:8080",
-                                                                   "1234-5678-9101-1213")
+                                                                   "apy-key")
 
     def handle(self, user, client_id):
         """
@@ -296,9 +298,15 @@ class SovcombankShotSendHandler:
                     headers,
                     data_request_converted
                 )
-                print(data_request_converted)
+
                 if response:
-                    result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
+                    try:
+                        result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
+                        print(result_shot)
+                    except ValueError as e:
+                        formatted_massage = error_message_formatter(e=e, operation_id=self.operation_id)
+                        logger.error(formatted_massage)
+                        raise
                     return result_shot
                 else:
                     print('Ошибка обрабтки хендлера')
@@ -307,7 +315,7 @@ class SovcombankShotSendHandler:
             raise
         except AttributeError:
             raise
-        except ValueError:
+        except ValueError as e:
             raise
         except Exception:
             raise

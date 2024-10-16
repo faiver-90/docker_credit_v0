@@ -135,9 +135,9 @@ class SendToBankView(LoginRequiredMixin, View):
         try:
             client_id = request.POST.get('client_id')
             user = request.user
-            response_data = self.sovcombank_handler.handle(user, client_id)
+            response_info = self.sovcombank_handler.handle(user, client_id)
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
-            return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+            return JsonResponse({'message': response_info}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
         except ValueError:
             return JsonResponse(
                 {'error': f'Ошибка значений. Обратитесь к администратору и сообщите ему {self.operation_id}'},

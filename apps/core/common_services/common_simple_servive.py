@@ -76,7 +76,7 @@ def get_operation_id(existing_operation_id=None):
     """
     if existing_operation_id:
         return existing_operation_id
-    return str(f'ID операции: {uuid.uuid4()}')
+    return str(f'ID операции - {uuid.uuid4()}')
 
 
 def load_file(path_to_file, mode='r'):
@@ -142,7 +142,21 @@ def error_message_formatter(message=None, e=None, **kwargs):
     str
         Полностью отформатированное сообщение с описанием ошибки и дополнительными данными.
     """
-    formatted_data = '\n'.join([f"{key}: {value}" for key, value in kwargs.items()])
+    # Создаем список для итогового сообщения, избегая дублирования
+    message_parts = []
 
-    # Возвращаем финальное сообщение с заголовком для сообщения и данных
-    return f"{message},\n Ошибка: {str(e)},\nДанные:\n{formatted_data}"
+    # Добавляем основное сообщение, если оно есть
+    if message:
+        message_parts.append(f"{message}")
+
+    # Добавляем сообщение об исключении, если оно есть
+    if e:
+        message_parts.append(f"{str(e)}")
+
+    # Форматируем дополнительные данные из kwargs, если они есть
+    if kwargs:
+        formatted_data = '\n'.join([f"{key}: {value}" for key, value in kwargs.items()])
+        message_parts.append(f"\n{formatted_data}")
+
+    # Объединяем все части сообщения в одну строку с новой строкой между частями
+    return '\n'.join(message_parts)

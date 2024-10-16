@@ -1,3 +1,6 @@
+from apps.core.common_services.common_simple_servive import error_message_formatter
+
+
 class SovcombankShotHandler:
     """
     Обработчик для ответа от Sovcombank по заявке (shot).
@@ -5,6 +8,7 @@ class SovcombankShotHandler:
     Этот класс отвечает за обработку данных, полученных от API Sovcombank,
     для запроса 'shot'.
     """
+
     def process_response(self, response):
         """
         Обрабатывает ответ на запрос 'sovcombank_shot'.
@@ -19,8 +23,17 @@ class SovcombankShotHandler:
         str
             Результат обработки ответа.
         """
-        print("Обрабатываем ответ для 'sovcombank_shot'")
-        return f"Результат обработки SovcombankShot: {response}"
+        try:
+            if "status" not in response or "requestId" not in response or response.get("status") != "IN WORK":
+                request_id = response.get('requestId')
+                status = response.get('status')
+                raise ValueError(
+                    f"Response is missing required fields: 'status' or 'requestId: request_id - {request_id}, "
+                    f"status - {status}")
+            return response
+        except ValueError as e:
+            formatted_message = error_message_formatter(e=e)
+            raise ValueError(str(formatted_message))
 
 
 class SovcombankAgreementHandler:
