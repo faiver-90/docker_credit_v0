@@ -226,15 +226,6 @@ class ShotDataPreparationService:
             raise FileNotFoundError(text_massage)
         except AttributeError:
             raise
-        # except AttributeError as e:
-        #     logger.error(f"Ошибка данных для клиента,   {operation_id} {client_id}: {str(e)}")
-        #     raise AttributeError(f"Ошибка данных для клиента,   {operation_id} {client_id}: {str(e)}")
-        #
-        # except Exception as e:
-        #     logger.error(
-        #         f"Неизвестная ошибка при подготовке данных для клиента,   {operation_id} {client_id}: {str(e)}")
-        #     raise ValueError(
-        #         f"Неизвестная ошибка при подготовке данных для клиента,   {operation_id} {client_id}: {str(e)}")
 
 
 class SovcombankShotSendHandler:
