@@ -1,3 +1,4 @@
+import inspect
 import json
 import logging
 import uuid
@@ -95,15 +96,39 @@ def load_file(path_to_file, mode='r'):
     JSONDecodeError:
         Если файл содержит некорректный JSON.
     """
-    # try:
     with open(path_to_file, mode, encoding='utf-8') as f:
         return json.load(f)
-    # except FileNotFoundError as e:
-    #     logger.error(f'Файл шаблона не найден FileNotFoundError, {self.operation_id}: {str(e)}')
-    #     raise FileNotFoundError(f'Файл шаблона не найден, {self.operation_id}: {str(e)}')
-    # except ValueError as e:
-    #     logger.exception(f'Ошибка получения данных.ValueError {self.operation_id}: {str(e)}')
-    #     raise ValueError(f'Ошибка получения данных. {self.operation_id}: {str(e)}')
-    # except Exception as e:
-    #     logger.exception(f'Неизвестная ошибка Exception{e}')
-    #     raise Exception(f'Неизвестная ошибка. {self.operation_id}: {str(e)}')
+
+
+def get_local_var_for_exception():
+    frame = inspect.currentframe().f_back
+    local_variables = inspect.getargvalues(frame).locals
+    filtered_variables = {key: repr(value) for key, value in local_variables.items()
+                          if key not in ('self', 'e')}
+    formatted_variables = '\n'.join([f'{key}: {value}' for key, value in filtered_variables.items()])
+
+    return formatted_variables
+
+
+def error_message_formatter(message=None, e=None, **kwargs):
+    """
+    Форматирует сообщение для логирования или исключения, добавляя описание ошибки и дополнительные данные.
+
+    Параметры:
+    ----------
+    message : str
+        Основное сообщение об ошибке.
+    e : Exception
+        Исключение, содержащее информацию об ошибке.
+    **kwargs : dict
+        Дополнительные данные в формате ключ-значение, которые будут добавлены в лог.
+
+    Возвращает:
+    -----------
+    str
+        Полностью отформатированное сообщение с описанием ошибки и дополнительными данными.
+    """
+    formatted_data = '\n'.join([f"{key}: {value}" for key, value in kwargs.items()])
+
+    # Возвращаем финальное сообщение с заголовком для сообщения и данных
+    return f"{message},\n Ошибка: {str(e)},\nДанные:\n{formatted_data}"

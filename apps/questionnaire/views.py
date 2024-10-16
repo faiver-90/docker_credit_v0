@@ -132,16 +132,28 @@ class SendToBankView(LoginRequiredMixin, View):
         self.sovcombank_handler = SovcombankShotSendHandler(operation_id=self.operation_id)
 
     def post(self, request, *args, **kwargs):
-        logger.debug('from view')
-        # try:
-        print("Кнопка нажата! Сообщение записано в консоль.")
-        client_id = request.POST.get('client_id')
-        user = request.user
-        print(client_id)
-        response_data = self.sovcombank_handler.handle(user, client_id)
-        print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
+        try:
+            print("Кнопка нажата! Сообщение записано в консоль.")
+            client_id = request.POST.get('client_id')
+            user = request.user
+            print(client_id)
+            response_data = self.sovcombank_handler.handle(user, client_id)
+            print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
+            return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+        except FileNotFoundError as e:
+            return JsonResponse(
+                {'error': f'Ошибка загрузки файла. Обратитесь к администратору и сообщите ему {self.operation_id}'},
+                json_dumps_params={'ensure_ascii': False, 'indent': 4})
+        except AttributeError:
+            return JsonResponse(
+                {'error': f'Ошибка в формате данных. Обратитесь к администратору и сообщите ему {self.operation_id}'},
+                json_dumps_params={'ensure_ascii': False, 'indent': 4})
+        except Exception as e:
+            logger.error(f'{e}{self.operation_id}')
+            return JsonResponse(
+                {'error': f'Неизвестная ошибка. Обратитесь к администратору и сообщите ему {self.operation_id}'},
+                json_dumps_params={'ensure_ascii': False, 'indent': 4})
 
-        return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
         # except FileNotFoundError as e:
         #     logger.error(f'Файл шаблона не найден, {self.operation_id}: {str(e)}')
         #     return JsonResponse(
