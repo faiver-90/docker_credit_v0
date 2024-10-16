@@ -290,7 +290,6 @@ class CommonValidateFieldService:
         #     logger.error(f"Ошибка проверки перечислений для поля {field}: {str(e)}")
         #     raise
 
-
     @staticmethod
     def check_field_ranges(data, field_ranges):
         """
@@ -334,7 +333,6 @@ class CommonValidateFieldService:
         #     logger.error(f"Ошибка проверки диапазона для поля {field}: {str(e)}")
         #     raise
 
-
     @staticmethod
     def check_field_types(data, field_types):
         """
@@ -372,7 +370,6 @@ class CommonValidateFieldService:
         # except Exception as e:
         #     logger.error(f"Ошибка проверки типов для поля {field}: {str(e)}")
         #     raise
-
 
     @staticmethod
     def check_required_fields(data, required_fields):
@@ -413,4 +410,3 @@ class CommonValidateFieldService:
         # except Exception as e:
         #     logger.error(f"Ошибка проверки обязательных полей: {str(e)}")
         #     raise
-
