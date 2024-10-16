@@ -133,10 +133,8 @@ class SendToBankView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         try:
-            print("Кнопка нажата! Сообщение записано в консоль.")
             client_id = request.POST.get('client_id')
             user = request.user
-            print(client_id)
             response_data = self.sovcombank_handler.handle(user, client_id)
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
             return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})

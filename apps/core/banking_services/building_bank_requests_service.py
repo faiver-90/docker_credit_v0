@@ -56,7 +56,10 @@ class SovcombankRequestService:
         dict
         Ответ от Sovcombank.
         """
-        response = requests.request(method, self.url, headers=self.headers, json=data)
+        response = requests.request(method,
+                                    self.url,
+                                    headers=self.headers,
+                                    json=data)
         response.raise_for_status()
 
         # print('response', json.dumps(response.json(), indent=4, ensure_ascii=False))
@@ -214,7 +217,8 @@ class CommonValidateFieldService:
             missing_fields = self.check_required_fields(data, required_fields)
             if missing_fields:
                 logger.error(
-                    f"Следующие обязательные поля отсутствуют или пусты, {self.operation_id}: {', '.join(missing_fields)}")
+                    f"Следующие обязательные поля отсутствуют или пусты, {self.operation_id}: "
+                    f"{', '.join(missing_fields)}")
                 raise ValueError(
                     f"Некоторые обязательные поля пусты или отсутствуют. "
                     f"Поверьте заполненность обязательных полей и сохраните их.")
@@ -224,7 +228,8 @@ class CommonValidateFieldService:
                 incorrect_types = self.check_field_types(data, field_types)
                 if incorrect_types:
                     logger.error(
-                        f"Следующие поля имеют некорректные типы данных, {self.operation_id}: {', '.join(incorrect_types)}")
+                        f"Следующие поля имеют некорректные типы данных, {self.operation_id}: "
+                        f"{', '.join(incorrect_types)}")
                     raise ValueError(f"Некоторые поля имеют некорректные типы данных. Проверьте корректность данных. "
                                      f"Проверьте корректность данных и сохраните их.")
 
@@ -233,7 +238,8 @@ class CommonValidateFieldService:
                 out_of_range = self.check_field_ranges(data, field_ranges)
                 if out_of_range:
                     logger.error(
-                        f"Следующие поля вне допустимого диапазона, {self.operation_id}: {', '.join(out_of_range)}")
+                        f"Следующие поля вне допустимого диапазона, {self.operation_id}: "
+                        f"{', '.join(out_of_range)}")
                     raise ValueError(f"Некоторые поля вне допустимого диапазона. Проверьте корректность данных. "
                                      f"Проверьте корректность данных и сохраните их.")
 
@@ -242,7 +248,8 @@ class CommonValidateFieldService:
                 invalid_values = self.check_enumerations(data, field_enums)
                 if invalid_values:
                     logger.error(
-                        f"Следующие поля содержат недопустимые значения, {self.operation_id}: {', '.join(invalid_values)}")
+                        f"Следующие поля содержат недопустимые значения, {self.operation_id}: "
+                        f"{', '.join(invalid_values)}")
                     raise ValueError(f"Некоторые поля содержат недопустимые значения. "
                                      f"Проверьте корректность данных и сохраните их.")
 
@@ -250,7 +257,9 @@ class CommonValidateFieldService:
 
         except ValueError as e:
             massage = 'Ошибка валидации АПИ.'
-            formatted_massage = error_message_formatter(massage, e, operation_id=self.operation_id)
+            formatted_massage = error_message_formatter(massage,
+                                                        e,
+                                                        operation_id=self.operation_id)
             raise ValueError(formatted_massage)
 
     @staticmethod

@@ -268,7 +268,8 @@ class SovcombankShotSendHandler:
         """
 
         try:
-            data_request_not_converted = self.data_preparation_service.prepare_data(client_id, self.operation_id)
+            data_request_not_converted = self.data_preparation_service.prepare_data(client_id,
+                                                                                    self.operation_id)
             data_request_converted = self.data_preparation_service.convert_fields(data_request_not_converted,
                                                                                   FIELD_TYPES_SHOT)
 
@@ -299,7 +300,7 @@ class SovcombankShotSendHandler:
                 return data_request_converted
         except FileNotFoundError:
             raise
-        except AttributeError as e:
+        except AttributeError:
             raise
         except ValueError:
             raise
