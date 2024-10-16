@@ -222,7 +222,8 @@ class ShotDataPreparationService:
             text_massage = error_message_formatter(e=e, operation_id=self.operation_id)
             logger.error(text_massage)
             raise FileNotFoundError(text_massage)
-            # raise FileNotFoundError(str(__name__).split(".")[-1])
+        except AttributeError:
+            raise
         # except AttributeError as e:
         #     logger.error(f"Ошибка данных для клиента,   {operation_id} {client_id}: {str(e)}")
         #     raise AttributeError(f"Ошибка данных для клиента,   {operation_id} {client_id}: {str(e)}")
@@ -244,7 +245,7 @@ class SovcombankShotSendHandler:
     def __init__(self, operation_id=None):
         self.operation_id = operation_id
         self.data_preparation_service = ShotDataPreparationService(self.operation_id)
-        self.validation_service = CommonValidateFieldService()
+        self.validation_service = CommonValidateFieldService(self.operation_id)
         self.event_sourcing_service = EventSourcingService()
         self.sovcombank_request_service = SovcombankRequestService("base_url", "api_key")
 
@@ -277,7 +278,6 @@ class SovcombankShotSendHandler:
                     FIELD_TYPES_SHOT,
                     FIELD_RANGES_SHOT,
                     FIELD_ENUMS_SHOT,
-                    operation_id=self.operation_id
             ):
                 self.event_sourcing_service.record_event(
                     user.id,
@@ -299,7 +299,11 @@ class SovcombankShotSendHandler:
                 return data_request_converted
         except FileNotFoundError:
             raise
-        # except ValueError as e:
+        except AttributeError as e:
+            raise
+        except ValueError:
+            raise
+            # except ValueError as e:
         #     logger.error(f'Ошибка данных. {self.operation_id}, {client_id}: {str(e)}')
         #     raise e
         # except Exception as e:

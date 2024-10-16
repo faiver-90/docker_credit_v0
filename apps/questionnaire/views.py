@@ -140,7 +140,11 @@ class SendToBankView(LoginRequiredMixin, View):
             response_data = self.sovcombank_handler.handle(user, client_id)
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
             return JsonResponse({'message': response_data}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
-        except FileNotFoundError as e:
+        except ValueError:
+            return JsonResponse(
+                {'error': f'Ошибка значений. Обратитесь к администратору и сообщите ему {self.operation_id}'},
+                json_dumps_params={'ensure_ascii': False, 'indent': 4})
+        except FileNotFoundError:
             return JsonResponse(
                 {'error': f'Ошибка загрузки файла. Обратитесь к администратору и сообщите ему {self.operation_id}'},
                 json_dumps_params={'ensure_ascii': False, 'indent': 4})
@@ -153,19 +157,6 @@ class SendToBankView(LoginRequiredMixin, View):
             return JsonResponse(
                 {'error': f'Неизвестная ошибка. Обратитесь к администратору и сообщите ему {self.operation_id}'},
                 json_dumps_params={'ensure_ascii': False, 'indent': 4})
-
-        # except FileNotFoundError as e:
-        #     logger.error(f'Файл шаблона не найден, {self.operation_id}: {str(e)}')
-        #     return JsonResponse(
-        #         {'error': f'Шаблон для запроса не найден. Обратитесь к администратору. {self.operation_id}'},
-        #         status=500)
-        # except json.JSONDecodeError as e:
-        #     logger.error(f'Ошибка в шаблоне JSON, {self.operation_id}: {str(e)}')
-        #     return JsonResponse({'error': f'Ошибка в шаблоне JSON. Обратитесь к администратору. {self.operation_id}'},
-        #                         status=500)
-        # except Exception as e:
-        #     logger.error(f'Неизвестная ошибка, {self.operation_id}, {client_id}: {str(e)}')
-        #     return JsonResponse({'error': str(e)}, status=400)
 
     # """Отправка заявки в банк"""
     # topic = 'database'
