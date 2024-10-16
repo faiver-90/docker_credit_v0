@@ -304,12 +304,8 @@ class SovcombankShotSendHandler:
             raise
         except ValueError:
             raise
-            # except ValueError as e:
-        #     logger.error(f'Ошибка данных. {self.operation_id}, {client_id}: {str(e)}')
-        #     raise e
-        # except Exception as e:
-        #     logger.error(f'Неизвестная ошибка. {self.operation_id}, {client_id}: {str(e)}')
-        #     raise e
+        except Exception:
+            raise
 
 # handler = SovcombankHandler()
 # result = handler.handle()
