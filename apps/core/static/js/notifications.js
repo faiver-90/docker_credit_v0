@@ -51,5 +51,8 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// Опрашиваем сервер каждые 10 секунд
+setInterval(loadNotifications, 10000);
+
 // Загружаем уведомления при загрузке страницы
 window.onload = loadNotifications;
