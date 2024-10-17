@@ -30,6 +30,7 @@ class SovcombankShotHandler:
                 raise ValueError(
                     f"Response is missing required fields: 'status' or 'requestId: request_id - {request_id}, "
                     f"status - {status}")
+
             return response
         except ValueError as e:
             formatted_message = error_message_formatter(e=e)

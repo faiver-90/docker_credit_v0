@@ -334,7 +334,7 @@ class SelectedClientOffer(models.Model):
     id_app_bank = models.CharField(max_length=255, blank=True, null=True)
     id_app_in_system = models.IntegerField(default=0, blank=True, null=True)
     link_to_detail_from_bank = models.CharField(max_length=255, blank=True, null=True)
-
+    request_id_in_bank = models.CharField(max_length=255, blank=True, null=True)
     # status_selected_card = models.BooleanField(default=False, verbose_name="Выбранное предложение")  # Добавлено
 
     class Meta:

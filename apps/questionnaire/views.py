@@ -11,7 +11,7 @@ from django.views.generic import ListView
 # from apps.common_services.kafka.kafka_service import KafkaProducerService
 
 from .forms.upload_file_form import ClientUploadDocumentForm
-from .models import ClientPreData, ClientDocument
+from .models import ClientPreData, ClientDocument, SelectedClientOffer
 from apps.users.models import Dealership
 # from apps.core.log_storage.logging_servivce import custom_logger
 
@@ -136,22 +136,35 @@ class SendToBankView(LoginRequiredMixin, View):
             client_id = request.POST.get('client_id')
             user = request.user
             response_info = self.sovcombank_handler.handle(user, client_id)
+            selected_offers = request.POST.get('selected_offers')
+            selected_offers_client = get_object_or_404(SelectedClientOffer, client_id=client_id,
+                                                       offer_id=selected_offers)
+            request_id_in_bank = response_info.get('requestId', None)
+
+            if request_id_in_bank:
+                selected_offers_client.request_id_in_bank = request_id_in_bank
+                selected_offers_client.save()  # Не забудьте сохранить изменения в базе данных
+
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
+
             return JsonResponse({'message': response_info}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
-        except ValueError:
+        except ValueError as e:
+            logger.exception(f'{e}{self.operation_id}')
             return JsonResponse(
                 {'error': f'Ошибка значений. Обратитесь к администратору и сообщите ему {self.operation_id}'},
                 json_dumps_params={'ensure_ascii': False, 'indent': 4})
-        except FileNotFoundError:
+        except FileNotFoundError as e:
+            logger.exception(f'{e}{self.operation_id}')
             return JsonResponse(
                 {'error': f'Ошибка загрузки файла. Обратитесь к администратору и сообщите ему {self.operation_id}'},
                 json_dumps_params={'ensure_ascii': False, 'indent': 4})
-        except AttributeError:
+        except AttributeError as e:
+            logger.exception(f'{e}{self.operation_id}')
             return JsonResponse(
                 {'error': f'Ошибка в формате данных. Обратитесь к администратору и сообщите ему {self.operation_id}'},
                 json_dumps_params={'ensure_ascii': False, 'indent': 4})
         except Exception as e:
-            logger.error(f'{e}{self.operation_id}')
+            logger.exception(f'{e}{self.operation_id}')
             return JsonResponse(
                 {'error': f'Неизвестная ошибка. Обратитесь к администратору и сообщите ему {self.operation_id}'},
                 json_dumps_params={'ensure_ascii': False, 'indent': 4})
