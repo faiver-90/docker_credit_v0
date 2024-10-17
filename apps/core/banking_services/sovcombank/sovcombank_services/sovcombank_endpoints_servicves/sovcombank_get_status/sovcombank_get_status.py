@@ -1,4 +1,5 @@
 import logging
+import time
 
 from app_v0.settings import BASE_DIR
 from apps.core.banking_services.building_bank_requests_service import \
@@ -69,7 +70,27 @@ class SovcombankGetStatusSendHandler:
 
             headers = self.sovcombank_request_service.building_request(
                 f"/api/v3/credit/application/auto/{applicationId}/status")
-            response = self.sovcombank_request_service.send_request("GET", headers)
+
+            # Повторение запроса раз в 10 секунд до 20 минут (1200 секунд)
+            timeout = 1200  # 20 минут
+            interval = 10  # Интервал 10 секунд
+            elapsed_time = 0
+            response = None
+            while elapsed_time < timeout:
+                # Отправляем запрос
+                response = self.sovcombank_request_service.send_request("GET", headers)
+
+                # Проверяем, есть ли нужный комментарий
+                comment = response.get('comment')
+                if comment == 'Предварительная заявка одобрена':
+                    print("Заявка одобрена")
+                    break  # Выход из цикла при успешной проверке
+
+                # Ждем 10 секунд перед повтором
+                time.sleep(interval)
+                elapsed_time += interval
+            else:
+                raise ValueError('Заявка не была одобрена в течение 20 минут')
 
             if response:
                 try:
@@ -86,7 +107,7 @@ class SovcombankGetStatusSendHandler:
             raise
         except AttributeError:
             raise
-        except ValueError as e:
+        except ValueError:
             raise
         except Exception:
             raise

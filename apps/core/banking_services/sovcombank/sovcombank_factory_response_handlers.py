@@ -70,7 +70,6 @@ class SovcombankFullHandler:
 class SovcombankGetStatusHandler:
     def process_response(self, response):
         try:
-            print("Обрабатываем ответ для 'sovcombank_get_status'")
             comment = response.get('comment')
 
             if comment == 'Предварительная заявка одобрена':
