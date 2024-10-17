@@ -7,6 +7,7 @@ from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.views import View
+from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 
 # from apps.common_services.kafka.kafka_service import KafkaProducerService
@@ -34,6 +35,7 @@ import logging
 from ..core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_get_status.sovcombank_get_status import \
     SovcombankGetStatusSendHandler
 from ..core.common_services.common_simple_servive import get_operation_id
+from ..core.models import Notification
 
 logger = logging.getLogger(__name__)
 
@@ -128,6 +130,24 @@ class RequestOffersView(LoginRequiredMixin, ListView):
         return context
 
 
+def get_notifications(request):
+    notifications = Notification.objects.filter(user=request.user, is_read=False)
+    notification_data = [{
+        'id': n.id,
+        'message': n.message,
+        'created_at': n.created_at.strftime('%Y-%m-%d %H:%M')
+    } for n in notifications]
+    return JsonResponse({'notifications': notification_data})
+
+
+@require_POST
+def mark_notification_as_read(request, notification_id):
+    notification = get_object_or_404(Notification, id=notification_id, user=request.user)
+    notification.is_read = True
+    notification.save()
+    return JsonResponse({'status': 'success'})
+
+
 class SendToBankView(View):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -164,7 +184,13 @@ class SendToBankView(View):
                 selected_offers_client.save()
 
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
+            raise ValueError('Рукотворная ошибка в представлении send to bank')
         except ValueError as e:
+            Notification.objects.create(
+                user=request.user,
+                message=f'Произошла ошибка: {str(e)}',
+                is_read=False
+            )
             logger.exception(f'{e}{self.operation_id}')
             return JsonResponse(
                 {'error': f'Ошибка значений. Обратитесь к администратору и сообщите ему {self.operation_id}'},
@@ -184,7 +210,6 @@ class SendToBankView(View):
             return JsonResponse(
                 {'error': f'Неизвестная ошибка. Обратитесь к администратору и сообщите ему {self.operation_id}'},
                 json_dumps_params={'ensure_ascii': False, 'indent': 4})
-
 
     # """Отправка заявки в банк"""
     # topic = 'database'

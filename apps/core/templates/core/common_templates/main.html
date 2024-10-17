@@ -48,17 +48,17 @@
                         <i data-testid="home_icon" class="bi bi-house-door icon"></i>
                     </a>
                 </li>
-            {% if request.user.userprofile.get_active_dealership %}
-                <li class="nav-item dropend">
-                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i data-testid="icon_new_questionnaire" class="bi bi-file-earmark-plus icon"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a data-testid="new_questionnaire" class="dropdown-item" href="{% url 'car_form' %}">Заявка
-                            новая</a></li>
-                    </ul>
-                </li>
-            {% endif %}
+                {% if request.user.userprofile.get_active_dealership %}
+                    <li class="nav-item dropend">
+                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i data-testid="icon_new_questionnaire" class="bi bi-file-earmark-plus icon"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a data-testid="new_questionnaire" class="dropdown-item" href="{% url 'car_form' %}">Заявка
+                                новая</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
                 {% if request.user.is_superuser or request.user.userprofile.role_manager == "owner" %}
                     <li class="nav-item dropend">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -133,6 +133,16 @@
     <div class="content">
         <header class="bg-secondary text-white p-3">
             <div class="d-flex justify-content-between align-items-center">
+
+                {% block notification %} {% endblock %}
+                <div id="notification-bell">
+                    <i class="fa fa-bell"></i>
+                    <span id="notification-count">0</span>
+                </div>
+
+                <ul id="notification-list" style="display: none;">
+                    <!-- Уведомления будут добавляться сюда -->
+                </ul>
                 <div id="header-left">
                     {% block header_left %} {% endblock %}
                 </div>
@@ -150,7 +160,8 @@
                     <ul class="nav">
                         {% if user.is_authenticated %}
                             <div class="dropdown">
-                                <button data-testid="dropdown-toggle-button-ds" class="btn btn-secondary dropdown-toggle" type="button" id="dealershipDropdown"
+                                <button data-testid="dropdown-toggle-button-ds"
+                                        class="btn btn-secondary dropdown-toggle" type="button" id="dealershipDropdown"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ request.user.userprofile.get_active_dealership }}
                                 </button>
@@ -171,7 +182,8 @@
                             <li class="nav-item">
                                 <form method="post" action="{% url 'logout' %}">
                                     {% csrf_token %}
-                                    <button type="submit" data-testid="exit_button" class="btn btn-primary">Выход</button>
+                                    <button type="submit" data-testid="exit_button" class="btn btn-primary">Выход
+                                    </button>
                                 </form>
                             </li>
                         {% else %}
@@ -204,5 +216,6 @@
 <script src="{% static 'js/modal_windows_set.js' %}?v=1.0"></script>
 <script src="{% static 'js/inputmask_jquery.js' %}?v=1.0"></script>
 <script src="{% static 'js/required_field_light.js' %}?v=1.0"></script>
+<script src="{% static 'js/notifications.js' %}?v=1.0"></script>
 </body>
 </html>

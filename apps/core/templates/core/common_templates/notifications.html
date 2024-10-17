@@ -1,0 +1,15 @@
+{% extends 'core/templates/core/common_templates/main.html' %}
+{% load static %}
+
+
+{% block notification %}
+    <div id="notification-bell">
+        <i class="fa fa-bell"></i>
+        <span id="notification-count">0</span>
+    </div>
+
+    <ul id="notification-list" style="display: none;">
+        <!-- Уведомления будут добавляться сюда -->
+    </ul>
+
+{% endblock %}
