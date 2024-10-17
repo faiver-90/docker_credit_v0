@@ -30,6 +30,8 @@ from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoi
     SovcombankShotSendHandler
 import logging
 
+from ..core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_get_status.sovcombank_get_status import \
+    SovcombankGetStatusSendHandler
 from ..core.common_services.common_simple_servive import get_operation_id
 
 logger = logging.getLogger(__name__)
@@ -143,11 +145,15 @@ class SendToBankView(LoginRequiredMixin, View):
 
             if request_id_in_bank:
                 selected_offers_client.request_id_in_bank = request_id_in_bank
-                selected_offers_client.save()  # Не забудьте сохранить изменения в базе данных
-
+                selected_offers_client.save()
+            sov_get_status_app = SovcombankGetStatusSendHandler(operation_id=self.operation_id)
+            result_status = sov_get_status_app.handle(user, client_id, applicationId=request_id_in_bank)
+            if result_status:
+                selected_offers_client.status_select_offer = result_status.get('comment')
+                selected_offers_client.save()
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
 
-            return JsonResponse({'message': response_info}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+            return JsonResponse({'message': result_status}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
         except ValueError as e:
             logger.exception(f'{e}{self.operation_id}')
             return JsonResponse(

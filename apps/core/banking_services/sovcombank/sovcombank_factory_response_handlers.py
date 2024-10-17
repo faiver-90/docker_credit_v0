@@ -69,8 +69,16 @@ class SovcombankFullHandler:
 
 class SovcombankGetStatusHandler:
     def process_response(self, response):
-        print("Обрабатываем ответ для 'sovcombank_get_status'")
-        return f"Результат обработки sovcombank_get_status: {response}"
+        try:
+            print("Обрабатываем ответ для 'sovcombank_get_status'")
+            comment = response.get('comment')
+
+            if comment == 'Предварительная заявка одобрена':
+                return response
+            else:
+                raise AttributeError
+        except AttributeError as e:
+            raise AttributeError(f'Коммент Предварительная заявка одобрена отсутствует, comment = {comment}: {str(e)}')
 
 
 class SovcombankPostStatusHandler:

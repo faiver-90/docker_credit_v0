@@ -306,7 +306,7 @@ class SovcombankShotSendHandler:
             raise
         except AttributeError:
             raise
-        except ValueError as e:
+        except ValueError:
             raise
         except Exception:
             raise

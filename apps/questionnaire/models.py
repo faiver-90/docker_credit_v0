@@ -329,7 +329,7 @@ class SelectedClientOffer(models.Model):
     monthly_payment_select = models.CharField(max_length=255, blank=True, null=True, verbose_name="Ежемесячный платеж")
     stavka_select = models.CharField(max_length=255, blank=True, null=True, verbose_name="Ставка")
     name_bank_select = models.CharField(max_length=255, blank=True, null=True, verbose_name="Название банка")
-    status_select_offer = models.CharField(max_length=255, blank=True, null=True)
+    status_select_offer = models.CharField(max_length=255, blank=True, null=True, verbose_name="Статус заявки в банке")
     info_from_bank = models.CharField(max_length=255, blank=True, null=True)
     id_app_bank = models.CharField(max_length=255, blank=True, null=True)
     id_app_in_system = models.IntegerField(default=0, blank=True, null=True)
