@@ -65,9 +65,6 @@ class SovcombankGetStatusSendHandler:
             #         'send_request_to_sovcombank_shot',
             #         data_request_converted,
             #         client_id=client_id)
-
-            sovcombank_build_request_service = CommonBankBuildingDataRequestsService(self.operation_id)
-
             headers = self.sovcombank_request_service.building_request(
                 f"/api/v3/credit/application/auto/{applicationId}/status")
 

@@ -1,4 +1,5 @@
 import json
+import threading
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import connection
@@ -127,15 +128,23 @@ class RequestOffersView(LoginRequiredMixin, ListView):
         return context
 
 
-class SendToBankView(LoginRequiredMixin, View):
+class SendToBankView(View):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.operation_id = get_operation_id()
         self.sovcombank_handler = SovcombankShotSendHandler(operation_id=self.operation_id)
 
     def post(self, request, *args, **kwargs):
+        client_id = request.POST.get('client_id')
+
+        # Запускаем обработку в отдельном потоке, чтобы не блокировать клиента
+        threading.Thread(target=self.process_request, args=(request, client_id)).start()
+
+        # Возвращаем текст для отображения клиенту
+        return JsonResponse({'message': 'Заявка отправлена, ждите уведомления. Мы свяжемся.'})
+
+    def process_request(self, request, client_id):
         try:
-            client_id = request.POST.get('client_id')
             user = request.user
             response_info = self.sovcombank_handler.handle(user, client_id)
             selected_offers = request.POST.get('selected_offers')
@@ -146,14 +155,15 @@ class SendToBankView(LoginRequiredMixin, View):
             if request_id_in_bank:
                 selected_offers_client.request_id_in_bank = request_id_in_bank
                 selected_offers_client.save()
+
             sov_get_status_app = SovcombankGetStatusSendHandler(operation_id=self.operation_id)
             result_status = sov_get_status_app.handle(user, client_id, applicationId=request_id_in_bank)
+
             if result_status:
                 selected_offers_client.status_select_offer = result_status.get('comment')
                 selected_offers_client.save()
-            print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
 
-            return JsonResponse({'message': result_status}, json_dumps_params={'ensure_ascii': False, 'indent': 4})
+            print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
         except ValueError as e:
             logger.exception(f'{e}{self.operation_id}')
             return JsonResponse(
@@ -174,6 +184,7 @@ class SendToBankView(LoginRequiredMixin, View):
             return JsonResponse(
                 {'error': f'Неизвестная ошибка. Обратитесь к администратору и сообщите ему {self.operation_id}'},
                 json_dumps_params={'ensure_ascii': False, 'indent': 4})
+
 
     # """Отправка заявки в банк"""
     # topic = 'database'
