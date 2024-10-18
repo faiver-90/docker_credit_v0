@@ -213,6 +213,7 @@ class ClientInfoPersonalForm(BaseForm):
         self.fields['country_name_pre_client'].required = True
         self.fields['post_code'].required = True
         self.fields['birth_place_citizenship'].required = True
+        self.fields['registration_address_client'].required = True
 
 
 class ContactClientForm(BaseForm):

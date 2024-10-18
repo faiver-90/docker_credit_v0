@@ -1,4 +1,4 @@
-from apps.core.common_services.common_simple_servive import error_message_formatter
+from apps.core.common_services.common_simple_service import error_message_formatter
 
 
 class SovcombankShotHandler:

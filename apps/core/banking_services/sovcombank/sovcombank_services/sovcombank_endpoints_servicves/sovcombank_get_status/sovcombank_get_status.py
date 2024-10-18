@@ -8,7 +8,7 @@ from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoi
     ShotDataPreparationService
 
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_service import endpoint_processor
-from apps.core.common_services.common_simple_servive import error_message_formatter
+from apps.core.common_services.common_simple_service import error_message_formatter
 from apps.core.common_services.event_sourcing_service import EventSourcingService
 
 logger = logging.getLogger(__name__)

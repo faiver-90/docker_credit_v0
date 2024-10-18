@@ -17,7 +17,7 @@ from apps.core.banking_services.sovcombank.sovcombank_services. \
     sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot_validate import \
     FIELD_TYPES_SHOT, FIELD_RANGES_SHOT, FIELD_ENUMS_SHOT, REQUIRED_FIELDS_SHOT
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_service import endpoint_processor
-from apps.core.common_services.common_simple_servive import convert_value, load_file, get_local_var_for_exception, \
+from apps.core.common_services.common_simple_service import convert_value, load_file, get_local_var_for_exception, \
     error_message_formatter
 from apps.core.common_services.event_sourcing_service import EventSourcingService
 from apps.questionnaire.models import ClientPreData

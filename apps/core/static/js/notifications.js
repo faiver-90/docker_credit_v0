@@ -10,8 +10,8 @@ function loadNotifications() {
 
             data.notifications.forEach(notification => {
                 const li = document.createElement('li');
-                li.textContent = notification.message;
-                li.addEventListener('click', function() {
+                li.innerHTML = notification.message;
+                li.addEventListener('click', function () {
                     markAsRead(notification.id);  // Отметить как прочитанное
                     li.style.textDecoration = 'line-through';
                 });
@@ -31,7 +31,7 @@ function markAsRead(notificationId) {
     });
 }
 
-document.getElementById('notification-bell').addEventListener('click', function() {
+document.getElementById('notification-bell').addEventListener('click', function () {
     const notificationList = document.getElementById('notification-list');
     notificationList.style.display = notificationList.style.display === 'none' ? 'block' : 'none';
 });

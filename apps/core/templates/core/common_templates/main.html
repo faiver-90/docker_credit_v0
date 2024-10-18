@@ -16,9 +16,11 @@
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <title>{% block title %} {% endblock %}</title>
 </head>
+
 <body>
 {% include "core/templates/core/common_templates/alert_modal.html" %}
 {% include "core/templates/core/common_templates/alert_confim_delete_file.html" %}
+
 <div class="wrapper">
     {% if user.is_authenticated %}
         <div id="sidebar" class="sidebar bg-dark text-white p-3">
@@ -133,16 +135,7 @@
     <div class="content">
         <header class="bg-secondary text-white p-3">
             <div class="d-flex justify-content-between align-items-center">
-
-                {% block notification %} {% endblock %}
-                <div id="notification-bell">
-                    <i class="fa fa-bell"></i>
-                    <span id="notification-count">0</span>
-                </div>
-
-                <ul id="notification-list" style="display: none;">
-                    <!-- Уведомления будут добавляться сюда -->
-                </ul>
+                {% include 'core/templates/core/common_templates/notifications.html' %}
                 <div id="header-left">
                     {% block header_left %} {% endblock %}
                 </div>

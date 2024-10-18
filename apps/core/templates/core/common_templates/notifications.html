@@ -1,15 +1,10 @@
-{% extends 'core/templates/core/common_templates/main.html' %}
-{% load static %}
-
-
-{% block notification %}
-    <div id="notification-bell">
+<div class="dropdown notification-dropdown">
+    <div id="notification-bell" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa fa-bell"></i>
         <span id="notification-count">0</span>
     </div>
 
-    <ul id="notification-list" style="display: none;">
+    <ul id="notification-list" class="dropdown-menu dropdown-menu-end" style="width: 1000px;">
         <!-- Уведомления будут добавляться сюда -->
     </ul>
-
-{% endblock %}
+</div>

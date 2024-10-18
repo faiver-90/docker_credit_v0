@@ -6,6 +6,7 @@ from django.db import connection
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.views import View
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
@@ -34,7 +35,8 @@ import logging
 
 from ..core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_get_status.sovcombank_get_status import \
     SovcombankGetStatusSendHandler
-from ..core.common_services.common_simple_servive import get_operation_id
+from ..core.common_services.common_simple_service import get_operation_id, error_message_formatter
+from ..core.common_services.custom_notifications import recording_notification_message
 from ..core.models import Notification
 
 logger = logging.getLogger(__name__)
@@ -131,12 +133,18 @@ class RequestOffersView(LoginRequiredMixin, ListView):
 
 
 def get_notifications(request):
-    notifications = Notification.objects.filter(user=request.user, is_read=False)
+    # Получаем организацию, к которой принадлежит пользователь
+    organization = request.user.userprofile.organization_manager
+
+    # Фильтруем уведомления по пользователям, принадлежащим этой организации
+    notifications = Notification.objects.filter(user__userprofile__organization_manager=organization, is_read=False)
+
     notification_data = [{
         'id': n.id,
         'message': n.message,
         'created_at': n.created_at.strftime('%Y-%m-%d %H:%M')
     } for n in notifications]
+
     return JsonResponse({'notifications': notification_data})
 
 
@@ -165,6 +173,7 @@ class SendToBankView(View):
 
     def process_request(self, request, client_id):
         try:
+
             user = request.user
             response_info = self.sovcombank_handler.handle(user, client_id)
             selected_offers = request.POST.get('selected_offers')
@@ -185,16 +194,21 @@ class SendToBankView(View):
 
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
             raise ValueError('Рукотворная ошибка в представлении send to bank')
+
         except ValueError as e:
-            Notification.objects.create(
-                user=request.user,
-                message=f'Произошла ошибка: {str(e)}',
-                is_read=False
-            )
+            application_url = reverse('car_form', kwargs={'pk': client_id})
+
+            message = error_message_formatter(e=e,
+                                              operation_id=self.operation_id,
+                                              user_id=user.id,
+                                              link=f'<a href="{application_url}">Открыть анкету</a><br>')
+
+            recording_notification_message(user, message)
             logger.exception(f'{e}{self.operation_id}')
             return JsonResponse(
                 {'error': f'Ошибка значений. Обратитесь к администратору и сообщите ему {self.operation_id}'},
                 json_dumps_params={'ensure_ascii': False, 'indent': 4})
+
         except FileNotFoundError as e:
             logger.exception(f'{e}{self.operation_id}')
             return JsonResponse(
