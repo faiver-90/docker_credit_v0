@@ -193,6 +193,8 @@ class SendToBankView(View):
                 selected_offers_client.save()
 
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
+            raise ValueError(f'Эта ошибка вызвана с сервера. {self.operation_id}. '
+                             f'Тут будут всякие уведомления. ошибки и прочая шляпа.')
         except ValueError as e:
             application_url = reverse('car_form', kwargs={'pk': client_id})
 
