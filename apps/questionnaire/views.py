@@ -193,8 +193,6 @@ class SendToBankView(View):
                 selected_offers_client.save()
 
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
-            raise ValueError('Рукотворная ошибка в представлении send to bank')
-
         except ValueError as e:
             application_url = reverse('car_form', kwargs={'pk': client_id})
 
