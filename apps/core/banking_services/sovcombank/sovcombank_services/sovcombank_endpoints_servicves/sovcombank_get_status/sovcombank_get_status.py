@@ -1,5 +1,6 @@
 import logging
 import time
+import asyncio
 
 from app_v0.settings import BASE_DIR
 from apps.core.banking_services.bank_requests_service import \
@@ -63,12 +64,12 @@ class SovcombankGetStatusSendHandler:
             comment = response.get('comment', '')
 
             if status == 'IN WORK':
-                print("Ошибка сервиса на стороне банка. Повторите отправку через несколько секунд.")
-                time.sleep(10)  # Ожидание перед повторным запросом
-                continue
+                print("Ошибка. Свяжитесь с поддержкой банка по интеграциям")
+                return response
 
             elif status == 'Ошибка создания заявки':
                 print(f"Ошибка валидации данных: {comment}")
+
                 return {"error": "Ошибка валидации", "comment": comment}
 
             elif status == 'Прерван':
@@ -91,6 +92,7 @@ class SovcombankGetStatusSendHandler:
 
             elif status == 'Предварительная заявка одобрена':
                 print("Заявка прошла первые проверки.")
+
                 return response  # Успешное завершение
 
             time.sleep(interval)
@@ -119,19 +121,14 @@ class SovcombankGetStatusSendHandler:
         try:
             headers = self.sovcombank_request_service.building_headers(
                 f"/api/v3/credit/application/auto/{applicationId}/status")
-            response_or_error = self.polling_status(headers)
-            print(f"response_or_error = {response_or_error} {__name__}")
-            if response_or_error:
-                try:
-                    result_status = endpoint_processor.handle_endpoint_response("sovcombank_get_status",
-                                                                                response_or_error)
-                    return result_status
-                except ValueError as e:
-                    formatted_massage = error_message_formatter(e=e, operation_id=self.operation_id)
-                    logger.error(formatted_massage)
-                    raise
-            else:
+            try:
+                response_or_error = self.polling_status(headers)
+                print(f"response_or_error = {response_or_error} {__name__}")
+                return response_or_error
+            except ValueError as e:
                 print('Ошибка обрабтки хендлера status')
+                formatted_massage = error_message_formatter(e=e, operation_id=self.operation_id)
+                logger.error(formatted_massage)
                 return ValueError('Ошибка обрабтки хендлера status')
         except FileNotFoundError:
             raise

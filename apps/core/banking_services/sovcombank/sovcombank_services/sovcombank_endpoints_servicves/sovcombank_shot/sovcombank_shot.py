@@ -243,7 +243,7 @@ class SovcombankShotSendHandler:
         self.sovcombank_request_service = SovcombankRequestService("http://host.docker.internal:8080",
                                                                    "apy-key")
 
-    def handle(self, user, client_id):
+    def short_handle(self, user, client_id):
         """
         Выполняет полный цикл отправки данных в Sovcombank.
 
@@ -293,6 +293,7 @@ class SovcombankShotSendHandler:
                 if response:
                     try:
                         result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
+                        print(result_shot)
                     except ValueError as e:
                         formatted_massage = error_message_formatter(e=e, operation_id=self.operation_id)
                         logger.error(formatted_massage)
@@ -300,7 +301,7 @@ class SovcombankShotSendHandler:
                     return result_shot
                 else:
                     print('Ошибка обрабтки хендлера')
-                    # raise ValueError(f"Ошибка при отправке запроса: {response.get('status_code')}")
+                    raise ValueError(f"Ошибка при отправке запроса: {response.get('status_code')}")
         except FileNotFoundError:
             raise
         except AttributeError:
