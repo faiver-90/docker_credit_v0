@@ -29,30 +29,74 @@ class SovcombankGetStatusSendHandler:
         self.sovcombank_request_service = SovcombankRequestService("http://host.docker.internal:8080",
                                                                    "apy-key")
 
-    def getting_good_status(self, headers):
-        # Повторение запроса раз в 10 секунд до 20 минут (1200 секунд)
+    # def getting_status(self, headers):
+    #     response = self.sovcombank_request_service.send_request("GET", headers)
+    #     print('response', response)
+    #     status = response.get('status')
+    #     comment = response.get('comment', '')
+    #
+    #     if status == 'IN WORK':
+    #         print("Заявка получена, ожидаем подтверждения.")
+    #         return self.polling_status(headers)
+    #
+    #     elif status == 'Ошибка':
+    #         print(f"Ошибка создания заявки: {comment}")
+    #         return {"error": "Ошибка создания заявки", "comment": comment}
+    #
+    #     elif status == 'Ошибка создания заявки':
+    #         print(f"Ошибка валидации данных: {comment}")
+    #         return {"error": "Ошибка валидации", "comment": comment}
+    #
+    #     else:
+    #         raise ValueError(f"Неизвестный статус: {status}")
+
+    def polling_status(self, headers):
+        print('начало опроса')
         timeout = 1200  # 20 минут
-        interval = 60  # Интервал 10 секунд
+        interval = 60  # 1 минута
         elapsed_time = 0
+
         while elapsed_time < timeout:
-            # Отправляем запрос
+            # Запрашиваем статус заявки
             response = self.sovcombank_request_service.send_request("GET", headers)
+            status = response.get('status')
+            comment = response.get('comment', '')
 
-            # Проверяем, есть ли нужный комментарий
-            comment = response.get('status')
-            if comment == 'Предварительная заявка одобрена':
-                print("Заявка одобрена")
-                break  # Выход из цикла при успешной проверке
+            if status == 'IN WORK':
+                print("Ошибка сервиса на стороне банка. Повторите отправку через несколько секунд.")
+                time.sleep(10)  # Ожидание перед повторным запросом
+                continue
 
-            # elif comment == 'IN WORK':
-            #     print("Ошибка на стороне АПИ. Повторите отправку")
-            #     break
+            elif status == 'Ошибка создания заявки':
+                print(f"Ошибка валидации данных: {comment}")
+                return {"error": "Ошибка валидации", "comment": comment}
+
+            elif status == 'Прерван':
+                print(f"Процесс прерван оператором: {comment}")
+                return {"error": "Процесс прерван оператором", "comment": comment}
+
+            elif status == 'Отказ':
+                print("Банк отказал в кредите.")
+                return {"error": "Отказ", "comment": "Кредит отклонён"}
+
+            elif status == 'Временный отказ':
+                print(f"Временный отказ: {comment}")
+                return {"error": "Временный отказ", "comment": comment}
+
+            elif status == 'В работе' and not comment:
+                print("Заявка на проверках. Продолжаем опрос.")
+                time.sleep(interval)
+                elapsed_time += interval
+                continue
+
+            elif status == 'Предварительная заявка одобрена':
+                print("Заявка прошла первые проверки.")
+                return response  # Успешное завершение
 
             time.sleep(interval)
             elapsed_time += interval
-        else:
-            raise ValueError('Заявка не была одобрена в течение 20 минут')
-        return response
+
+        return {"error": "Заявка не была одобрена в течение 20 минут"}
 
     def handle(self, user, client_id, applicationId):
         """
@@ -75,13 +119,12 @@ class SovcombankGetStatusSendHandler:
         try:
             headers = self.sovcombank_request_service.building_headers(
                 f"/api/v3/credit/application/auto/{applicationId}/status")
-            response = self.getting_good_status(headers)
-
-            if response:
+            response_or_error = self.polling_status(headers)
+            print(f"response_or_error = {response_or_error} {__name__}")
+            if response_or_error:
                 try:
-                    result_status = endpoint_processor.handle_endpoint_response("sovcombank_get_status", response)
-                    print(result_status)
-
+                    result_status = endpoint_processor.handle_endpoint_response("sovcombank_get_status",
+                                                                                response_or_error)
                     return result_status
                 except ValueError as e:
                     formatted_massage = error_message_formatter(e=e, operation_id=self.operation_id)

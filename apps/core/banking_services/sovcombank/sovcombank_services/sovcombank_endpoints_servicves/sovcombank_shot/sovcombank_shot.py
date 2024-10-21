@@ -293,7 +293,6 @@ class SovcombankShotSendHandler:
                 if response:
                     try:
                         result_shot = endpoint_processor.handle_endpoint_response("sovcombank_shot", response)
-                        print(result_shot)
                     except ValueError as e:
                         formatted_massage = error_message_formatter(e=e, operation_id=self.operation_id)
                         logger.error(formatted_massage)

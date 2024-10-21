@@ -175,17 +175,17 @@ class SendToBankView(View):
     def process_request(self, request, client_id):
         try:
             user = request.user
-            response_info = self.sovcombank_handler.handle(user, client_id)
+            response_shot_info = self.sovcombank_handler.handle(user, client_id)
             selected_offers = request.POST.get('selected_offers')
             selected_offers_client = get_object_or_404(SelectedClientOffer,
                                                        client_id=client_id,
                                                        offer_id=selected_offers)
-            request_id_in_bank = response_info.get('requestId', None)
+            request_id_in_bank = response_shot_info.get('requestId', None)
 
             if request_id_in_bank:
                 selected_offers_client.request_id_in_bank = request_id_in_bank
-                selected_offers_client.status_select_offer = response_info.get('status', '')
-                selected_offers_client.info_from_bank = response_info.get('comment', '')
+                selected_offers_client.status_select_offer = response_shot_info.get('status', '')
+                selected_offers_client.info_from_bank = response_shot_info.get('comment', '')
 
                 selected_offers_client.save()
 
@@ -197,6 +197,7 @@ class SendToBankView(View):
             if result_status:
                 selected_offers_client.status_select_offer = result_status.get('status', '')
                 selected_offers_client.info_from_bank = result_status.get('comment', '')
+                selected_offers_client.request_id_in_bank = result_status.get('requestId', '')
                 selected_offers_client.save()
 
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
