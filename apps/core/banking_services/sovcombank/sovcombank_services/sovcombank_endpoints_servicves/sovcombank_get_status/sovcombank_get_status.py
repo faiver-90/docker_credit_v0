@@ -2,7 +2,7 @@ import logging
 import time
 
 from app_v0.settings import BASE_DIR
-from apps.core.banking_services.building_bank_requests_service import \
+from apps.core.banking_services.bank_requests_service import \
     CommonBankBuildingDataRequestsService, CommonValidateFieldService, SovcombankRequestService
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_shot.sovcombank_shot import \
     ShotDataPreparationService

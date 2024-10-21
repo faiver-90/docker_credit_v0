@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
 from app_v0.settings import BASE_DIR
-from apps.core.banking_services.building_bank_requests_service import (
+from apps.core.banking_services.bank_requests_service import (
     CommonBankBuildingDataRequestsService,
     CommonValidateFieldService, SovcombankRequestService)
 from apps.core.banking_services.sovcombank.response_handler_factory import SovcombankEndpointResponseProcessor
