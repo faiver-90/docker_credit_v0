@@ -70,14 +70,14 @@ class SovcombankFullHandler:
 class SovcombankGetStatusHandler:
     def process_response(self, response):
         try:
-            comment = response.get('comment')
+            status = response.get('status')
 
-            if comment == 'Предварительная заявка одобрена':
-                return response
-            else:
+            if status != 'Предварительная заявка одобрена':
                 raise AttributeError
+
+            return response
         except AttributeError as e:
-            raise AttributeError(f'Коммент Предварительная заявка одобрена отсутствует, comment = {comment}: {str(e)}')
+            raise AttributeError(f'Статус Предварительная заявка одобрена отсутствует, comment = {status}: {str(e)}')
 
 
 class SovcombankPostStatusHandler:

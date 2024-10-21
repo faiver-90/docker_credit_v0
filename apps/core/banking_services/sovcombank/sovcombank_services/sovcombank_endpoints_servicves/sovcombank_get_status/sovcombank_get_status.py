@@ -29,6 +29,31 @@ class SovcombankGetStatusSendHandler:
         self.sovcombank_request_service = SovcombankRequestService("http://host.docker.internal:8080",
                                                                    "apy-key")
 
+    def getting_good_status(self, headers):
+        # Повторение запроса раз в 10 секунд до 20 минут (1200 секунд)
+        timeout = 1200  # 20 минут
+        interval = 60  # Интервал 10 секунд
+        elapsed_time = 0
+        while elapsed_time < timeout:
+            # Отправляем запрос
+            response = self.sovcombank_request_service.send_request("GET", headers)
+
+            # Проверяем, есть ли нужный комментарий
+            comment = response.get('status')
+            if comment == 'Предварительная заявка одобрена':
+                print("Заявка одобрена")
+                break  # Выход из цикла при успешной проверке
+
+            # elif comment == 'IN WORK':
+            #     print("Ошибка на стороне АПИ. Повторите отправку")
+            #     break
+
+            time.sleep(interval)
+            elapsed_time += interval
+        else:
+            raise ValueError('Заявка не была одобрена в течение 20 минут')
+        return response
+
     def handle(self, user, client_id, applicationId):
         """
         Выполняет полный цикл отправки данных в Sovcombank.
@@ -48,58 +73,23 @@ class SovcombankGetStatusSendHandler:
         """
 
         try:
-            # data_request_not_converted = self.data_preparation_service.prepare_data(client_id,
-            #                                                                         self.operation_id)
-            # data_request_converted = self.data_preparation_service.convert_fields(data_request_not_converted,
-            #                                                                       FIELD_TYPES_SHOT)
-
-            # if self.validation_service.validate_fields(
-            #         data_request_converted,
-            #         REQUIRED_FIELDS_SHOT,
-            #         FIELD_TYPES_SHOT,
-            #         FIELD_RANGES_SHOT,
-            #         FIELD_ENUMS_SHOT,
-            # ):
-            #     self.event_sourcing_service.record_event(
-            #         user.id,
-            #         'send_request_to_sovcombank_shot',
-            #         data_request_converted,
-            #         client_id=client_id)
-            headers = self.sovcombank_request_service.building_request(
+            headers = self.sovcombank_request_service.building_headers(
                 f"/api/v3/credit/application/auto/{applicationId}/status")
-
-            # Повторение запроса раз в 10 секунд до 20 минут (1200 секунд)
-            timeout = 1200  # 20 минут
-            interval = 10  # Интервал 10 секунд
-            elapsed_time = 0
-            response = None
-            while elapsed_time < timeout:
-                # Отправляем запрос
-                response = self.sovcombank_request_service.send_request("GET", headers)
-
-                # Проверяем, есть ли нужный комментарий
-                comment = response.get('comment')
-                if comment == 'Предварительная заявка одобрена':
-                    print("Заявка одобрена")
-                    break  # Выход из цикла при успешной проверке
-
-                # Ждем 10 секунд перед повтором
-                time.sleep(interval)
-                elapsed_time += interval
-            else:
-                raise ValueError('Заявка не была одобрена в течение 20 минут')
+            response = self.getting_good_status(headers)
 
             if response:
                 try:
                     result_status = endpoint_processor.handle_endpoint_response("sovcombank_get_status", response)
                     print(result_status)
+
+                    return result_status
                 except ValueError as e:
                     formatted_massage = error_message_formatter(e=e, operation_id=self.operation_id)
                     logger.error(formatted_massage)
                     raise
-                return result_status
             else:
                 print('Ошибка обрабтки хендлера status')
+                return ValueError('Ошибка обрабтки хендлера status')
         except FileNotFoundError:
             raise
         except AttributeError:

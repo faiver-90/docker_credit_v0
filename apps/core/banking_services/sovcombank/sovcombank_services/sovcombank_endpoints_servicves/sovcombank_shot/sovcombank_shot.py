@@ -282,7 +282,7 @@ class SovcombankShotSendHandler:
                 additional_headers = {
                     "Expected-Result": "success",
                 }
-                headers = self.sovcombank_request_service.building_request("/api/v3/credit/application/auto/short",
+                headers = self.sovcombank_request_service.building_headers("/api/v3/credit/application/auto/short",
                                                                            extra_headers=additional_headers)
                 response = self.sovcombank_request_service.send_request(
                     "POST",

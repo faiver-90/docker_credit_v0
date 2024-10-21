@@ -23,7 +23,7 @@ class SovcombankRequestService:
         self.api_key = api_key
         self.url = None
 
-    def building_request(self, endpoint, extra_headers=None):
+    def building_headers(self, endpoint, extra_headers=None):
         """
         Формирует URL и заголовки для запроса на указанный эндпоинт.
 

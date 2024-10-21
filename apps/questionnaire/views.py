@@ -166,34 +166,41 @@ class SendToBankView(View):
         client_id = request.POST.get('client_id')
 
         # Запускаем обработку в отдельном потоке, чтобы не блокировать клиента
-        threading.Thread(target=self.process_request, args=(request, client_id)).start()
+        threading.Thread(target=self.process_request,
+                         args=(request, client_id)).start()
 
         # Возвращаем текст для отображения клиенту
         return JsonResponse({'message': 'Заявка отправлена, ждите уведомления. Мы свяжемся.'})
 
     def process_request(self, request, client_id):
         try:
-
             user = request.user
             response_info = self.sovcombank_handler.handle(user, client_id)
             selected_offers = request.POST.get('selected_offers')
-            selected_offers_client = get_object_or_404(SelectedClientOffer, client_id=client_id,
+            selected_offers_client = get_object_or_404(SelectedClientOffer,
+                                                       client_id=client_id,
                                                        offer_id=selected_offers)
             request_id_in_bank = response_info.get('requestId', None)
 
             if request_id_in_bank:
                 selected_offers_client.request_id_in_bank = request_id_in_bank
+                selected_offers_client.status_select_offer = response_info.get('status', '')
+                selected_offers_client.info_from_bank = response_info.get('comment', '')
+
                 selected_offers_client.save()
 
             sov_get_status_app = SovcombankGetStatusSendHandler(operation_id=self.operation_id)
-            result_status = sov_get_status_app.handle(user, client_id, applicationId=request_id_in_bank)
+            result_status = sov_get_status_app.handle(user,
+                                                      client_id,
+                                                      applicationId=request_id_in_bank)
 
             if result_status:
-                selected_offers_client.status_select_offer = result_status.get('comment')
+                selected_offers_client.status_select_offer = result_status.get('status', '')
+                selected_offers_client.info_from_bank = result_status.get('comment', '')
                 selected_offers_client.save()
 
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
-            raise ValueError(f'Эта ошибка вызвана с сервера. {self.operation_id}. '
+            raise ValueError(f'Эта ошибка вызвана с сервера. '
                              f'Тут будут всякие уведомления. ошибки и прочая шляпа.')
         except ValueError as e:
             application_url = reverse('car_form', kwargs={'pk': client_id})

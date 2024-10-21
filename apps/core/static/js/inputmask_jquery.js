@@ -97,7 +97,7 @@ $(document).ready(function () {
         showMaskOnFocus: true
     });
 
-    applyMask("#id_vin_car_info", "99999999999999999")
+    // applyMask("#id_vin_car_info", "99999999999999999")
     applyMask(["#id_engine_volume_car_info", "#id_power_car_info"], {
         alias: 'decimal',
         radixPoint: ".",
