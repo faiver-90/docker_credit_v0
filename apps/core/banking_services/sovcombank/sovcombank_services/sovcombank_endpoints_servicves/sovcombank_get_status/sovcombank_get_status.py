@@ -30,27 +30,6 @@ class SovcombankGetStatusSendHandler:
         self.sovcombank_request_service = SovcombankRequestService("http://host.docker.internal:8080",
                                                                    "apy-key")
 
-    # def getting_status(self, headers):
-    #     response = self.sovcombank_request_service.send_request("GET", headers)
-    #     print('response', response)
-    #     status = response.get('status')
-    #     comment = response.get('comment', '')
-    #
-    #     if status == 'IN WORK':
-    #         print("Заявка получена, ожидаем подтверждения.")
-    #         return self.polling_status(headers)
-    #
-    #     elif status == 'Ошибка':
-    #         print(f"Ошибка создания заявки: {comment}")
-    #         return {"error": "Ошибка создания заявки", "comment": comment}
-    #
-    #     elif status == 'Ошибка создания заявки':
-    #         print(f"Ошибка валидации данных: {comment}")
-    #         return {"error": "Ошибка валидации", "comment": comment}
-    #
-    #     else:
-    #         raise ValueError(f"Неизвестный статус: {status}")
-
     def polling_status(self, headers):
         print('начало опроса')
         timeout = 1200  # 20 минут
