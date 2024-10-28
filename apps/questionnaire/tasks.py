@@ -1,3 +1,5 @@
+import logging
+
 from celery import shared_task
 from django.contrib.sessions.models import Session
 from django.core.cache import cache
@@ -5,7 +7,7 @@ from django.core.cache import cache
 # from apps.common_services.kafka.consumer.runner import KafkaConsumerRunner
 # from apps.core.log_storage.logging_servivce import custom_logger
 
-
+logger = logging.getLogger('users_file')
 # @shared_task
 # def run_kafka_consumer():
 #     """
@@ -26,4 +28,4 @@ from django.core.cache import cache
 def logout_all_users():
     Session.objects.all().delete()
     cache.clear()
-    # custom_logger('Successfully logged out all users', 'info')
+    logger.info('Successfully logged out all users', 'info')
