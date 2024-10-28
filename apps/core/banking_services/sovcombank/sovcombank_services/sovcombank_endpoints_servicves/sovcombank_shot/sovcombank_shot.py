@@ -240,8 +240,7 @@ class SovcombankShotSendHandler:
         self.data_preparation_service = ShotDataPreparationService(self.operation_id)
         self.validation_service = CommonValidateFieldService(self.operation_id)
         self.event_sourcing_service = EventSourcingService()
-        self.sovcombank_request_service = SovcombankRequestService("http://host.docker.internal:8080",
-                                                                   "apy-key")
+        self.sovcombank_request_service = SovcombankRequestService()
 
     def short_handle(self, user, client_id):
         """
@@ -282,12 +281,12 @@ class SovcombankShotSendHandler:
                 additional_headers = {
                     "Expected-Result": "success",
                 }
-                headers = self.sovcombank_request_service.building_headers("/api/v3/credit/application/auto/short",
-                                                                           extra_headers=additional_headers)
+
                 response = self.sovcombank_request_service.send_request(
                     "POST",
-                    headers,
-                    data_request_converted
+                    "http://host.docker.internal:8080",
+                    "api/v3/credit/application/auto/short",
+                    data=data_request_converted
                 )
 
                 if response:

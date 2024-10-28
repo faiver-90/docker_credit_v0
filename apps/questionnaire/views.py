@@ -236,7 +236,7 @@ class SendToBankView(View):
             sov_get_status_app = SovcombankGetStatusSendHandler(operation_id=self.operation_id)
             result_response_get = sov_get_status_app.handle(user,
                                                             client_id,
-                                                            applicationId=request_id_in_bank)
+                                                            application_id=request_id_in_bank)
 
             self.update_selected_offers_client(selected_offers_client,
                                                result_response_get)

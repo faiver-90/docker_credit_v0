@@ -27,10 +27,9 @@ class SovcombankGetStatusSendHandler:
         # self.data_preparation_service = ShotDataPreparationService(self.operation_id)
         self.validation_service = CommonValidateFieldService(self.operation_id)
         self.event_sourcing_service = EventSourcingService()
-        self.sovcombank_request_service = SovcombankRequestService("http://host.docker.internal:8080",
-                                                                   "apy-key")
+        self.sovcombank_request_service = SovcombankRequestService()
 
-    def polling_status(self, headers):
+    def polling_status(self, application_id, headers=None):
         print('начало опроса')
         timeout = 1200  # 20 минут
         interval = 60  # 1 минута
@@ -38,7 +37,10 @@ class SovcombankGetStatusSendHandler:
 
         while elapsed_time < timeout:
             # Запрашиваем статус заявки
-            response = self.sovcombank_request_service.send_request("GET", headers)
+            response = self.sovcombank_request_service.send_request("GET",
+                                                                    "http://host.docker.internal:8080",
+                                                                    f"api/v3/credit/application/auto/{application_id}/status",
+                                                                    extra_headers=headers)
             status = response.get('status')
             comment = response.get('comment', '')
 
@@ -79,7 +81,7 @@ class SovcombankGetStatusSendHandler:
 
         return {"error": "Заявка не была одобрена в течение 20 минут"}
 
-    def handle(self, user, client_id, applicationId):
+    def handle(self, user, client_id, application_id):
         """
         Выполняет полный цикл отправки данных в Sovcombank.
 
@@ -98,10 +100,8 @@ class SovcombankGetStatusSendHandler:
         """
 
         try:
-            headers = self.sovcombank_request_service.building_headers(
-                f"/api/v3/credit/application/auto/{applicationId}/status")
             try:
-                response_or_error = self.polling_status(headers)
+                response_or_error = self.polling_status(application_id)
                 print(f"response_or_error = {response_or_error} {__name__}")
                 return response_or_error
             except ValueError as e:

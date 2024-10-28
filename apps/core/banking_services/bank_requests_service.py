@@ -18,31 +18,7 @@ class SovcombankRequestService:
     и отправляет данные.
     """
 
-    def __init__(self, base_url, api_key):
-        self.base_url = base_url
-        self.api_key = api_key
-        self.url = None
-
-    def building_headers(self, endpoint, extra_headers=None):
-        """
-        Формирует URL и заголовки для запроса на указанный эндпоинт.
-
-        Параметры:
-        -----------
-        endpoint : str
-            URL-эндпоинт для запроса.
-        """
-        self.url = f"{self.base_url}/{endpoint}"
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-
-        if extra_headers:
-            headers.update(extra_headers)
-        return headers
-
-    def send_request(self, method, headers, data=None):
+    def send_request(self, method, base_url, endpoint, api_key=None, extra_headers=None, data=None):
         """
         Отправляет запрос в Sovcombank с заданными данными.
 
@@ -59,10 +35,22 @@ class SovcombankRequestService:
         dict
         Ответ от Sovcombank.
         """
-        response = requests.request(method,
-                                    self.url,
-                                    headers=headers,
-                                    json=data)
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "Expected-Result": "success"
+        }
+
+        if extra_headers:
+            headers.update(extra_headers)
+
+        url = f"{base_url}/{endpoint}"
+        response = requests.request(
+            method,
+            url,
+            headers=headers,
+            json=data
+        )
         response.raise_for_status()
 
         # print('response', json.dumps(response.json(), indent=4, ensure_ascii=False))
