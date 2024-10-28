@@ -55,43 +55,43 @@ services:
     networks:
       - my_network
 
-#  redis:
-#    image: redis:latest
-#    volumes:
-#      - redis_data:/data
-#      - ./redis.conf:/usr/local/etc/redis/redis.conf
-#    command: redis-server /usr/local/etc/redis/redis.conf
-#    restart: always
-#    networks:
-#      - my_network
-#
-#  celery:
-#    build: .
-#    command: celery -A app_v0 worker --loglevel=info
-#    volumes:
-#      - .:/var/www/motor_finance
-#    env_file:
-#      - .env
-#    depends_on:
-#      - redis
-#      - db
-#    restart: always
-#    networks:
-#      - my_network
-#
-#  celery-beat:
-#    build: .
-#    command: celery -A app_v0 beat --loglevel=info --scheduler=django_celery_beat.schedulers:DatabaseScheduler
-#    volumes:
-#      - .:/var/www/motor_finance
-#    env_file:
-#      - .env
-#    depends_on:
-#      - redis
-#      - db
-#    restart: always
-#    networks:
-#      - my_network
+  redis:
+    image: redis:latest
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: always
+    networks:
+      - my_network
+
+  celery:
+    build: .
+    command: celery -A app_v0 worker --loglevel=info
+    volumes:
+      - .:/var/www/motor_finance
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+    restart: always
+    networks:
+      - my_network
+
+  celery-beat:
+    build: .
+    command: celery -A app_v0 beat --loglevel=info --scheduler=django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - .:/var/www/motor_finance
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+    restart: always
+    networks:
+      - my_network
 
 networks:
   my_network:
