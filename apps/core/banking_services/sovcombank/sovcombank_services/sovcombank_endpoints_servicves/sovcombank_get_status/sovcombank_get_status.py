@@ -128,7 +128,7 @@ class SovcombankGetStatusSendHandler:
 
         try:
             try:
-                task = request_get_status_task.delay(application_id=application_id)
+                task = request_get_status_task.apply_async(args=[application_id])
                 task_id = task.id
                 response_or_error = self.poll_task(task_id)
                 print(f"response_or_error = {response_or_error} {__name__}")
