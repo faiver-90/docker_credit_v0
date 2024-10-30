@@ -7,7 +7,8 @@ from django.core.cache import cache
 # from apps.common_services.kafka.consumer.runner import KafkaConsumerRunner
 # from apps.core.log_storage.logging_servivce import custom_logger
 
-logger = logging.getLogger('users_file')
+
+logger = logging.getLogger(__name__)
 # @shared_task
 # def run_kafka_consumer():
 #     """
@@ -28,4 +29,15 @@ logger = logging.getLogger('users_file')
 def logout_all_users():
     Session.objects.all().delete()
     cache.clear()
-    logger.info('Successfully logged out all users', 'info')
+    logger.info('Successfully logged out all users')
+
+@shared_task
+def request_get_status_task(application_id, headers=None):
+    from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_get_status.sovcombank_get_status import \
+        SovcombankGetStatusSendHandler
+    if application_id is None:
+        raise ValueError("application_id не передан в задачу")
+    handler = SovcombankGetStatusSendHandler()
+    result = handler.request_get_status(application_id, headers)
+
+    return result

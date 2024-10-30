@@ -2,6 +2,8 @@ import logging
 import time
 import asyncio
 
+from celery.result import AsyncResult
+
 from app_v0.settings import BASE_DIR
 from apps.core.banking_services.bank_requests_service import \
     CommonBankBuildingDataRequestsService, CommonValidateFieldService, SovcombankRequestService
@@ -11,6 +13,7 @@ from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoi
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_service import endpoint_processor
 from apps.core.common_services.common_simple_service import error_message_formatter
 from apps.core.common_services.event_sourcing_service import EventSourcingService
+from apps.questionnaire.tasks import request_get_status_task
 
 logger = logging.getLogger(__name__)
 
@@ -81,6 +84,30 @@ class SovcombankGetStatusSendHandler:
 
         return {"error": "Заявка не была одобрена в течение 20 минут"}
 
+    def poll_task(self, task_id):
+        task_result = AsyncResult(task_id)
+        while task_result.state in ['PENDING', 'STARTED']:
+            print(f"Текущий статус: {task_result.state}")
+            time.sleep(5)  # Ожидаем 5 секунд перед следующим запросом
+            task_result = AsyncResult(task_id)  # Обновляем состояние задачи
+
+        if task_result.state == 'SUCCESS':
+            print("Задача завершена:")
+            return task_result.result
+        elif task_result.state == 'FAILURE':
+            print("Задача завершилась ошибкой:")
+            return task_result.result
+
+    def request_get_status(self, application_id, headers=None):
+        sovcombank_request_service = SovcombankRequestService()
+        response = sovcombank_request_service.send_request("GET",
+                                                           "http://host.docker.internal:8080",
+                                                           f"api/v3/credit/application/auto/{application_id}/status",
+                                                           extra_headers=headers)
+        print('запрос прошел----------------')
+
+        return response
+
     def handle(self, user, client_id, application_id):
         """
         Выполняет полный цикл отправки данных в Sovcombank.
@@ -101,7 +128,9 @@ class SovcombankGetStatusSendHandler:
 
         try:
             try:
-                response_or_error = self.polling_status(application_id)
+                task = request_get_status_task.delay(application_id=application_id)
+                task_id = task.id
+                response_or_error = self.poll_task(task_id)
                 print(f"response_or_error = {response_or_error} {__name__}")
                 return response_or_error
             except ValueError as e:
