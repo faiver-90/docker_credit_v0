@@ -9,6 +9,8 @@ from django.core.cache import cache
 
 
 logger = logging.getLogger(__name__)
+
+
 # @shared_task
 # def run_kafka_consumer():
 #     """
@@ -30,6 +32,7 @@ def logout_all_users():
     Session.objects.all().delete()
     cache.clear()
     logger.info('Successfully logged out all users')
+
 
 @shared_task
 def request_get_status_task(application_id, headers=None):
