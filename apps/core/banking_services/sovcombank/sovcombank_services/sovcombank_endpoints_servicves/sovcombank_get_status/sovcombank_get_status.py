@@ -13,7 +13,7 @@ from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoi
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_service import endpoint_processor
 from apps.core.common_services.common_simple_service import error_message_formatter
 from apps.core.common_services.event_sourcing_service import EventSourcingService
-from apps.questionnaire.tasks import request_get_status_task
+from apps.questionnaire.tasks import send_request_get_status_task
 
 logger = logging.getLogger(__name__)
 
@@ -98,7 +98,7 @@ class SovcombankGetStatusSendHandler:
             print("Задача завершилась ошибкой:")
             return task_result.result
 
-    def request_get_status(self, application_id, headers=None):
+    def send_request_get_status(self, application_id, headers=None):
         sovcombank_request_service = SovcombankRequestService()
         response = sovcombank_request_service.send_request("GET",
                                                            "http://host.docker.internal:8080",
@@ -107,6 +107,21 @@ class SovcombankGetStatusSendHandler:
         print('запрос прошел----------------')
 
         return response
+
+    def run_response_task(self, application_id):
+        return send_request_get_status_task.apply_async(args=[application_id])
+
+    def handle_response(self, application_id, task_id):
+        response_or_error = self.poll_task(task_id)
+        status = response_or_error.get('status')
+        count_in_work = 0
+
+        if status == 'IN WORK' and count_in_work < 2:
+            self.run_response_task(application_id)
+            count_in_work += 1
+            print('count_in_work', count_in_work)
+
+        return response_or_error
 
     def handle(self, user, client_id, application_id):
         """
@@ -128,9 +143,10 @@ class SovcombankGetStatusSendHandler:
 
         try:
             try:
-                task = request_get_status_task.apply_async(args=[application_id])
+                task = self.run_response_task(application_id)
                 task_id = task.id
-                response_or_error = self.poll_task(task_id)
+                response_or_error = self.handle_response(application_id, task_id)
+
                 print(f"response_or_error = {response_or_error} {__name__}")
                 return response_or_error
             except ValueError as e:

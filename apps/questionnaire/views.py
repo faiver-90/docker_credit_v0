@@ -227,7 +227,7 @@ class SendToBankView(View):
             selected_offers_client = get_object_or_404(SelectedClientOffer,
                                                        client_id=client_id,
                                                        offer_id=selected_offers)
-
+            print(selected_offers_client)
             self.update_selected_offers_client(selected_offers_client,
                                                response_shot_info)
 

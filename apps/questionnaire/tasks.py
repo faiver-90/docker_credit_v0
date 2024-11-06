@@ -35,12 +35,12 @@ def logout_all_users():
 
 
 @shared_task
-def request_get_status_task(application_id, headers=None):
+def send_request_get_status_task(application_id, headers=None):
     from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoints_servicves.sovcombank_get_status.sovcombank_get_status import \
         SovcombankGetStatusSendHandler
     if application_id is None:
         raise ValueError("application_id не передан в задачу")
     handler = SovcombankGetStatusSendHandler()
-    result = handler.request_get_status(application_id, headers)
+    response = handler.send_request_get_status(application_id, headers)
 
-    return result
+    return response
