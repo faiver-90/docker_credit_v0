@@ -1,7 +1,10 @@
 import inspect
 import json
 import logging
+import time
 import uuid
+
+from celery.result import AsyncResult
 
 logger = logging.getLogger(__name__)
 
@@ -160,3 +163,17 @@ def error_message_formatter(message=None, e=None, **kwargs):
 
     # Объединяем все части сообщения в одну строку с новой строкой между частями
     return '\n'.join(message_parts)
+
+def poll_task(task_id):
+    task_result = AsyncResult(task_id)
+    while task_result.state in ['PENDING', 'STARTED']:
+        print(f"Текущий статус: {task_result.state}")
+        time.sleep(5)  # Ожидаем 5 секунд перед следующим запросом
+        task_result = AsyncResult(task_id)  # Обновляем состояние задачи
+
+    if task_result.state == 'SUCCESS':
+        print("Задача завершена:")
+        return task_result.result
+    elif task_result.state == 'FAILURE':
+        print("Задача завершилась ошибкой:")
+        return task_result.result

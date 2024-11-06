@@ -11,7 +11,7 @@ from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_endpoi
     ShotDataPreparationService
 
 from apps.core.banking_services.sovcombank.sovcombank_services.sovcombank_service import endpoint_processor
-from apps.core.common_services.common_simple_service import error_message_formatter
+from apps.core.common_services.common_simple_service import error_message_formatter, poll_task
 from apps.core.common_services.event_sourcing_service import EventSourcingService
 from apps.questionnaire.tasks import send_request_get_status_task
 
@@ -84,20 +84,6 @@ class SovcombankGetStatusSendHandler:
 
         return {"error": "Заявка не была одобрена в течение 20 минут"}
 
-    def poll_task(self, task_id):
-        task_result = AsyncResult(task_id)
-        while task_result.state in ['PENDING', 'STARTED']:
-            print(f"Текущий статус: {task_result.state}")
-            time.sleep(5)  # Ожидаем 5 секунд перед следующим запросом
-            task_result = AsyncResult(task_id)  # Обновляем состояние задачи
-
-        if task_result.state == 'SUCCESS':
-            print("Задача завершена:")
-            return task_result.result
-        elif task_result.state == 'FAILURE':
-            print("Задача завершилась ошибкой:")
-            return task_result.result
-
     def send_request_get_status(self, application_id, headers=None):
         sovcombank_request_service = SovcombankRequestService()
         response = sovcombank_request_service.send_request("GET",
@@ -108,16 +94,19 @@ class SovcombankGetStatusSendHandler:
 
         return response
 
-    def run_response_task(self, application_id):
+    def run_request_task(self, application_id):
         return send_request_get_status_task.apply_async(args=[application_id])
 
-    def handle_response(self, application_id, task_id):
-        response_or_error = self.poll_task(task_id)
+    def handle_status_response(self, application_id, task_id):
+        response_or_error = poll_task(task_id)
         status = response_or_error.get('status')
         count_in_work = 0
 
-        if status == 'IN WORK' and count_in_work < 2:
-            self.run_response_task(application_id)
+        if status == 'IN WORK':
+            count_in_work += 1
+            self.run_request_task(application_id)
+        elif status == 'IN WORK' and count_in_work < 2:
+            self.run_request_task(application_id)
             count_in_work += 1
             print('count_in_work', count_in_work)
 
@@ -140,12 +129,11 @@ class SovcombankGetStatusSendHandler:
         dict
             Результат обработки ответа от банка.
         """
-
         try:
             try:
-                task = self.run_response_task(application_id)
+                task = self.run_request_task(application_id)
                 task_id = task.id
-                response_or_error = self.handle_response(application_id, task_id)
+                response_or_error = self.handle_status_response(application_id, task_id)
 
                 print(f"response_or_error = {response_or_error} {__name__}")
                 return response_or_error

@@ -10,6 +10,7 @@ function loadNotifications() {
 
             data.notifications.forEach(notification => {
                 const li = document.createElement('li');
+                li.classList.add('dropdown-item'); // Добавляем класс Bootstrap
                 li.innerHTML = notification.message;
                 li.addEventListener('click', function () {
                     markAsRead(notification.id);  // Отметить как прочитанное
@@ -31,9 +32,27 @@ function markAsRead(notificationId) {
     });
 }
 
-document.getElementById('notification-bell').addEventListener('click', function () {
+// Переключение отображения уведомлений
+document.getElementById('notification-bell').addEventListener('click', function (event) {
     const notificationList = document.getElementById('notification-list');
-    notificationList.style.display = notificationList.style.display === 'none' ? 'block' : 'none';
+    const isVisible = notificationList.style.display === 'block';
+
+    // Переключение видимости вручную
+    notificationList.style.display = isVisible ? 'none' : 'block';
+    event.stopPropagation(); // Остановка всплытия события
+});
+
+// Закрытие уведомлений при клике на пустое место
+document.addEventListener('click', function (event) {
+    const notificationList = document.getElementById('notification-list');
+    const notificationBell = document.getElementById('notification-bell');
+
+    // Если клик был вне колокольчика и списка уведомлений
+    if (notificationList.style.display === 'block' &&
+        !notificationList.contains(event.target) &&
+        event.target !== notificationBell) {
+        notificationList.style.display = 'none';
+    }
 });
 
 function getCookie(name) {

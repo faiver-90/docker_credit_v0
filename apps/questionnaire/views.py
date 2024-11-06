@@ -180,36 +180,36 @@ class SendToBankView(View):
         selected_offers_client.request_id_in_bank = response_info.get('requestId', '')
         selected_offers_client.save()
 
-    def status_get_in_work(self, user, client_id, selected_offers_client, sov_get_status_app):
-        response_shot_info = self.sovcombank_handler.short_handle(user,
-                                                                  client_id)
-        request_id_in_bank = response_shot_info.get('requestId', None)
-
-        self.update_selected_offers_client(selected_offers_client,
-                                           response_shot_info)
-        time.sleep(5)
-        # time.sleep(60)
-        result_response_get = sov_get_status_app.handle(user,
-                                                        client_id,
-                                                        applicationId=request_id_in_bank)
-        comment = result_response_get.get('comment')
-        # Обновление после второго запроса
-        self.update_selected_offers_client(selected_offers_client,
-                                           result_response_get)
-        try:
-            if result_response_get.get('status') == 'IN WORK':
-                massage = f'Ошибка. Свяжитесь с поддержкой банка по интеграциям, {self.operation_id}'
-                recording_notification_message(user,
-                                               massage)
-                raise Exception(f'Ошибка. Свяжитесь с поддержкой банка по интеграциям, {self.operation_id}')
-        except Exception:
-            formatted_massage = error_message_formatter(
-                operation_id=self.operation_id,
-                user=user,
-                client_id=client_id,
-                comment=comment)
-            logger.exception(formatted_massage)
-            raise
+    # def status_get_in_work(self, user, client_id, selected_offers_client, sov_get_status_app):
+    #     response_shot_info = self.sovcombank_handler.short_handle(user,
+    #                                                               client_id)
+    #     request_id_in_bank = response_shot_info.get('requestId', None)
+    #
+    #     self.update_selected_offers_client(selected_offers_client,
+    #                                        response_shot_info)
+    #     time.sleep(5)
+    #     # time.sleep(60)
+    #     result_response_get = sov_get_status_app.handle(user,
+    #                                                     client_id,
+    #                                                     applicationId=request_id_in_bank)
+    #     comment = result_response_get.get('comment')
+    #     # Обновление после второго запроса
+    #     self.update_selected_offers_client(selected_offers_client,
+    #                                        result_response_get)
+    #     try:
+    #         if result_response_get.get('status') == 'IN WORK':
+    #             massage = f'Ошибка. Свяжитесь с поддержкой банка по интеграциям, {self.operation_id}'
+    #             recording_notification_message(user,
+    #                                            massage)
+    #             raise Exception(f'Ошибка. Свяжитесь с поддержкой банка по интеграциям, {self.operation_id}')
+    #     except Exception:
+    #         formatted_massage = error_message_formatter(
+    #             operation_id=self.operation_id,
+    #             user=user,
+    #             client_id=client_id,
+    #             comment=comment)
+    #         logger.exception(formatted_massage)
+    #         raise
 
     @staticmethod
     def succses_notic_for_test(client_id, user):
@@ -241,8 +241,8 @@ class SendToBankView(View):
             self.update_selected_offers_client(selected_offers_client,
                                                result_response_get)
 
-            if result_response_get.get('status') == 'IN WORK':
-                self.status_get_in_work(user, client_id, selected_offers_client, sov_get_status_app)
+            # if result_response_get.get('status') == 'IN WORK':
+            #     self.status_get_in_work(user, client_id, selected_offers_client, sov_get_status_app)
 
             self.succses_notic_for_test(client_id, user)
             print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")

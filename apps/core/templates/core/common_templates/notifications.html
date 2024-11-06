@@ -1,10 +1,26 @@
-<div class="dropdown notification-dropdown">
-    <div id="notification-bell" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+<div class="notification-dropdown position-relative">
+    <div id="notification-bell" class="notification-toggle btn btn-secondary" style="cursor: pointer;">
         <i class="fa fa-bell"></i>
-        <span id="notification-count">0</span>
+        <span id="notification-count" class="badge bg-danger rounded-pill">0</span>
     </div>
 
-    <ul id="notification-list" class="dropdown-menu dropdown-menu-end" style="width: 1000px;">
+    <ul id="notification-list" class="dropdown-menu dropdown-menu-end mt-2" style="width: 500px; display: none;">
         <!-- Уведомления будут добавляться сюда -->
     </ul>
 </div>
+<style>
+    .notification-dropdown {
+        position: relative;
+    }
+
+    .notification-toggle {
+    cursor: pointer;
+}
+
+#notification-list .dropdown-item {
+    white-space: normal;      /* Позволяет тексту переноситься */
+    word-wrap: break-word;    /* Разрывает слова, если они не помещаются */
+    width: 100%;              /* Занимает всю ширину контейнера */
+    box-sizing: border-box;   /* Учитывает отступы и границы в ширине */
+}
+</style>
