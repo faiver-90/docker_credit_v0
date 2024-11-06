@@ -26,17 +26,16 @@ class SovcombankGetStatusSendHandler:
         self.sovcombank_request_service = SovcombankRequestService()
 
     def send_request_get_status(self, application_id_bank, headers=None):
-        sovcombank_request_service = SovcombankRequestService()
-        response = sovcombank_request_service.send_request("GET",
-                                                           "http://host.docker.internal:8080",
-                                                           f"api/v3/credit/application/auto/{application_id_bank}/status",
-                                                           extra_headers=headers)
+        response = self.sovcombank_request_service.send_request("GET",
+                                                                "http://host.docker.internal:8080",
+                                                                f"api/v3/credit/application/auto/{application_id_bank}/status",
+                                                                extra_headers=headers)
         return response
 
     def run_request_task(self, application_id_in_bank):
         return send_request_get_status_task.apply_async(args=[application_id_in_bank])
 
-    def handle_status_response(self, application_id_in_bank, task_id):
+    def handle_status_response(self, task_id):
         response_or_error = poll_task(task_id)
         print(f"response_or_error = {response_or_error} {__name__}")
         status = response_or_error.get('status')
@@ -47,9 +46,9 @@ class SovcombankGetStatusSendHandler:
             description = 'Предварительная заявка одобрена, статус из handle_status_response'
             status = 'Предварительная заявка одобрена'
 
-        if status == 'IN WORK':
+        elif status == 'IN WORK':
             count_in_work += 1
-        if status == 'IN WORK' and count_in_work == 1:
+        elif status == 'IN WORK' and count_in_work == 1:
             status, description = 'IN WORK', 'Обратитесь в службу интеграций банка'
 
         return status, description
@@ -75,14 +74,14 @@ class SovcombankGetStatusSendHandler:
             try:
                 task = self.run_request_task(application_id_bank)
                 task_id = task.id
-                status, description = self.handle_status_response(application_id_bank, task_id)
+                status, description = self.handle_status_response(task_id)
                 if status == 'IN WORK':
                     sovcombank_handler = SovcombankShotSendHandler(operation_id=operation_id)
                     response_shot_info = sovcombank_handler.short_handle(user, client_id)
                     application_id_bank = response_shot_info.get('requestId', '')
                     task = self.run_request_task(application_id_bank)
                     task_id = task.id
-                    status, description = self.handle_status_response(application_id_bank, task_id)
+                    status, description = self.handle_status_response(task_id)
 
                 return status, description
             except ValueError as e:
