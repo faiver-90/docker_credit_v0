@@ -3,6 +3,7 @@ import threading
 import time
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.db import connection
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -134,20 +135,34 @@ class RequestOffersView(LoginRequiredMixin, ListView):
 
 
 def get_notifications(request):
-    # Получаем организацию, к которой принадлежит пользователь
     organization = request.user.userprofile.organization_manager
 
-    # Фильтруем уведомления по пользователям, принадлежащим этой организации, и сортируем
+    # Параметры пагинации (количество уведомлений на страницу и текущая страница)
+    page = request.GET.get('page', 1)
+    per_page = request.GET.get('per_page', 5)
+
+    # Получаем уведомления и сортируем
     notifications = Notification.objects.filter(user__userprofile__organization_manager=organization).order_by('is_read', '-created_at')
 
+    # Применяем пагинацию
+    paginator = Paginator(notifications, per_page)
+    paginated_notifications = paginator.get_page(page)
+
+    # Формируем данные для ответа
     notification_data = [{
         'id': n.id,
         'message': n.message,
         'created_at': n.created_at.strftime('%Y-%m-%d %H:%M'),
         'is_read': n.is_read
-    } for n in notifications]
+    } for n in paginated_notifications]
 
-    return JsonResponse({'notifications': notification_data})
+    return JsonResponse({
+        'notifications': notification_data,
+        'page': paginated_notifications.number,
+        'total_pages': paginator.num_pages,
+        'has_next': paginated_notifications.has_next(),
+        'has_previous': paginated_notifications.has_previous()
+    })
 
 
 @require_POST

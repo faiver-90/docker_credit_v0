@@ -1,5 +1,7 @@
-function loadNotifications() {
-    fetch('/core/get_notifications/')
+let currentPage = 1;
+
+function loadNotifications(page = currentPage) {
+    fetch(`/core/get_notifications/?page=${page}&per_page=5`)
         .then(response => response.json())
         .then(data => {
             const notificationCountElem = document.getElementById('notification-count');
@@ -7,24 +9,18 @@ function loadNotifications() {
 
             notificationList.innerHTML = '';
             notificationCountElem.textContent = data.notifications.filter(notification => !notification.is_read).length;
-            // Сортируем уведомления: непрочитанные сверху, прочитанные снизу
-            const sortedNotifications = data.notifications.sort((a, b) => a.is_read - b.is_read);
 
-            sortedNotifications.forEach(notification => {
+            // Обновляем список уведомлений
+            data.notifications.forEach(notification => {
                 const li = document.createElement('li');
                 li.classList.add('dropdown-item');
                 li.innerHTML = notification.message;
-
-                // Устанавливаем стиль: жирный для непрочитанных, обычный для прочитанных
                 li.style.fontWeight = notification.is_read ? 'normal' : 'bold';
 
-                // Обработчик клика для обновления стиля и перемещения уведомления
                 li.addEventListener('click', function () {
                     if (!notification.is_read) {
-                        markAsRead(notification.id); // Отметить на сервере как прочитанное
+                        markAsRead(notification.id);
                         li.style.fontWeight = 'normal';
-
-                        // Переместить прочитанное уведомление в конец списка
                         notificationList.removeChild(li);
                         notificationList.appendChild(li);
                     }
@@ -32,7 +28,40 @@ function loadNotifications() {
 
                 notificationList.appendChild(li);
             });
+
+            // Добавляем кнопки пагинации, если нужно
+            if (data.total_pages > 1) {
+                addPaginationButtons(data.has_previous, data.has_next);
+            }
         });
+}
+
+function addPaginationButtons(hasPrevious, hasNext) {
+    const paginationContainer = document.createElement('div');
+    paginationContainer.className = 'pagination-buttons';
+
+    if (hasPrevious) {
+        const prevButton = document.createElement('button');
+        prevButton.textContent = 'Предыдущая';
+        prevButton.onclick = () => {
+            currentPage -= 1;
+            loadNotifications(currentPage);
+        };
+        paginationContainer.appendChild(prevButton);
+    }
+
+    if (hasNext) {
+        const nextButton = document.createElement('button');
+        nextButton.textContent = 'Следующая';
+        nextButton.onclick = () => {
+            currentPage += 1;
+            loadNotifications(currentPage);
+        };
+        paginationContainer.appendChild(nextButton);
+    }
+
+    const notificationList = document.getElementById('notification-list');
+    notificationList.appendChild(paginationContainer);
 }
 
 function markAsRead(notificationId) {
@@ -85,7 +114,7 @@ function getCookie(name) {
 }
 
 // Опрашиваем сервер каждые 10 секунд
-setInterval(loadNotifications, 10000);
+setInterval(() => loadNotifications(currentPage), 10000);
 
 // Загружаем уведомления при загрузке страницы
 window.onload = loadNotifications;
