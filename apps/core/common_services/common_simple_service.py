@@ -172,8 +172,8 @@ def poll_task(task_id):
         task_result = AsyncResult(task_id)  # Обновляем состояние задачи
 
     if task_result.state == 'SUCCESS':
-        print("Задача завершена:")
+        print(f"Задача завершена:{task_result.result}")
         return task_result.result
     elif task_result.state == 'FAILURE':
-        print("Задача завершилась ошибкой:")
+        print(f"Задача завершилась ошибкой:{task_result.result}")
         return task_result.result

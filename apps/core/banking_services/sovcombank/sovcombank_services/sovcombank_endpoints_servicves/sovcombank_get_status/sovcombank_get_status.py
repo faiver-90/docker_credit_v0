@@ -25,7 +25,8 @@ class SovcombankGetStatusSendHandler:
             'Предварительная заявка одобрена': 'Предварительная заявка одобрена, можно запускать дальше.',
             'Ошибка создания заявки': 'Ошибка создания заявки, ознакомьтесь с деталями.',
             'Прерван': 'Переведено в ручное управление на стороне банка.',
-            'IN WORK': 'Необходимо связаться с поддержкой банка по интеграциям'
+            'IN WORK': 'Необходимо связаться с поддержкой банка по интеграциям',
+            'Отказ': 'Банк принял решение о невозможности выдать кредит этому клиенту на таких условиях'
         }
     def send_request_get_status(self, application_id_bank, headers=None):
         return self.sovcombank_request_service.send_request(
@@ -65,12 +66,15 @@ class SovcombankGetStatusSendHandler:
         logger.warning(
             f"Достигнуто максимальное количество попыток для статуса 'IN WORK' по заявке {application_id_bank}")
 
-        return 'IN WORK', {'description': 'Необходимо связаться с поддержкой банка по интеграциям.'}
+        return {'description': 'Необходимо связаться с поддержкой банка по интеграциям.',
+                           'status': 'IN WORK'
+                           }
 
     def formatted_description(self, status, message_text=None, comment=None):
         return f"description - {self.description_list.get(status, '')},<br>" \
                f"comment - {comment},<br>" \
-               f"message_text - {message_text}"
+               f"message_text - {message_text}" \
+               f"operation id - {self.operation_id}"
 
     def handle(self, user, client_id, application_id_bank):
         """
@@ -84,7 +88,8 @@ class SovcombankGetStatusSendHandler:
             comment = response_or_error.get('comment', '')
             message_text = response_or_error.get('messageText', '')
             if status == 'IN WORK':
-                status, response_or_error = self.handle_in_work_status(user, client_id, application_id_bank)
+                response_or_error = self.handle_in_work_status(user, client_id, application_id_bank)
+                status = response_or_error.get('status', '')
                 comment = response_or_error.get('comment', '')
                 message_text = response_or_error.get('messageText', '')
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
@@ -93,6 +98,8 @@ class SovcombankGetStatusSendHandler:
             elif status == 'Ошибка создания заявки':
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
             elif status == 'Прерван':
+                response_or_error['description'] =self.formatted_description(status, message_text, comment)
+            elif status == 'Отказ':
                 response_or_error['description'] =self.formatted_description(status, message_text, comment)
             return status, response_or_error
 
