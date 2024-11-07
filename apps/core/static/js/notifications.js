@@ -6,16 +6,30 @@ function loadNotifications() {
             const notificationList = document.getElementById('notification-list');
 
             notificationList.innerHTML = '';
-            notificationCountElem.textContent = data.notifications.length;
+            notificationCountElem.textContent = data.notifications.filter(notification => !notification.is_read).length;
+            // Сортируем уведомления: непрочитанные сверху, прочитанные снизу
+            const sortedNotifications = data.notifications.sort((a, b) => a.is_read - b.is_read);
 
-            data.notifications.forEach(notification => {
+            sortedNotifications.forEach(notification => {
                 const li = document.createElement('li');
-                li.classList.add('dropdown-item'); // Добавляем класс Bootstrap
+                li.classList.add('dropdown-item');
                 li.innerHTML = notification.message;
+
+                // Устанавливаем стиль: жирный для непрочитанных, обычный для прочитанных
+                li.style.fontWeight = notification.is_read ? 'normal' : 'bold';
+
+                // Обработчик клика для обновления стиля и перемещения уведомления
                 li.addEventListener('click', function () {
-                    markAsRead(notification.id);  // Отметить как прочитанное
-                    li.style.textDecoration = 'line-through';
+                    if (!notification.is_read) {
+                        markAsRead(notification.id); // Отметить на сервере как прочитанное
+                        li.style.fontWeight = 'normal';
+
+                        // Переместить прочитанное уведомление в конец списка
+                        notificationList.removeChild(li);
+                        notificationList.appendChild(li);
+                    }
                 });
+
                 notificationList.appendChild(li);
             });
         });

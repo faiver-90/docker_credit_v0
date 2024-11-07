@@ -137,13 +137,14 @@ def get_notifications(request):
     # Получаем организацию, к которой принадлежит пользователь
     organization = request.user.userprofile.organization_manager
 
-    # Фильтруем уведомления по пользователям, принадлежащим этой организации
-    notifications = Notification.objects.filter(user__userprofile__organization_manager=organization, is_read=False)
+    # Фильтруем уведомления по пользователям, принадлежащим этой организации, и сортируем
+    notifications = Notification.objects.filter(user__userprofile__organization_manager=organization).order_by('is_read', '-created_at')
 
     notification_data = [{
         'id': n.id,
         'message': n.message,
-        'created_at': n.created_at.strftime('%Y-%m-%d %H:%M')
+        'created_at': n.created_at.strftime('%Y-%m-%d %H:%M'),
+        'is_read': n.is_read
     } for n in notifications]
 
     return JsonResponse({'notifications': notification_data})
