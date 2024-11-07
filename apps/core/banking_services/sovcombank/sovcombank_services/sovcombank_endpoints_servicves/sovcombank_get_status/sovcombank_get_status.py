@@ -14,86 +14,75 @@ logger = logging.getLogger(__name__)
 class SovcombankGetStatusSendHandler:
     """
     Обработчик для отправки данных в Sovcombank по заявкам клиентов.
-
-    Этот класс собирает, валидирует и отправляет данные клиента в банк, а также записывает ивенты.
     """
 
     def __init__(self, operation_id=None):
         self.operation_id = operation_id
-        # self.data_preparation_service = ShotDataPreparationService(self.operation_id)
         self.validation_service = CommonValidateFieldService(self.operation_id)
         self.event_sourcing_service = EventSourcingService()
         self.sovcombank_request_service = SovcombankRequestService()
 
     def send_request_get_status(self, application_id_bank, headers=None):
-        response = self.sovcombank_request_service.send_request("GET",
-                                                                "http://host.docker.internal:8080",
-                                                                f"api/v3/credit/application/auto/{application_id_bank}/status",
-                                                                extra_headers=headers)
-        return response
+        return self.sovcombank_request_service.send_request(
+            "GET",
+            "http://host.docker.internal:8080",
+            f"api/v3/credit/application/auto/{application_id_bank}/status",
+            extra_headers=headers
+        )
 
-    def run_request_task(self, application_id_in_bank):
+    def start_status_request_task(self, application_id_in_bank):
         return send_request_get_status_task.apply_async(args=[application_id_in_bank])
 
-    def handle_status_response(self, task_id):
-        response_or_error = poll_task(task_id)
-        print(f"response_or_error = {response_or_error} {__name__}")
-        status = response_or_error.get('status')
-        count_in_work = 0
-
-        description = None
-        if status == 'Предварительная заявка одобрена':
-            description = 'Предварительная заявка одобрена, статус из handle_status_response'
-            status = 'Предварительная заявка одобрена'
-
-        elif status == 'IN WORK':
-            count_in_work += 1
-        elif status == 'IN WORK' and count_in_work == 1:
-            status, description = 'IN WORK', 'Обратитесь в службу интеграций банка'
-
-        return status, description
-
-    def handle(self, user, client_id, application_id_bank, operation_id=None):
+    def handle_in_work_status(self, user, client_id, application_id_bank):
         """
-        Выполняет полный цикл отправки данных в Sovcombank.
+        Обрабатывает статус 'IN WORK', выполняя повторные попытки запроса статуса.
+        """
+        attempt = 0
+        max_attempts = 1
+        delay = 5
 
-        Параметры:
-        -----------
-        user : User
-            Пользователь, выполняющий действие.
+        while attempt < max_attempts:
+            logger.info(f"Попытка {attempt + 1} для статуса 'IN WORK' по заявке {application_id_bank}")
+            sovcombank_handler = SovcombankShotSendHandler(operation_id=self.operation_id)
+            response_shot_info = sovcombank_handler.short_handle(user, client_id)
+            application_id_bank = response_shot_info.get('requestId', '')
 
-        client_id : int
-            ID клиента, чьи данные нужно отправить.
+            task = self.start_status_request_task(application_id_bank)
+            response_or_error = poll_task(task.id)
+            status = response_or_error.get('status')
 
-        Возвращает:
-        -----------
-        dict
-            Результат обработки ответа от банка.
+            if status != 'IN WORK':
+                return status, response_or_error
+
+            attempt += 1
+            time.sleep(delay)
+
+        logger.warning(
+            f"Достигнуто максимальное количество попыток для статуса 'IN WORK' по заявке {application_id_bank}")
+
+        return 'IN WORK', {'description': 'Необходимо связаться с поддержкой банка по интеграциям.'}
+
+    def handle(self, user, client_id, application_id_bank):
+        """
+        Основной метод для обработки и отправки данных в Sovcombank.
         """
         try:
-            try:
-                task = self.run_request_task(application_id_bank)
-                task_id = task.id
-                status, description = self.handle_status_response(task_id)
-                if status == 'IN WORK':
-                    sovcombank_handler = SovcombankShotSendHandler(operation_id=operation_id)
-                    response_shot_info = sovcombank_handler.short_handle(user, client_id)
-                    application_id_bank = response_shot_info.get('requestId', '')
-                    task = self.run_request_task(application_id_bank)
-                    task_id = task.id
-                    status, description = self.handle_status_response(task_id)
+            task = self.start_status_request_task(application_id_bank)
+            response_or_error = poll_task(task.id)
+            status = response_or_error.get('status')
 
-                return status, description
-            except ValueError as e:
-                print('Ошибка обрабтки хендлера status')
-                formatted_massage = error_message_formatter(e=e, operation_id=self.operation_id)
-                logger.error(formatted_massage)
-                return ValueError('Ошибка обрабтки хендлера status')
-        except FileNotFoundError:
+            if status == 'IN WORK':
+                status, response_or_error = self.handle_in_work_status(user, client_id, application_id_bank)
+
+            return status, response_or_error
+
+        except ValueError as e:
+            formatted_message = error_message_formatter(e=e, operation_id=self.operation_id)
+            logger.error(formatted_message)
+            raise ValueError('Ошибка обработки статуса.') from e
+        except (FileNotFoundError, AttributeError) as e:
+            logger.exception(f"Специфическая ошибка: {e}")
             raise
-        except AttributeError:
-            raise
-        except ValueError:
-            raise
-        except Exception:
+        except Exception as e:
+            logger.error(f"Неизвестная ошибка: {e}, operation_id: {self.operation_id}")
             raise

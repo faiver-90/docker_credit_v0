@@ -165,87 +165,53 @@ class SendToBankView(View):
 
     def post(self, request, *args, **kwargs):
         client_id = request.POST.get('client_id')
-
-        # Запускаем обработку в отдельном потоке, чтобы не блокировать клиента
-        threading.Thread(target=self.process_request,
-                         args=(request, client_id)).start()
-
-        # Возвращаем текст для отображения клиенту
+        threading.Thread(target=self.process_request, args=(request, client_id)).start()
         return JsonResponse({'message': 'Заявка отправлена, ждите уведомления. Мы свяжемся.'})
-
-    @staticmethod
-    def update_selected_offers_client(selected_offers_client, status, comment, request_id):
-        selected_offers_client.status_select_offer = status
-        selected_offers_client.info_from_bank = comment
-        selected_offers_client.request_id_in_bank = request_id
-        selected_offers_client.save()
-
-    @staticmethod
-    def succses_notic_for_test(client_id, user, message=None):
-        application_url = reverse('car_form', kwargs={'pk': client_id})
-        recording_notification_message(user,
-                                       f'{message} <a href={application_url}>Открыть анкету</a><br>')
 
     def process_request(self, request, client_id):
         try:
+            description = None
             user = request.user
+            selected_offers_client = self.get_selected_offer_client(request, client_id)
+
+            # Выполняем основную обработку заявки
             response_shot_info = self.sovcombank_handler.short_handle(user, client_id)
+            self.update_selected_offers_client(selected_offers_client, response_shot_info)
 
-            selected_offers = request.POST.get('selected_offers')
-            selected_offers_client = get_object_or_404(SelectedClientOffer,
-                                                       client_id=client_id,
-                                                       offer_id=selected_offers)
-            status = response_shot_info.get('status', '')
-            comment = response_shot_info.get('comment', '')
-            request_id = response_shot_info.get('requestId', '')
-            self.update_selected_offers_client(selected_offers_client,
-                                               status,
-                                               comment,
-                                               request_id)
-
-            request_id_in_bank = response_shot_info.get('requestId', None)
-
+            # Проверяем статус заявки и обрабатываем его
             sov_get_status_app = SovcombankGetStatusSendHandler(operation_id=self.operation_id)
+            status, response = sov_get_status_app.handle(user, client_id, response_shot_info.get('requestId', ''))
+            self.update_selected_offers_client(selected_offers_client, response)
 
-            result_response_get_status, description = sov_get_status_app.handle(user,
-                                                                                client_id,
-                                                                                application_id_bank=request_id_in_bank,
-                                                                                operation_id=self.operation_id)
-            self.update_selected_offers_client(selected_offers_client,
-                                               result_response_get_status,
-                                               description,
-                                               request_id)
+            if response.get('description'):
+                description = response.get('description')
 
-            self.succses_notic_for_test(client_id, user, message=f'{description}, {result_response_get_status}')
-            print(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
-        except ValueError as e:
-            application_url = reverse('car_form', kwargs={'pk': client_id})
-
-            message = error_message_formatter(e=e,
-                                              operation_id=self.operation_id,
-                                              user_id=user.id,
-                                              link=f'<a href="{application_url}">Открыть анкету</a><br>')
-
-            recording_notification_message(user, message)
-            logger.exception(f'{e}{self.operation_id}')
-            return JsonResponse(
-                {'error': f'Ошибка значений. Обратитесь к администратору и сообщите ему {self.operation_id}'},
-                json_dumps_params={'ensure_ascii': False, 'indent': 4})
-        except FileNotFoundError as e:
-            logger.exception(f'{e}{self.operation_id}')
-            return JsonResponse(
-                {'error': f'Ошибка загрузки файла. Обратитесь к администратору и сообщите ему {self.operation_id}'},
-                json_dumps_params={'ensure_ascii': False, 'indent': 4})
-        except AttributeError as e:
-            logger.exception(f'{e}{self.operation_id}')
-            return JsonResponse(
-                {'error': f'Ошибка в формате данных. Обратитесь к администратору и сообщите ему {self.operation_id}'},
-                json_dumps_params={'ensure_ascii': False, 'indent': 4})
+            # Уведомление пользователя об успешной отправке
+            self.succses_notification(client_id, user, f'description {description}, status {status}')
+            logger.info(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
         except Exception as e:
-            logger.exception(f'{e}{self.operation_id}')
-            return JsonResponse(
-                {'error': f'Неизвестная ошибка. Обратитесь к администратору и сообщите ему {self.operation_id}'},
-                json_dumps_params={'ensure_ascii': False, 'indent': 4})
+            self.handle_exception(e, client_id, user)
+
+    def get_selected_offer_client(self, request, client_id):
+        selected_offers = request.POST.get('selected_offers')
+        return get_object_or_404(SelectedClientOffer, client_id=client_id, offer_id=selected_offers)
+
+    def update_selected_offers_client(self, selected_offers_client, response_info):
+        selected_offers_client.status_select_offer = response_info.get('status', '')
+        selected_offers_client.info_from_bank = response_info.get('comment', '')
+        selected_offers_client.request_id_in_bank = response_info.get('requestId', '')
+        selected_offers_client.save()
+
+    def succses_notification(self, client_id, user, message=None):
+        application_url = reverse('car_form', kwargs={'pk': client_id})
+        recording_notification_message(user, f'{message} <a href={application_url}>Открыть анкету</a><br>')
+
+    def handle_exception(self, e, client_id, user):
+        application_url = reverse('car_form', kwargs={'pk': client_id})
+        message = error_message_formatter(e=e, operation_id=self.operation_id, user_id=user.id,
+                                          link=f'<a href="{application_url}">Открыть анкету</a><br>')
+        recording_notification_message(user, message)
+        logger.exception(f'Ошибка: {e}, operation_id: {self.operation_id}')
 
     # """Отправка заявки в банк"""
     # topic = 'database'
