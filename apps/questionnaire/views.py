@@ -187,7 +187,7 @@ class SendToBankView(View):
                 description = response.get('description')
 
             # Уведомление пользователя об успешной отправке
-            self.succses_notification(client_id, user, f'description {description}, status {status}')
+            self.succses_notification(client_id, user, f'{description}, <br>status {status}')
             logger.info(f"Количество SQL-запросов SendToBankView: {len(connection.queries)}")
         except Exception as e:
             self.handle_exception(e, client_id, user)
