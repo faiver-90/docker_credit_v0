@@ -28,6 +28,7 @@ class SovcombankGetStatusSendHandler:
             'IN WORK': 'Необходимо связаться с поддержкой банка по интеграциям',
             'Отказ': 'Банк принял решение о невозможности выдать кредит этому клиенту на таких условиях'
         }
+
     def send_request_get_status(self, application_id_bank, headers=None):
         return self.sovcombank_request_service.send_request(
             "GET",
@@ -67,8 +68,8 @@ class SovcombankGetStatusSendHandler:
             f"Достигнуто максимальное количество попыток для статуса 'IN WORK' по заявке {application_id_bank}")
 
         return {'description': 'Необходимо связаться с поддержкой банка по интеграциям.',
-                           'status': 'IN WORK'
-                           }
+                'status': 'IN WORK'
+                }
 
     def formatted_description(self, status, message_text=None, comment=None):
         return f"description - {self.description_list.get(status, '')},<br>" \
@@ -98,9 +99,9 @@ class SovcombankGetStatusSendHandler:
             elif status == 'Ошибка создания заявки':
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
             elif status == 'Прерван':
-                response_or_error['description'] =self.formatted_description(status, message_text, comment)
+                response_or_error['description'] = self.formatted_description(status, message_text, comment)
             elif status == 'Отказ':
-                response_or_error['description'] =self.formatted_description(status, message_text, comment)
+                response_or_error['description'] = self.formatted_description(status, message_text, comment)
             return status, response_or_error
 
 

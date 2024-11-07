@@ -142,7 +142,8 @@ def get_notifications(request):
     per_page = request.GET.get('per_page', 5)
 
     # Получаем уведомления и сортируем
-    notifications = Notification.objects.filter(user__userprofile__organization_manager=organization).order_by('is_read', '-created_at')
+    notifications = Notification.objects.filter(user__userprofile__organization_manager=organization).order_by(
+        'is_read', '-created_at')
 
     # Применяем пагинацию
     paginator = Paginator(notifications, per_page)
