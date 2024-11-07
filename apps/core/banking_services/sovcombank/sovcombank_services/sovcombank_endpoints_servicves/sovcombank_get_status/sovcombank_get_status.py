@@ -85,6 +85,8 @@ class SovcombankGetStatusSendHandler:
             message_text = response_or_error.get('messageText', '')
             if status == 'IN WORK':
                 status, response_or_error = self.handle_in_work_status(user, client_id, application_id_bank)
+                comment = response_or_error.get('comment', '')
+                message_text = response_or_error.get('messageText', '')
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
             elif status == 'Предварительная заявка одобрена':
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
