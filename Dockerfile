@@ -37,6 +37,6 @@ COPY ./gunicorn_start.sh /var/www/motor_finance/gunicorn_start.sh
 RUN chmod +x /var/www/motor_finance/gunicorn_start.sh
 
 # Запуск Django через Gunicorn
-CMD ["gunicorn", "--workers=3", "--bind=0.0.0.0:8000","--threads=5", "--reload", "-k", "uvicorn.workers.UvicornWorker", "app_v0.asgi:application"]
+CMD ["gunicorn", "--workers=3", "--bind=0.0.0.0:8000","--threads=50", "--reload", "-k", "uvicorn.workers.UvicornWorker", "app_v0.asgi:application"]
 #CMD ["gunicorn", "--workers=3", "--bind=0.0.0.0:8000","--reload",  "app_v0.wsgi:application"]
 #CMD ["./gunicorn_start.sh"]

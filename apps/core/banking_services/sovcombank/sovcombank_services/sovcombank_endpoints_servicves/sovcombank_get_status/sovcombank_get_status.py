@@ -26,7 +26,9 @@ class SovcombankGetStatusSendHandler:
             'Ошибка создания заявки': 'Ошибка создания заявки, ознакомьтесь с деталями.',
             'Прерван': 'Переведено в ручное управление на стороне банка.',
             'IN WORK': 'Необходимо связаться с поддержкой банка по интеграциям',
-            'Отказ': 'Банк принял решение о невозможности выдать кредит этому клиенту на таких условиях'
+            'Отказ': 'Банк принял решение о невозможности выдать кредит этому клиенту на таких условиях',
+            'Временный отказ': 'Банк вернул заявку на доработку. Проверьте комментарий банка',
+            'В работе': 'Статус в работе'
         }
 
     def send_request_get_status(self, application_id_bank, headers=None):
@@ -59,7 +61,7 @@ class SovcombankGetStatusSendHandler:
             status = response_or_error.get('status')
 
             if status != 'IN WORK':
-                return status, response_or_error
+                return response_or_error
 
             attempt += 1
             time.sleep(delay)
@@ -70,6 +72,14 @@ class SovcombankGetStatusSendHandler:
         return {'description': 'Необходимо связаться с поддержкой банка по интеграциям.',
                 'status': 'IN WORK'
                 }
+    def handle_in_hand(self, application_id_in_bank, status):
+        response_or_error = None
+        while status == 'В работе' or status == 'Прерван':
+            time.sleep(1)
+            task  = self.start_status_request_task(application_id_in_bank)
+            response_or_error = poll_task(task.id)
+            status = response_or_error.get('status')
+        return response_or_error
 
     def formatted_description(self, status, message_text=None, comment=None):
         return f"description - {self.description_list.get(status, '')},<br>" \
@@ -88,30 +98,27 @@ class SovcombankGetStatusSendHandler:
             status = response_or_error.get('status')
             comment = response_or_error.get('comment', '')
             message_text = response_or_error.get('messageText', '')
+            while status == 'В работе' or status == 'Прерван':
+                time.sleep(5)
+                response_or_error = self.handle_in_hand(application_id_bank, status)
+                logger.exception(response_or_error)
+                status = response_or_error.get('status', '')
             if status == 'IN WORK':
                 response_or_error = self.handle_in_work_status(user, client_id, application_id_bank)
                 status = response_or_error.get('status', '')
                 comment = response_or_error.get('comment', '')
                 message_text = response_or_error.get('messageText', '')
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
-            elif status == 'Предварительная заявка одобрена':
-                response_or_error['description'] = self.formatted_description(status, message_text, comment)
-            elif status == 'Ошибка создания заявки':
-                response_or_error['description'] = self.formatted_description(status, message_text, comment)
-            elif status == 'Прерван':
-                response_or_error['description'] = self.formatted_description(status, message_text, comment)
-            elif status == 'Отказ':
+            if status in self.description_list:
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
             return status, response_or_error
-
-
         except ValueError as e:
             formatted_message = error_message_formatter(e=e, operation_id=self.operation_id)
-            logger.error(formatted_message)
+            logger.exception(formatted_message)
             raise ValueError('Ошибка обработки статуса.') from e
         except (FileNotFoundError, AttributeError) as e:
             logger.exception(f"Специфическая ошибка: {e}")
             raise
         except Exception as e:
-            logger.error(f"Неизвестная ошибка: {e}, operation_id: {self.operation_id}")
+            logger.exception(f"Неизвестная ошибка: {e}, operation_id: {self.operation_id}")
             raise
