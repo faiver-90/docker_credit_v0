@@ -44,11 +44,12 @@ class ApplicationService:
     def get_button_class(status):
         """Получение CSS-класса для кнопки по статусу"""
         classes = {
-            'Ошибка': 'btn btn-error',
-            'Ожидание решения': 'btn btn-pending',
+            'Ошибка создания заявки': 'btn btn-error',
+            'Прерван': 'btn btn-pending',
             'Отказ': 'btn btn-reject',
-            'Запрос доп информации': 'btn btn-request-info',
-            'Одобрение': 'btn btn-approve',
+            'Временный отказ': 'btn btn-request-info',
+            'Предварительная заявка одобрена': 'btn btn-approve',
+            'IN WORK': 'btn btn-primary',
             'Нет статуса': 'btn btn-light'
         }
         return classes.get(status, 'btn btn-light')
