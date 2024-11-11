@@ -10,7 +10,6 @@ from apps.questionnaire.tasks import send_request_get_status_task
 
 logger = logging.getLogger(__name__)
 
-
 class SovcombankGetStatusSendHandler:
     """
     Обработчик для отправки данных в Sovcombank по заявкам клиентов.
@@ -32,15 +31,25 @@ class SovcombankGetStatusSendHandler:
         }
 
     def send_request_get_status(self, application_id_bank, headers=None):
-        return self.sovcombank_request_service.send_request(
-            "GET",
-            "http://host.docker.internal:8080",
-            f"api/v3/credit/application/auto/{application_id_bank}/status",
-            extra_headers=headers
-        )
+        try:
+            logger.info(f"Отправка запроса на получение статуса для заявки {application_id_bank}")
+            return self.sovcombank_request_service.send_request(
+                "GET",
+                "http://host.docker.internal:8080",
+                f"api/v3/credit/application/auto/{application_id_bank}/status",
+                extra_headers=headers
+            )
+        except Exception as e:
+            logger.error(f"Ошибка при отправке запроса статуса для {application_id_bank}: {str(e)}")
+            raise
 
     def start_status_request_task(self, application_id_in_bank):
-        return send_request_get_status_task.apply_async(args=[application_id_in_bank])
+        try:
+            logger.info(f"Запуск Celery задачи для получения статуса по заявке {application_id_in_bank}")
+            return send_request_get_status_task.apply_async(args=[application_id_in_bank])
+        except Exception as e:
+            logger.error(f"Ошибка запуска Celery задачи для {application_id_in_bank}: {str(e)}")
+            raise
 
     def handle_in_work_status(self, user, client_id, application_id_bank):
         """
@@ -52,16 +61,21 @@ class SovcombankGetStatusSendHandler:
 
         while attempt < max_attempts:
             logger.info(f"Попытка {attempt + 1} для статуса 'IN WORK' по заявке {application_id_bank}")
-            sovcombank_handler = SovcombankShotSendHandler(operation_id=self.operation_id)
-            response_shot_info = sovcombank_handler.short_handle(user, client_id)
-            application_id_bank = response_shot_info.get('requestId', '')
+            try:
+                sovcombank_handler = SovcombankShotSendHandler(operation_id=self.operation_id)
+                response_shot_info = sovcombank_handler.short_handle(user, client_id)
+                application_id_bank = response_shot_info.get('requestId', '')
 
-            task = self.start_status_request_task(application_id_bank)
-            response_or_error = poll_task(task.id)
-            status = response_or_error.get('status')
+                task = self.start_status_request_task(application_id_bank)
+                response_or_error = poll_task(task.id)
+                status = response_or_error.get('status')
 
-            if status != 'IN WORK':
-                return response_or_error
+                if status != 'IN WORK':
+                    return response_or_error
+
+            except Exception as e:
+                logger.error(f"Ошибка при обработке статуса 'IN WORK' для заявки {application_id_bank}: {str(e)}")
+                raise
 
             attempt += 1
             time.sleep(delay)
@@ -72,14 +86,19 @@ class SovcombankGetStatusSendHandler:
         return {'description': 'Необходимо связаться с поддержкой банка по интеграциям.',
                 'status': 'IN WORK'
                 }
+
     def handle_in_hand(self, application_id_in_bank, status):
-        response_or_error = None
-        while status == 'В работе' or status == 'Прерван':
-            time.sleep(1)
-            task  = self.start_status_request_task(application_id_in_bank)
-            response_or_error = poll_task(task.id)
-            status = response_or_error.get('status')
-        return response_or_error
+        try:
+            response_or_error = None
+            while status == 'В работе' or status == 'Прерван':
+                time.sleep(1)
+                task = self.start_status_request_task(application_id_in_bank)
+                response_or_error = poll_task(task.id)
+                status = response_or_error.get('status')
+            return response_or_error
+        except Exception as e:
+            logger.error(f"Ошибка при обработке статуса 'В работе' или 'Прерван' для заявки {application_id_in_bank}: {str(e)}")
+            raise
 
     def formatted_description(self, status, message_text=None, comment=None):
         return f"description - {self.description_list.get(status, '')},<br>" \
@@ -91,26 +110,31 @@ class SovcombankGetStatusSendHandler:
         """
         Основной метод для обработки и отправки данных в Sovcombank.
         """
-
         try:
+            logger.info(f"Начало обработки заявки {application_id_bank}")
             task = self.start_status_request_task(application_id_bank)
             response_or_error = poll_task(task.id)
             status = response_or_error.get('status')
             comment = response_or_error.get('comment', '')
             message_text = response_or_error.get('messageText', '')
+
             while status == 'В работе' or status == 'Прерван':
                 time.sleep(5)
                 response_or_error = self.handle_in_hand(application_id_bank, status)
-                logger.exception(response_or_error)
+                logger.debug(f"Промежуточный ответ: {response_or_error}")
                 status = response_or_error.get('status', '')
+
             if status == 'IN WORK':
                 response_or_error = self.handle_in_work_status(user, client_id, application_id_bank)
                 status = response_or_error.get('status', '')
                 comment = response_or_error.get('comment', '')
                 message_text = response_or_error.get('messageText', '')
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
+
             if status in self.description_list:
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
+
+            logger.info(f"Статус обработки для заявки {application_id_bank}: {status}")
             return status, response_or_error
         except ValueError as e:
             formatted_message = error_message_formatter(e=e, operation_id=self.operation_id)
