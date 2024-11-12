@@ -15,12 +15,6 @@
 
 
 {% block content %}
-    <form id="send-to-bank-form" method="post" action="{% url 'send_to_bank' %}">
-        {% csrf_token %}
-        <input type="hidden" name="client_id" value="{{ client_id }}">
-        <input type="hidden" name="selected_offers" id="selected_offers">
-        <button type="submit" class="btn btn-outline-primary w-100 mt-2">Отправить в банк</button>
-    </form>
     {% if id_app_in_system %}
         {% include "questionnaire/card_offer.html" %}
     {% endif %}
