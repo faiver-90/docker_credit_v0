@@ -59,8 +59,8 @@ class SovcombankGetStatusSendHandler:
         Обрабатывает статус 'IN WORK', выполняя повторные попытки запроса статуса.
         """
         attempt = 0
-        max_attempts = 1
-        delay = 5
+        max_attempts = 20
+        delay = 60
 
         while attempt < max_attempts:
             logger.info(f"Попытка {attempt + 1} для статуса 'IN WORK' по заявке {application_id_bank}")
