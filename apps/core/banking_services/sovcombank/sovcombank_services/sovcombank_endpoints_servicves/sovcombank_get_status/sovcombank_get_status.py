@@ -10,6 +10,7 @@ from apps.questionnaire.tasks import send_request_get_status_task
 
 logger = logging.getLogger(__name__)
 
+
 class SovcombankGetStatusSendHandler:
     """
     Обработчик для отправки данных в Sovcombank по заявкам клиентов.
@@ -43,10 +44,12 @@ class SovcombankGetStatusSendHandler:
             logger.error(f"Ошибка при отправке запроса статуса для {application_id_bank}: {str(e)}")
             raise
 
-    def start_status_request_task(self, application_id_in_bank):
+    def start_status_request_task(self, application_id_in_bank, max_retries, retry_delay):
         try:
             logger.info(f"Запуск Celery задачи для получения статуса по заявке {application_id_in_bank}")
-            return send_request_get_status_task.apply_async(args=[application_id_in_bank])
+            return send_request_get_status_task.apply_async(args=[application_id_in_bank],
+                                                            kwargs={'max_retries': max_retries,
+                                                                    'retry_delay': retry_delay})
         except Exception as e:
             logger.error(f"Ошибка запуска Celery задачи для {application_id_in_bank}: {str(e)}")
             raise
@@ -66,7 +69,7 @@ class SovcombankGetStatusSendHandler:
                 response_shot_info = sovcombank_handler.short_handle(user, client_id)
                 application_id_bank = response_shot_info.get('requestId', '')
 
-                task = self.start_status_request_task(application_id_bank)
+                task = self.start_status_request_task(application_id_bank, max_retries=20, retry_delay=60)
                 response_or_error = poll_task(task.id)
                 status = response_or_error.get('status')
 
@@ -90,21 +93,51 @@ class SovcombankGetStatusSendHandler:
     def handle_in_hand(self, application_id_in_bank, status):
         try:
             response_or_error = None
+            max_retries = 20
+            retry_delay = 60
+            accumulator = 0
             while status == 'В работе' or status == 'Прерван':
-                time.sleep(1)
-                task = self.start_status_request_task(application_id_in_bank)
+                if status == 'В работе':
+                    max_retries = 20
+                    retry_delay = 60
+                elif status == 'Прерван':
+                    max_retries = 20
+                    retry_delay = 3600
+
+                logger.info(
+                    f"Запуск задачи для статуса '{status}' с {max_retries} попытками и задержкой {retry_delay} секунд")
+
+                task = self.start_status_request_task(application_id_in_bank, max_retries=max_retries,
+                                                      retry_delay=retry_delay)
                 response_or_error = poll_task(task.id)
                 status = response_or_error.get('status')
+
+                # Ждём перед следующей попыткой, если статус не изменился
+                if status == 'В работе' or status == 'Прерван':
+                    time.sleep(retry_delay)
+                    accumulator += 1
+                    if accumulator > max_retries:
+                        logger.warning(f"Достигнуто максимальное количество попыток для статуса '{status}' "
+                                       f"по заявке {application_id_in_bank}. Задача завершена.")
+                        return {'error': f"Превышено максимальное количество попыток для статуса '{status}'",
+                                'status': status}
+
+
             return response_or_error
         except Exception as e:
-            logger.error(f"Ошибка при обработке статуса 'В работе' или 'Прерван' для заявки {application_id_in_bank}: {str(e)}")
+            logger.error(
+                f"Ошибка при обработке статуса 'В работе' или 'Прерван' для заявки {application_id_in_bank}: {str(e)}")
             raise
 
-    def formatted_description(self, status, message_text=None, comment=None):
+    def formatted_description(self, status, message_text=None, comment=None, **kwargs):
+        additional_info = "<br>".join([f"{key} - {value}" for key, value in kwargs.items()])
+
+        # Включаем дополнительные параметры в итоговое описание
         return f"description - {self.description_list.get(status, '')},<br>" \
                f"comment - {comment},<br>" \
-               f"message_text - {message_text}" \
-               f"operation id - {self.operation_id}"
+               f"message_text - {message_text},<br>" \
+               f"operation id - {self.operation_id},<br>" \
+               f"{additional_info}"
 
     def handle(self, user, client_id, application_id_bank):
         """
@@ -112,7 +145,7 @@ class SovcombankGetStatusSendHandler:
         """
         try:
             logger.info(f"Начало обработки заявки {application_id_bank}")
-            task = self.start_status_request_task(application_id_bank)
+            task = self.start_status_request_task(application_id_bank, max_retries=20, retry_delay=60)
             response_or_error = poll_task(task.id)
             status = response_or_error.get('status')
             comment = response_or_error.get('comment', '')
@@ -126,14 +159,26 @@ class SovcombankGetStatusSendHandler:
 
             if status == 'IN WORK':
                 response_or_error = self.handle_in_work_status(user, client_id, application_id_bank)
+
                 status = response_or_error.get('status', '')
                 comment = response_or_error.get('comment', '')
                 message_text = response_or_error.get('messageText', '')
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
 
-            if status in self.description_list:
+            elif status in self.description_list:
                 response_or_error['description'] = self.formatted_description(status, message_text, comment)
-
+            else:
+                massage = error_message_formatter('Неизвестный статус',
+                                                  application_id_bank=application_id_bank,
+                                                  user=user,
+                                                  client_id=client_id,
+                                                  operation_id=self.operation_id
+                                                  )
+                logger.exception(massage)
+                response_or_error['description'] = self.formatted_description(status,
+                                                                              message_text,
+                                                                              comment,
+                                                                              massage=massage )
             logger.info(f"Статус обработки для заявки {application_id_bank}: {status}")
             return status, response_or_error
         except ValueError as e:
