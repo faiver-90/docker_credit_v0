@@ -38,6 +38,17 @@ class ClientPreData(models.Model):
         return f"{self.first_name_to_contact_pre_client or ''} ({self.phone_number_pre_client or ''})"
 
 
+class OffersSovComBank(models.Model):
+    id_in_excel_file_sovcom = models.IntegerField(null=True, blank=True, verbose_name="ID в ексель файле")
+    actual_sovcom = models.IntegerField(null=True, blank=True, verbose_name="actual столбец")
+    rating_sovcom = models.IntegerField(null=True, blank=True, verbose_name="Рейтинг выдачи")
+
+
+class ResponseAPICalculator(models.Model):
+    client = models.ForeignKey(ClientPreData, on_delete=models.CASCADE)
+    response = models.JSONField()
+
+
 def upload_to(instance, filename):
     filename = unidecode(filename)
     return os.path.join(f'client_documents/client_{instance.client.id}', filename)
@@ -335,6 +346,7 @@ class SelectedClientOffer(models.Model):
     id_app_in_system = models.IntegerField(default=0, blank=True, null=True)
     link_to_detail_from_bank = models.CharField(max_length=255, blank=True, null=True)
     request_id_in_bank = models.CharField(max_length=255, blank=True, null=True)
+
     # status_selected_card = models.BooleanField(default=False, verbose_name="Выбранное предложение")  # Добавлено
 
     class Meta:
@@ -747,7 +759,6 @@ class ClientRealEstate(models.Model):
     purchase_method_real_estate = models.ForeignKey(PurchaseMethod, on_delete=models.SET_NULL,
                                                     verbose_name="Способ приобретения", blank=True, null=True)
     address_real_estate = models.CharField(max_length=255, verbose_name="Адрес", blank=True, null=True)
-
 
     class Meta:
         verbose_name = "Недвижимость клиента"

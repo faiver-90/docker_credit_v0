@@ -10,6 +10,7 @@ logs.txt
 !logo.png
 *.gif
 *.pdf
+*.xlsx
 !ok_size_1.jpg
 !ok_size_2.jpg
 !over_size_1.jpg
