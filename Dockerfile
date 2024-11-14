@@ -1,5 +1,5 @@
 # Используем официальный образ Python
-FROM python:3.10
+FROM python:3.11
 
 # Установка зависимостей системы
 RUN apt-get update && apt-get install -y \
