@@ -32,12 +32,14 @@ class Notification(models.Model):
         return f'Notification for {self.user.username}'
 
 
+# Спарсенные продукты СовКомБанка из файла
 class OffersSovComBank(models.Model):
     id_in_excel_file_sovcom = models.IntegerField(null=True, blank=True, verbose_name="ID в ексель файле")
     actual_sovcom = models.IntegerField(null=True, blank=True, verbose_name="actual столбец")
     rating_sovcom = models.IntegerField(null=True, blank=True, verbose_name="Рейтинг выдачи")
 
 
+# Модели для калькулятора СовКомБанк
 class ResponseCalculationSovComBank(models.Model):
     request_id = models.IntegerField()
     dealer_id = models.CharField(max_length=255)
