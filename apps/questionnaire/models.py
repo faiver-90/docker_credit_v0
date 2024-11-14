@@ -38,17 +38,6 @@ class ClientPreData(models.Model):
         return f"{self.first_name_to_contact_pre_client or ''} ({self.phone_number_pre_client or ''})"
 
 
-class OffersSovComBank(models.Model):
-    id_in_excel_file_sovcom = models.IntegerField(null=True, blank=True, verbose_name="ID в ексель файле")
-    actual_sovcom = models.IntegerField(null=True, blank=True, verbose_name="actual столбец")
-    rating_sovcom = models.IntegerField(null=True, blank=True, verbose_name="Рейтинг выдачи")
-
-
-class ResponseAPICalculator(models.Model):
-    client = models.ForeignKey(ClientPreData, on_delete=models.CASCADE)
-    response = models.JSONField()
-
-
 def upload_to(instance, filename):
     filename = unidecode(filename)
     return os.path.join(f'client_documents/client_{instance.client.id}', filename)

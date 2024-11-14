@@ -63,6 +63,10 @@ def convert_value(value, target_type, default=None):
         return default
 
 
+def create_uuid():
+    return uuid.uuid4()
+
+
 def get_operation_id(existing_operation_id=None):
     """
     Возвращает текущий operation_id или создает новый, если он не был передан.
@@ -79,7 +83,7 @@ def get_operation_id(existing_operation_id=None):
     """
     if existing_operation_id:
         return existing_operation_id
-    return str(f'ID операции - {uuid.uuid4()}')
+    return str(f'ID операции - {create_uuid()}')
 
 
 def load_file(path_to_file, mode='r'):
