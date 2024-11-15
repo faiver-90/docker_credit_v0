@@ -1,29 +1,29 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const carPriceInput = document.getElementById('id_car_price_car_info');
-    const dealerEquipmentPriceInput = document.getElementById('id_dealer_equipment_price_car_info');
-    const kaskoAmountInput = document.getElementById('id_kasko_amount');
-    const gapAmountInput = document.getElementById('id_gap_amount');
-    const szhAmountInput = document.getElementById('id_szh_amount');
-    const szhTermInput = document.getElementById('id_szh_term');
-    const financialProductsAmountInput = document.getElementById('id_financial_products_amount');
-    const initialPaymentInput = document.getElementById('id_initial_payment');
+    const carPriceInput = document.getElementById('id_car_price_car_info') || { value: 0 };
+    const dealerEquipmentPriceInput = document.getElementById('id_dealer_equipment_price_car_info') || { value: 0 };
+    const kaskoAmountInput = document.getElementById('id_kasko_amount') || { value: 0 };
+    const gapAmountInput = document.getElementById('id_gap_amount') || { value: 0 };
+    const szhAmountInput = document.getElementById('id_szh_amount') || { value: 0 };
+    const szhTermInput = document.getElementById('id_szh_term') || { value: 0 };
+    const financialProductsAmountInput = document.getElementById('id_financial_products_amount') || { value: 0 };
+    const initialPaymentInput = document.getElementById('id_initial_payment') || { value: 0 };
 
-    const kaskoIncludeCheckbox = document.getElementById('id_kasko_amount_include');
-    const gapIncludeCheckbox = document.getElementById('id_gap_amount_include');
-    const szhTermIncludeCheckbox = document.getElementById('id_szh_term_include');
-    const financialProductsIncludeCheckbox = document.getElementById('id_financial_products_amount_include');
-    const smsNotificationIncludeCheckbox = document.getElementById('sms_notification_include_checkbox');
-    const installmentCommissionIncludeCheckbox = document.getElementById('id_installment_commission_include');
+    const kaskoIncludeCheckbox = document.getElementById('id_kasko_amount_include') || { checked: false };
+    const gapIncludeCheckbox = document.getElementById('id_gap_amount_include') || { checked: false };
+    const szhTermIncludeCheckbox = document.getElementById('id_szh_term_include') || { checked: false };
+    const financialProductsIncludeCheckbox = document.getElementById('id_financial_products_amount_include') || { checked: false };
+    const smsNotificationIncludeCheckbox = document.getElementById('sms_notification_include_checkbox') || { checked: false };
+    const installmentCommissionIncludeCheckbox = document.getElementById('id_installment_commission_include') || { checked: false };
 
-    const totalLoanAmountDisplay = document.getElementById('total_loan_amount');
-    const carPriceDisplay = document.getElementById('car_price_display');
-    const additionalEquipmentPriceDisplay = document.getElementById('additional_equipment_price_display');
-    const kaskoDisplay = document.getElementById('kasko_display');
-    const gapDisplay = document.getElementById('gap_display');
-    const szgDisplay = document.getElementById('szg_display');
-    const financialProductsDisplay = document.getElementById('financial_products_display');
-    const smsNotificationDisplay = document.getElementById('sms_notification_display');
-    const installmentCommissionDisplay = document.getElementById('installment_commission_display');
+    const totalLoanAmountDisplay = document.getElementById('total_loan_amount') || { textContent: 0 };
+    const carPriceDisplay = document.getElementById('car_price_display') || { textContent: 0 };
+    const additionalEquipmentPriceDisplay = document.getElementById('additional_equipment_price_display') || { textContent: 0 };
+    const kaskoDisplay = document.getElementById('kasko_display') || { textContent: 0 };
+    const gapDisplay = document.getElementById('gap_display') || { textContent: 0 };
+    const szgDisplay = document.getElementById('szg_display') || { textContent: 0 };
+    const financialProductsDisplay = document.getElementById('financial_products_display') || { textContent: 0 };
+    const smsNotificationDisplay = document.getElementById('sms_notification_display') || { textContent: 0 };
+    const installmentCommissionDisplay = document.getElementById('installment_commission_display') || { textContent: 0 };
 
     function calculateTotalLoanAmount() {
         const carPrice = parseFloat(carPriceInput.value) || 0;
@@ -80,15 +80,15 @@ document.addEventListener('DOMContentLoaded', function () {
     gapAmountInput.addEventListener('input', calculateTotalLoanAmount);
     szhAmountInput.addEventListener('input', calculateTotalLoanAmount);
     szhTermInput.addEventListener('input', calculateTotalLoanAmount);
-    financialProductsAmountInput.addEventListener('input', calculateTotalLoanAmount);
+    // financialProductsAmountInput.addEventListener('input', calculateTotalLoanAmount);
     initialPaymentInput.addEventListener('input', calculateTotalLoanAmount);
 
     kaskoIncludeCheckbox.addEventListener('change', calculateTotalLoanAmount);
     gapIncludeCheckbox.addEventListener('change', calculateTotalLoanAmount);
     szhTermIncludeCheckbox.addEventListener('change', calculateTotalLoanAmount);
-    financialProductsIncludeCheckbox.addEventListener('change', calculateTotalLoanAmount);
-    smsNotificationIncludeCheckbox.addEventListener('change', calculateTotalLoanAmount);
-    installmentCommissionIncludeCheckbox.addEventListener('change', calculateTotalLoanAmount);
+    // financialProductsIncludeCheckbox.addEventListener('change', calculateTotalLoanAmount);
+    // smsNotificationIncludeCheckbox.addEventListener('change', calculateTotalLoanAmount);
+    // installmentCommissionIncludeCheckbox.addEventListener('change', calculateTotalLoanAmount);
 
     document.querySelector('form').addEventListener('submit', calculateTotalLoanAmount);
 
