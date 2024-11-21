@@ -43,6 +43,31 @@ class CalculatorDataPreparationService:
                                                         path_to_template=path_to_template)
             raise FileNotFoundError(formatted_massage)
 
+    def make_insurance_list(self, client):
+        ins_list = []
+        # product = ["КАСКО", "GAP", "Жизнь"]
+        extra_insurance = client.extra_insurance.first()
+        product = {
+            "КАСКО": extra_insurance.kasko_amount_include,
+            "GAP": extra_insurance.gap_amount_include,
+            "Жизнь": extra_insurance.szh_term_include
+        }
+        for key, value in product.items():
+            if value:
+                template = {
+                    "type": str(key),
+                    "cost": {
+                        "amount": float(value),
+                        "currency": "810"
+                    },
+                    "paymentType": "ВКредит",
+                    "company": {
+                        "type": "Дилерская",
+                    }
+                }
+                ins_list.append(template)
+        return ins_list
+
     @staticmethod
     def convert_fields(data, field_types):
         """
@@ -83,7 +108,7 @@ class CalculatorDataPreparationService:
             calculations = []
 
             try:
-                request_id = str(uuid.uuid4())
+                request_id = str(create_uuid())
                 offers = OffersSovComBank.objects.all()
                 dealer_id = ''
                 credit_info = {
@@ -129,22 +154,7 @@ class CalculatorDataPreparationService:
                         },
 
                         # ===================
-                        "insuranceList": [
-                            {
-                                "type": "КАСКО",
-                                "period": 12,
-                                "agreementPercent": 3.036,
-                                "cost": {
-                                    "amount": 44940.12,
-                                    "currency": "810"
-                                },
-                                "paymentType": "ВКредит",
-                                "company": {
-                                    "type": "Банковская",
-                                    "insurerId": "22"
-                                }
-                            }
-                        ]
+                        "insuranceList": self.make_insurance_list(client),
                     }
 
                 request_data = {

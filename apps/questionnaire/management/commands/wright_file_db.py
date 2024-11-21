@@ -3,7 +3,7 @@
 from django.core.management.base import BaseCommand
 import pandas as pd
 
-from apps.questionnaire.models import OffersSovComBank
+from apps.core.models import OffersSovComBank
 
 
 class Command(BaseCommand):

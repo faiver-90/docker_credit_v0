@@ -5,7 +5,7 @@ import pandas as pd
 from celery import shared_task
 from dotenv import load_dotenv
 
-from apps.questionnaire.models import OffersSovComBank
+from apps.core.models import OffersSovComBank
 
 load_dotenv()
 
