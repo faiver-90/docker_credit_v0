@@ -41,7 +41,7 @@ class OffersSovComBank(models.Model):
 
 # Модели для калькулятора СовКомБанк
 class ResponseCalculationSovComBank(models.Model):
-    request_id = models.IntegerField()
+    request_id = models.CharField(max_length=255)
     dealer_id = models.CharField(max_length=255)
 
 
