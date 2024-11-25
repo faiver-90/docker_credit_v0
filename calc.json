@@ -1,0 +1,271 @@
+{
+  "requestId": "8a907fad-42b2-406a-8950-d54bd106cc86",
+  "dealerId": "1234",
+  "calculations": [
+    {
+      "calculationId": "1",
+      "creditInfo": {
+        "product": "111111",
+        "period": 12,
+        "payment": 1444.87
+      },
+      "vehicleInfo": {
+        "type": "Новый",
+        "brand": "KAIYI",
+        "model": "X3 Pro",
+        "constructionYear": 2023
+      },
+      "dealCost": {
+        "amount": 2250000.88,
+        "currency": "810"
+      },
+      "insuranceList": [
+        {
+          "type": "КАСКО",
+          "cost": {
+            "amount": 10000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        },
+        {
+          "type": "GAP",
+          "cost": {
+            "amount": 10000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        },
+        {
+          "type": "Жизнь",
+          "cost": {
+            "amount": 600000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        }
+      ]
+    },
+    {
+      "calculationId": "2",
+      "creditInfo": {
+        "product": "1",
+        "period": 12,
+        "payment": 1444.87
+      },
+      "vehicleInfo": {
+        "type": "Новый",
+        "brand": "KAIYI",
+        "model": "X3 Pro",
+        "constructionYear": 2023
+      },
+      "dealCost": {
+        "amount": 2250000.88,
+        "currency": "810"
+      },
+      "insuranceList": [
+        {
+          "type": "КАСКО",
+          "cost": {
+            "amount": 10000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        },
+        {
+          "type": "GAP",
+          "cost": {
+            "amount": 10000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        },
+        {
+          "type": "Жизнь",
+          "cost": {
+            "amount": 600000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        }
+      ]
+    },
+    {
+      "calculationId": "3",
+      "creditInfo": {
+        "product": "10",
+        "period": 12,
+        "payment": 1444.87
+      },
+      "vehicleInfo": {
+        "type": "Новый",
+        "brand": "KAIYI",
+        "model": "X3 Pro",
+        "constructionYear": 2023
+      },
+      "dealCost": {
+        "amount": 2250000.88,
+        "currency": "810"
+      },
+      "insuranceList": [
+        {
+          "type": "КАСКО",
+          "cost": {
+            "amount": 10000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        },
+        {
+          "type": "GAP",
+          "cost": {
+            "amount": 10000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        },
+        {
+          "type": "Жизнь",
+          "cost": {
+            "amount": 600000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        }
+      ]
+    },
+    {
+      "calculationId": "4",
+      "creditInfo": {
+        "product": "100",
+        "period": 12,
+        "payment": 1444.87
+      },
+      "vehicleInfo": {
+        "type": "Новый",
+        "brand": "KAIYI",
+        "model": "X3 Pro",
+        "constructionYear": 2023
+      },
+      "dealCost": {
+        "amount": 2250000.88,
+        "currency": "810"
+      },
+      "insuranceList": [
+        {
+          "type": "КАСКО",
+          "cost": {
+            "amount": 10000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        },
+        {
+          "type": "GAP",
+          "cost": {
+            "amount": 10000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        },
+        {
+          "type": "Жизнь",
+          "cost": {
+            "amount": 600000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        }
+      ]
+    },
+    {
+      "calculationId": "5",
+      "creditInfo": {
+        "product": "101",
+        "period": 12,
+        "payment": 1444.87
+      },
+      "vehicleInfo": {
+        "type": "Новый",
+        "brand": "KAIYI",
+        "model": "X3 Pro",
+        "constructionYear": 2023
+      },
+      "dealCost": {
+        "amount": 2250000.88,
+        "currency": "810"
+      },
+      "insuranceList": [
+        {
+          "type": "КАСКО",
+          "cost": {
+            "amount": 10000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        },
+        {
+          "type": "GAP",
+          "cost": {
+            "amount": 10000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        },
+        {
+          "type": "Жизнь",
+          "cost": {
+            "amount": 600000.0,
+            "currency": "810"
+          },
+          "paymentType": "ВКредит",
+          "company": {
+            "type": "Дилерская"
+          }
+        }
+      ]
+    }
+  ]
+}

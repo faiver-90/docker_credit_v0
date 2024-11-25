@@ -32,32 +32,26 @@ class CalculatorDataPreparationService:
         self.path_to_template = f'{BASE_DIR}/apps/core/banking_services/sovcombank/sovcombank_services/' \
                                 f'templates_json/sovcombank_shot.json'
 
-    def get_data_from_file_template(self, path_to_template):
-        try:
-            return load_file(path_to_template)
-        except FileNotFoundError as e:
-            massage = 'Файл не найден'
-            formatted_massage = error_message_formatter(massage,
-                                                        e=e,
-                                                        module=self.name_modul,
-                                                        path_to_template=path_to_template)
-            raise FileNotFoundError(formatted_massage)
-
     def make_insurance_list(self, client):
         ins_list = []
-        # product = ["КАСКО", "GAP", "Жизнь"]
         extra_insurance = client.extra_insurance.first()
         product = {
-            "КАСКО": extra_insurance.kasko_amount_include,
-            "GAP": extra_insurance.gap_amount_include,
-            "Жизнь": extra_insurance.szh_term_include
+            "КАСКО": {
+                "in_credit": extra_insurance.kasko_amount_include if extra_insurance else False,
+                "value": extra_insurance.kasko_amount
+            },
+            "GAP": {"in_credit": extra_insurance.gap_amount_include if extra_insurance else False,
+                    "value": extra_insurance.gap_amount
+                    },
+            "Жизнь": {"in_credit": extra_insurance.szh_term_include if extra_insurance else False,
+                      "value": ((float(extra_insurance.szh_amount)) / 12) * float(extra_insurance.szh_term)},
         }
         for key, value in product.items():
-            if value:
+            if value['in_credit']:
                 template = {
                     "type": str(key),
                     "cost": {
-                        "amount": float(value),
+                        "amount": float(value['value']),
                         "currency": "810"
                     },
                     "paymentType": "ВКредит",
@@ -104,37 +98,31 @@ class CalculatorDataPreparationService:
     def prepare_data(self, client_id, operation_id=None):
         try:
             client = get_object_or_404(ClientPreData, pk=client_id)
-            # person_data = client.client_person_data.first()
             calculations = []
 
-            try:
-                request_id = str(create_uuid())
-                offers = OffersSovComBank.objects.all()
-                dealer_id = ''
-                credit_info = {
-                    'period': 12,
-                    'payment': 1444.87
-                }
-                vehicle_info = {
-                    "type": "Новый",
-                    "brand": "KAIYI",
-                    "model": "X3 Pro",
-                    "constructionYear": 2023
-                }
+            request_id = str(create_uuid())
+            offers_from_sovcombank = OffersSovComBank.objects.all()
+            dealer_id = '1234'
+            credit_info = {
+                'period': 12,
+                'payment': 1444.87
+            }
+            vehicle_info = {
+                "type": "Новый",
+                "brand": "KAIYI",
+                "model": "X3 Pro",
+                "constructionYear": 2023
+            }
 
-                deal_cost = {
-                    "amount": 2250000.88,
-                    "currency": "810"
-                }
+            deal_cost = {
+                "amount": 2250000.88,
+                "currency": "810"
+            }
 
-                insurance_list = []
-
-                # Текущая дата
-                # current_date = datetime.now().strftime("%Y-%m-%d")
-                for i, offer in enumerate(offers, start=1):
+            for i, offer in enumerate(offers_from_sovcombank, start=1):
+                if offer.actual_sovcom:
                     calculation_id = i
                     product = offer.id_in_excel_file_sovcom
-
                     calculation = {
                         "calculationId": f"{calculation_id}",
                         "creditInfo": {
@@ -152,47 +140,32 @@ class CalculatorDataPreparationService:
                             "amount": deal_cost.get('amount'),
                             "currency": deal_cost.get('currency')
                         },
-
-                        # ===================
                         "insuranceList": self.make_insurance_list(client),
                     }
+                    calculations.append(calculation)
 
-                request_data = {
-                    "requestId": request_id,
-                    "dealerId": dealer_id,
-                    "calculations": calculations
-                }
-                calculations.append(request_data)
+            request_data = {
+                "requestId": request_id,
+                "dealerId": dealer_id,
+                "calculations": calculations
+            }
+            return request_data
 
-            except AttributeError as e:
-                local_var = get_local_var_for_exception()
-                text_massage = 'Ошибка при обработке данных для клиента'
-                formatted_message = error_message_formatter(text_massage,
-                                                            e,
-                                                            operation_id=operation_id,
-                                                            client_id=client_id,
-                                                            local_var=local_var)
-                logger.error(formatted_message)
-                raise AttributeError(formatted_message)
+        except AttributeError as e:
+            local_var = get_local_var_for_exception()
+            text_massage = 'Ошибка при обработке данных для клиента'
+            formatted_message = error_message_formatter(text_massage,
+                                                        e,
+                                                        operation_id=operation_id,
+                                                        client_id=client_id,
+                                                        local_var=local_var)
+            logger.error(formatted_message)
+            raise AttributeError(formatted_message)
 
-            # Формируем данные для запроса
-
-            data_from_file = self.get_data_from_file_template(self.path_to_template)
-            # Возвращаем результат объединения данных с шаблоном
-            return self.sovcombank_build_request_service.fill_templates_request(
-                data_from_file,
-                # **application_info,
-                # **source_system_info,
-                # **credit_info,
-                # **person_info,
-                # **goods_info
-            )
         except FileNotFoundError as e:
             text_massage = error_message_formatter(e=e, operation_id=self.operation_id)
             logger.error(text_massage)
             raise FileNotFoundError(text_massage)
-        except AttributeError:
-            raise
 
 
 class SovcombankCalculatorSendHandler:
@@ -205,44 +178,56 @@ class SovcombankCalculatorSendHandler:
 
     def calculator_handle(self, user, client_id):
         try:
-            data_request_not_converted = self.data_preparation_service.prepare_data(client_id,
-                                                                                    self.operation_id)
-            data_request_converted = self.data_preparation_service.convert_fields(data_request_not_converted,
-                                                                                  FIELD_TYPES_SHOT)
-
-            if self.validation_service.validate_fields(
-                    data_request_converted,
-                    REQUIRED_FIELDS_SHOT,
-                    FIELD_TYPES_SHOT,
-                    FIELD_RANGES_SHOT,
-                    FIELD_ENUMS_SHOT,
-            ):
-                self.event_sourcing_service.record_event(
-                    user.id,
-                    'send_request_to_sovcombank_calculation',
-                    data_request_converted,
-                    client_id=client_id)
+            request_data = self.data_preparation_service.prepare_data(client_id, self.operation_id)
+            if request_data:
                 response = self.sovcombank_request_service.send_request(
                     "POST",
                     "http://host.docker.internal:8080",
                     "/api/v3/credit/application/auto/calculation",
-                    data=data_request_converted
+                    data=request_data
                 )
 
-                if response:
-                    try:
-                        result_calculator = endpoint_processor.handle_endpoint_response("sovcombank_calculation",
-                                                                                        response)
-                        print(result_calculator)
-                    except ValueError as e:
-                        formatted_massage = error_message_formatter(e=e,
-                                                                    operation_id=self.operation_id)
-                        logger.error(formatted_massage)
-                        raise
-                    return result_calculator
-                else:
-                    print('Ошибка обрабтки хендлера')
-                    raise ValueError(f"Ошибка при отправке запроса: {response.get('status_code')}")
+                return response
+
+            return 'Нету ничего'
+            # data_request_not_converted = self.data_preparation_service.prepare_data(client_id,
+            #                                                                         self.operation_id)
+            # data_request_converted = self.data_preparation_service.convert_fields(data_request_not_converted,
+            #                                                                       FIELD_TYPES_SHOT)
+            #
+            # if self.validation_service.validate_fields(
+            #         data_request_converted,
+            #         REQUIRED_FIELDS_SHOT,
+            #         FIELD_TYPES_SHOT,
+            #         FIELD_RANGES_SHOT,
+            #         FIELD_ENUMS_SHOT,
+            # ):
+            #     self.event_sourcing_service.record_event(
+            #         user.id,
+            #         'send_request_to_sovcombank_calculation',
+            #         data_request_converted,
+            #         client_id=client_id)
+            #     response = self.sovcombank_request_service.send_request(
+            #         "POST",
+            #         "http://host.docker.internal:8080",
+            #         "/api/v3/credit/application/auto/calculation",
+            #         data=data_request_converted
+            #     )
+            #
+            #     if response:
+            #         try:
+            #             result_calculator = endpoint_processor.handle_endpoint_response("sovcombank_calculation",
+            #                                                                             response)
+            #             print(result_calculator)
+            #         except ValueError as e:
+            #             formatted_massage = error_message_formatter(e=e,
+            #                                                         operation_id=self.operation_id)
+            #             logger.error(formatted_massage)
+            #             raise
+            #         return result_calculator
+            #     else:
+            #         print('Ошибка обрабтки хендлера')
+            #         raise ValueError(f"Ошибка при отправке запроса: {response.get('status_code')}")
         except FileNotFoundError:
             raise
         except AttributeError:
