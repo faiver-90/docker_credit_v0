@@ -41,6 +41,7 @@ class OffersSovComBank(models.Model):
 
 # Модели для калькулятора СовКомБанк
 class ResponseCalculationSovComBank(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     request_id = models.CharField(max_length=255)
     dealer_id = models.CharField(max_length=255)
 
