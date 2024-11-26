@@ -81,6 +81,7 @@ class CreateUpdateOffersInDbService:
         offers_html = [render_to_string('questionnaire/offer_item.html', {'offer': offer}) for offer in offers_data]
 
         return offers_html
+
     @staticmethod
     def create_client_offers(client_id: int, financing_term: int) -> list:
         """Создание новых предложений для клиента на основе условия финансирования"""
