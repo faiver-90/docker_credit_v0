@@ -14,7 +14,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 
 # from apps.common_services.kafka.kafka_service import KafkaProducerService
-
+from testing_2 import SovcombankCalculatorSendHandler
 from .forms.upload_file_form import ClientUploadDocumentForm
 from .models import ClientPreData, ClientDocument, SelectedClientOffer
 from apps.users.models import Dealership
@@ -419,13 +419,10 @@ class CreateUpdateOffersInDbView(LoginRequiredMixin, View):
 
     @staticmethod
     def post(request):
-        financing_term = request.POST.get('financing_term')
         client_id = request.POST.get('client_id')
-
-        if not financing_term or not client_id:
-            return JsonResponse({'error': 'Invalid parameters'}, status=400)
-
-        offers_html = CreateUpdateOffersInDbService.create_client_offers(client_id=client_id)
+        user = request.user
+        SovcombankCalculatorSendHandler('123457').calculator_handle(user, client_id, 1234)
+        offers_html = CreateUpdateOffersInDbService.get_client_offers(client_id)
 
         return JsonResponse(offers_html, safe=False)
 

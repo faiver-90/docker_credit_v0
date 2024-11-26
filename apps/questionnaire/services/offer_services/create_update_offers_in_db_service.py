@@ -83,8 +83,7 @@ class CreateUpdateOffersInDbService:
 
         return offers_html
 
-    @staticmethod
-    def create_client_offers(client_id: int,):
-        """Создание новых предложений для клиента на основе условия финансирования"""
-        SovcombankCalculatorSendHandler('123457').calculator_handle(1, client_id, 1234)
-        return CreateUpdateOffersInDbService.get_client_offers(client_id)
+    # @staticmethod
+    # def create_client_offers(client_id: int,):
+    #     """Создание новых предложений для клиента на основе условия финансирования"""
+    #     return CreateUpdateOffersInDbService.get_client_offers(client_id)
