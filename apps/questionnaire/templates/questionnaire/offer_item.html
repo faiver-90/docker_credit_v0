@@ -1,8 +1,15 @@
 <div class="d-flex justify-content-between align-items-center p-3 border mb-3 bg-white shadow-sm rounded">
-    <p class="offer-title">{{ offer.title_offer }}</p>
+    <p>Решение: {{ offer.isCalculationPositive }}</p>
+    <p>Продукт: {{ offer.creditInfo.productName }}</p>
+    <p>Период: {{ offer.creditInfo.period }} месяцев</p>
+    <p>Платеж: {{ offer.creditInfo.payment }}</p>
+    <p>Платеж без субсидии: {{ offer.creditInfo.paymentNoSubsidy }}</p>
+    <p>Сумма кредита: {{ offer.creditInfo.creditAmount }}</p>
+    <p>Ежемесячный платеж: {{ offer.creditInfo.monthlyPayment }}</p>
+    <p>Процентная ставка: {{ offer.creditInfo.creditRate }}%</p>
+    <p>Стоимость сделки: {{ offer.dealCost.amount }}</p>
     <p class="offer-bank d-none">{{ offer.name_bank_offer }}</p> <!-- Скрытый элемент для хранения названия банка -->
-    <p class="offer-term">Срок: {{ offer.term_offer }} мес.</p>
-    <p class="offer-stavka">Ставка: {{ offer.stavka_offer }}%</p>
-    <p class="offer-pay">Платеж: от {{ offer.pay_offer }} ₽/мес.</p>
+
     <button type='button' class="btn btn-outline-primary select-offer-button" data-offer-id="{{ offer.offer_id }}">Выбрать</button>
+
 </div>
