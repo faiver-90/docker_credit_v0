@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from django.template.loader import render_to_string
 
 from apps.core.models import ResponseCalculationSovComBank, CalculationSovComBank, CreditInfoSovComBank, \
-    DealCostSovComBank
+    DealCostSovComBank, OffersSovComBank
 from apps.questionnaire.models import ClientPreData, ClientOffer, Offers
 
 logger = logging.getLogger(__name__)
@@ -38,11 +38,22 @@ class CreateUpdateOffersInDbService:
             for calculation in calculations:
                 try:
                     credit_info = CreditInfoSovComBank.objects.get(calculation=calculation)
+
+                    # Получаем рейтинг продукта из модели OffersSovComBank
+                    offer_sovcom = OffersSovComBank.objects.filter(id_in_excel_file_sovcom=credit_info.product).first()
+
+                    if not offer_sovcom:
+                        logger.warning(f"Не найден рейтинг для продукта: {credit_info.product}")
+                        rating = 0  # Если не найдено, присваиваем минимальный рейтинг
+                    else:
+                        rating = offer_sovcom.rating_sovcom
+
                     deal_cost = DealCostSovComBank.objects.get(calculation=calculation)
 
                     offer_data = {
                         'isCalculationPositive': calculation.is_calculation_positive,
                         'name_bank_offer': 'СовКомБанк',
+                        'rating': rating,
 
                         'creditInfo': {
                             'productName': credit_info.product_name,
@@ -58,14 +69,18 @@ class CreateUpdateOffersInDbService:
                             'amount': deal_cost.amount
                         }
                     }
-                    offer_html = render_to_string('questionnaire/offer_item.html', {'offer': offer_data})
-                    offers_data.append(offer_html)
+                    offers_data.append(offer_data)
 
                 except (CreditInfoSovComBank.DoesNotExist, DealCostSovComBank.DoesNotExist) as e:
                     logger.error(f"Связанные данные отсутствуют для расчета: {calculation.id}. Ошибка: {str(e)}")
 
-        return offers_data
+        # Сортировка предложений по рейтингу в убывающем порядке
+        offers_data = sorted(offers_data, key=lambda x: x['rating'], reverse=True)
 
+        # Преобразуем предложения в HTML
+        offers_html = [render_to_string('questionnaire/offer_item.html', {'offer': offer}) for offer in offers_data]
+
+        return offers_html
     @staticmethod
     def create_client_offers(client_id: int, financing_term: int) -> list:
         """Создание новых предложений для клиента на основе условия финансирования"""
