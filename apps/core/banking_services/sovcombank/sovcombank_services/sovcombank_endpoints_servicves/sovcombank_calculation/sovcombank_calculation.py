@@ -187,14 +187,14 @@ class SovcombankCalculatorSendHandler:
                     data=request_data
                 )
                 response_calculation = ResponseCalculationSovComBank.objects.create(
-                    request_id=response_data.get('requestId'),
+                    request_id_in_bank=response_data.get('reqId'),
                     dealer_id=dealer_id
                 )
 
                 # Сохранение всех Calculation
                 for calculation in response_data.get('calculations', []):
                     calculation_instance = CalculationSovComBank.objects.create(
-                        calculation_id=calculation.get('calculationId'),
+                        calculation_number=calculation.get('calculationId'),
                         request=response_calculation,
                         is_calculation_positive=calculation.get('isCalculationPositive', False),
                         comment=calculation.get('comment', '')

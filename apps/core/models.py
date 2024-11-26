@@ -42,12 +42,12 @@ class OffersSovComBank(models.Model):
 # Модели для калькулятора СовКомБанк
 class ResponseCalculationSovComBank(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    request_id = models.UUIDField(default=uuid.uuid4)
+    request_id_in_bank = models.UUIDField(default=uuid.uuid4)
     dealer_id = models.CharField(max_length=255)
 
 
 class CalculationSovComBank(models.Model):
-    calculation_id = models.CharField(max_length=255)
+    calculation_number = models.CharField(max_length=255)
     request = models.ForeignKey(ResponseCalculationSovComBank, related_name="calculations", on_delete=models.CASCADE)
     is_calculation_positive = models.BooleanField()
     comment = models.TextField(null=True, blank=True)

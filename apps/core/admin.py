@@ -11,5 +11,5 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(ResponseCalculationSovComBank)
 class ResponseCalculationSovComBankAdmin(admin.ModelAdmin):
-    list_display = ('request_id', 'dealer_id')
-    search_fields = ('request_id', 'dealer_id')
+    list_display = ('request_id_in_bank', 'dealer_id')
+    search_fields = ('request_id_in_bank', 'dealer_id')

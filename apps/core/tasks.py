@@ -14,11 +14,13 @@ load_dotenv()
 def parse_offers_file():
     file_path = os.getenv("SOVCOMBANK_FILE_NAME_PRODUCT")
     df = pd.read_excel(file_path)
+
     for _, row in df.iterrows():
-        OffersSovComBank.objects.update_or_create(
-            id_in_excel_file_sovcom=row['KOD'],
-            defaults={
-                'actual_sovcom': row['AKTUALNAJA'],
-                'rating_sovcom': row['rating'],
-            }
-        )
+        if row['AKTUALNAJA'] != 0:
+            OffersSovComBank.objects.update_or_create(
+                id_in_excel_file_sovcom=row['KOD'],
+                defaults={
+                    'actual_sovcom': row['AKTUALNAJA'],
+                    'rating_sovcom': row['rating'],
+                }
+            )
