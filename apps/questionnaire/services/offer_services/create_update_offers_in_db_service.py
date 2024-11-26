@@ -26,31 +26,27 @@ class CreateUpdateOffersInDbService:
         #                                 {'offer': offer}) for offer in offers_client]
         # return offers_data
         """Получение предложений для клиента с необходимыми полями"""
-        # 1. Получаем объект клиента
         client = get_object_or_404(ClientPreData, id=client_id)
 
-        # 2. Получаем все расчеты для клиента из ResponseCalculationSovComBank
         response_calculations = ResponseCalculationSovComBank.objects.filter(client=client)
 
         offers_data = []
 
-        # 3. Итерируем по каждому ResponseCalculationSovComBank и собираем данные
         for response in response_calculations:
-            # Получаем все расчеты, связанные с данным запросом
             calculations = CalculationSovComBank.objects.filter(request=response)
 
             for calculation in calculations:
                 try:
-                    # Извлекаем связанные данные из CreditInfo и DealCost
                     credit_info = CreditInfoSovComBank.objects.get(calculation=calculation)
                     deal_cost = DealCostSovComBank.objects.get(calculation=calculation)
 
-                    # Формируем нужные данные
                     offer_data = {
                         'isCalculationPositive': calculation.is_calculation_positive,
                         'name_bank_offer': 'СовКомБанк',
+
                         'creditInfo': {
                             'productName': credit_info.product_name,
+                            'product': credit_info.product,
                             'period': credit_info.period,
                             'payment': credit_info.payment,
                             'paymentNoSubsidy': credit_info.payment_no_subsidy,
@@ -62,8 +58,6 @@ class CreateUpdateOffersInDbService:
                             'amount': deal_cost.amount
                         }
                     }
-
-                    # Рендеринг данных в HTML
                     offer_html = render_to_string('questionnaire/offer_item.html', {'offer': offer_data})
                     offers_data.append(offer_html)
 
