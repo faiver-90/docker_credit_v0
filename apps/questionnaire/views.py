@@ -425,8 +425,7 @@ class CreateUpdateOffersInDbView(LoginRequiredMixin, View):
         if not financing_term or not client_id:
             return JsonResponse({'error': 'Invalid parameters'}, status=400)
 
-        offers_html = CreateUpdateOffersInDbService.create_client_offers(client_id=client_id,
-                                                                         financing_term=financing_term)
+        offers_html = CreateUpdateOffersInDbService.create_client_offers(client_id=client_id)
 
         return JsonResponse(offers_html, safe=False)
 
