@@ -176,10 +176,11 @@ class SovcombankCalculatorSendHandler:
         self.event_sourcing_service = EventSourcingService()
         self.sovcombank_request_service = SovcombankRequestService()
 
-    def save_to_db_request(self, response_data, dealer_id):
+    def save_to_db_request(self, response_data, dealer_id, client):
         response_calculation = ResponseCalculationSovComBank.objects.create(
             request_id_in_bank=response_data.get('reqId'),
-            dealer_id=dealer_id
+            dealer_id=dealer_id,
+            client=client
         )
 
         # Сохранение всех Calculation
@@ -237,48 +238,12 @@ class SovcombankCalculatorSendHandler:
                     "/api/v3/credit/application/auto/calculation",
                     data=request_data
                 )
-                self.save_to_db_request(response_data, dealer_id)
+                client = ClientPreData.objects.get(client_id)
+
+                self.save_to_db_request(response_data, dealer_id, client)
                 return response_data
 
             return 'Нету ничего'
-            # data_request_not_converted = self.data_preparation_service.prepare_data(client_id,
-            #                                                                         self.operation_id)
-            # data_request_converted = self.data_preparation_service.convert_fields(data_request_not_converted,
-            #                                                                       FIELD_TYPES_SHOT)
-            #
-            # if self.validation_service.validate_fields(
-            #         data_request_converted,
-            #         REQUIRED_FIELDS_SHOT,
-            #         FIELD_TYPES_SHOT,
-            #         FIELD_RANGES_SHOT,
-            #         FIELD_ENUMS_SHOT,
-            # ):
-            #     self.event_sourcing_service.record_event(
-            #         user.id,
-            #         'send_request_to_sovcombank_calculation',
-            #         data_request_converted,
-            #         client_id=client_id)
-            #     response = self.sovcombank_request_service.send_request(
-            #         "POST",
-            #         "http://host.docker.internal:8080",
-            #         "/api/v3/credit/application/auto/calculation",
-            #         data=data_request_converted
-            #     )
-            #
-            #     if response:
-            #         try:
-            #             result_calculator = endpoint_processor.handle_endpoint_response("sovcombank_calculation",
-            #                                                                             response)
-            #             print(result_calculator)
-            #         except ValueError as e:
-            #             formatted_massage = error_message_formatter(e=e,
-            #                                                         operation_id=self.operation_id)
-            #             logger.error(formatted_massage)
-            #             raise
-            #         return result_calculator
-            #     else:
-            #         print('Ошибка обрабтки хендлера')
-            #         raise ValueError(f"Ошибка при отправке запроса: {response.get('status_code')}")
         except FileNotFoundError:
             raise
         except AttributeError:

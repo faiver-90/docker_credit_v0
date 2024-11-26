@@ -44,6 +44,7 @@ class ResponseCalculationSovComBank(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     request_id_in_bank = models.UUIDField(default=uuid.uuid4)
     dealer_id = models.CharField(max_length=255)
+    client = models.ForeignKey(ClientPreData, on_delete=models.CASCADE, related_name="calculations_response")
 
 
 class CalculationSovComBank(models.Model):
