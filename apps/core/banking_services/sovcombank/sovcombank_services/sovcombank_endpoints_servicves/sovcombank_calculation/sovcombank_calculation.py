@@ -176,6 +176,57 @@ class SovcombankCalculatorSendHandler:
         self.event_sourcing_service = EventSourcingService()
         self.sovcombank_request_service = SovcombankRequestService()
 
+    def save_to_db_request(self, response_data, dealer_id):
+        response_calculation = ResponseCalculationSovComBank.objects.create(
+            request_id_in_bank=response_data.get('reqId'),
+            dealer_id=dealer_id
+        )
+
+        # Сохранение всех Calculation
+        for calculation in response_data.get('calculations', []):
+            calculation_instance = CalculationSovComBank.objects.create(
+                calculation_number=calculation.get('calculationId'),
+                request=response_calculation,
+                is_calculation_positive=calculation.get('isCalculationPositive', False),
+                comment=calculation.get('comment', '')
+            )
+
+            # Сохранение CreditInfo
+            credit_info_data = calculation.get('creditInfo')
+            CreditInfoSovComBank.objects.create(
+                calculation=calculation_instance,
+                product=credit_info_data.get('product'),
+                product_name=credit_info_data.get('productName'),
+                period=credit_info_data.get('period'),
+                payment=credit_info_data.get('payment'),
+                payment_no_subsidy=credit_info_data.get('paymentNoSubsidy'),
+                credit_amount=credit_info_data.get('creditAmount'),
+                monthly_payment=credit_info_data.get('monthlyPayment'),
+                credit_rate=credit_info_data.get('creditRate')
+            )
+
+            # Сохранение DealCost
+            deal_cost_data = calculation.get('dealCost')
+            DealCostSovComBank.objects.create(
+                calculation=calculation_instance,
+                amount=deal_cost_data.get('amount'),
+                currency=deal_cost_data.get('currency')
+            )
+
+            # Сохранение InsuranceList
+            for insurance in calculation.get('insuranceList', []):
+                InsuranceSovComBank.objects.create(
+                    calculation=calculation_instance,
+                    type=insurance.get('type'),
+                    period=insurance.get('period', 0),
+                    agreement_percent=insurance.get('agreementPercent', 0.0),
+                    cost_amount=insurance.get('cost', {}).get('amount'),
+                    cost_currency=insurance.get('cost', {}).get('currency'),
+                    payment_type=insurance.get('paymentType'),
+                    company_type=insurance.get('company', {}).get('type'),
+                    insurer_id=insurance.get('insurerId', '')
+                )
+
     def calculator_handle(self, user, client_id, dealer_id):
         try:
             request_data = self.data_preparation_service.prepare_data(client_id, dealer_id, self.operation_id)
@@ -186,55 +237,7 @@ class SovcombankCalculatorSendHandler:
                     "/api/v3/credit/application/auto/calculation",
                     data=request_data
                 )
-                response_calculation = ResponseCalculationSovComBank.objects.create(
-                    request_id_in_bank=response_data.get('reqId'),
-                    dealer_id=dealer_id
-                )
-
-                # Сохранение всех Calculation
-                for calculation in response_data.get('calculations', []):
-                    calculation_instance = CalculationSovComBank.objects.create(
-                        calculation_number=calculation.get('calculationId'),
-                        request=response_calculation,
-                        is_calculation_positive=calculation.get('isCalculationPositive', False),
-                        comment=calculation.get('comment', '')
-                    )
-
-                    # Сохранение CreditInfo
-                    credit_info_data = calculation.get('creditInfo')
-                    CreditInfoSovComBank.objects.create(
-                        calculation=calculation_instance,
-                        product=credit_info_data.get('product'),
-                        product_name=credit_info_data.get('productName'),
-                        period=credit_info_data.get('period'),
-                        payment=credit_info_data.get('payment'),
-                        payment_no_subsidy=credit_info_data.get('paymentNoSubsidy'),
-                        credit_amount=credit_info_data.get('creditAmount'),
-                        monthly_payment=credit_info_data.get('monthlyPayment'),
-                        credit_rate=credit_info_data.get('creditRate')
-                    )
-
-                    # Сохранение DealCost
-                    deal_cost_data = calculation.get('dealCost')
-                    DealCostSovComBank.objects.create(
-                        calculation=calculation_instance,
-                        amount=deal_cost_data.get('amount'),
-                        currency=deal_cost_data.get('currency')
-                    )
-
-                    # Сохранение InsuranceList
-                    for insurance in calculation.get('insuranceList', []):
-                        InsuranceSovComBank.objects.create(
-                            calculation=calculation_instance,
-                            type=insurance.get('type'),
-                            period=insurance.get('period', 0),
-                            agreement_percent=insurance.get('agreementPercent', 0.0),
-                            cost_amount=insurance.get('cost', {}).get('amount'),
-                            cost_currency=insurance.get('cost', {}).get('currency'),
-                            payment_type=insurance.get('paymentType'),
-                            company_type=insurance.get('company', {}).get('type'),
-                            insurer_id=insurance.get('insurerId', '')
-                        )
+                self.save_to_db_request(response_data, dealer_id)
                 return response_data
 
             return 'Нету ничего'
